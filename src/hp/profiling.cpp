@@ -139,12 +139,14 @@ namespace hp {
         stop();
     }
 
-    profiler::profiler() : name("Dummy Profile"), parent(nullptr), stopped(true) {}
+    profiler::profiler() : name("Dummy Profiler"), parent(nullptr), stopped(true) {}
 
-    profiler::profiler(const profiler &&other) noexcept {
+    profiler::profiler(profiler &&other) noexcept {
         name = other.name;
         parent = other.parent;
         stopped = other.stopped;
+
+        other.parent = nullptr; // Destroy other's parent so we don't dig ourselves into trouble.
     }
 
     profiler &profiler::operator=(profiler &&other) noexcept {
@@ -157,14 +159,16 @@ namespace hp {
         parent = other.parent;
         stopped = other.stopped;
 
+        other.parent = nullptr; // Destroy other.
+
         return *this;
     }
 
     void profiler::stop() {
         if (parent == nullptr) {  // Most likely in this case our profiler was a dummy.
-            HP_DEBUG(
-                    "Profiler \"{}\" stopped with null parent! (This is not an error in most cases, as destroying dummy profilers would have this effect)",
-                    name);
+            if (strcmp(name, "Dummy Profiler") != 0) {
+                HP_WARN("Profiler \"{}\" stopped with null parent!", name);
+            }
             return;
         }
 

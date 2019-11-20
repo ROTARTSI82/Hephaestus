@@ -8,5 +8,6 @@
 #define __HEPHAESTUS_HP_H
 
 #define HP_VERSION_STRING "d2019.11.17"
+#define HP_VK_VERSION_INT 1
 
 #endif //HEPHAESTUS_HP_H

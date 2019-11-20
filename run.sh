@@ -1,10 +1,7 @@
-echo "[run.sh@Hephaestus]: Building and running Hephaestus with run.sh v1.0.1"
+echo "[run.sh@Hephaestus]: Building and running Hephaestus with run.sh (Version d2019.11.17)"
 
-#export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Hephaestus/vendor/vulkansdk-macos-1.1.126.0/macOS/etc/vulkan/icd.d/MoltenVK_icd.json"
-#export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Hephaestus/vendor/vulkansdk-macos-1.1.126.0/macOS/etc/vulkan/explicit_layer.d"
-
-export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Mason/Hephaestus/lib/MoltenVK_icd.json"
-export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Mason/Hephaestus/lib/explicit_layer.d"
+export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Hephaestus/lib/vulkan/macOS/etc/vulkan/icd.d/MoltenVK_icd.json"
+export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Hephaestus/lib/vulkan/macOS/etc/vulkan/explicit_layer.d"
 
 if (( ${EUID:-0} || $(id -u) )) ; then
   echo "[run.sh@Hephaestus]: Not running as root! Things may not work as intented. Try running with sudo if things break."
@@ -22,43 +19,38 @@ done
 mkdir -p cmake-build-debug
 cd cmake-build-debug
 
-DO_BUILD=true
+DO_BUILD=1
 
 for ARG in "$@"
 do
   if [ "$ARG" == "-nb" ] || [ "$ARG" == "--no-build" ] ; then
     echo "[run.sh@Hephaestus]: --no-build option active; skipping build!"
-    DO_BUILD=false
+    DO_BUILD=0
   fi
 done
 
-if [ $DO_BUILD ] ; then
+if [ "$DO_BUILD" == "1" ] ; then
   cmake ..
   make  # cannot use async make bc sandbox target depends on HP target being built.
 fi 
 
+cp sandbox/HephaestusSandbox ../run-env/HephaestusSandbox
+#cp libHephaestusShared.dylib ../run-env/libHephaestusShared.dylib
+
+sudo chown -R 25granty .
 
 for ARG in "$@"
 do
   if [ "$ARG" == "-nr" ] || [ "$ARG" == "--no-run" ]; then
       echo "[run.sh@Hephaestus]: --no-run option is active; \`sudo chown\`ing and exiting!"
-      sudo chown -R 25granty .
       exit
   fi
 done
 
-cp sandbox/HephaestusSandbox ../run-env/HephaestusSandbox
-#cp libHephaestusShared.dylib ../run-env/libHephaestusShared.dylib
+echo "[run.sh@Hephaestus]: Successfully built Hephaestus project. Executing the sandbox application..."
 
-cd ../run-env
-
-echo "[run.sh@Hephaestus]: Build successful! Binaries copied! Waiting 5 secs before running the target"
-sleep 5
-
+cd /Users/25granty/Desktop/CLion/Hephaestus/run-env
 ./HephaestusSandbox
+cd /Users/25granty/Desktop/CLion/Hephaestus
 
-cd ..
-
-echo "[run.sh@Hephaestus]: HephaestusSandbox terminated successfully; \`sudo chown\`ing and exiting!"
-
-sudo chown -R 25granty .
+echo "[run.sh@Hephaestus]: Hephaestus built and ran successfully"

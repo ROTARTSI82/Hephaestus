@@ -16,8 +16,8 @@
 
 #include "boost/current_function.hpp"
 
-#include "hp/config.hpp"
-#include "hp/logging.hpp"
+#include "config.hpp"
+#include "logging.hpp"
 
 namespace hp {
     class profiler_session;
@@ -42,7 +42,7 @@ namespace hp {
 
         profiler &operator=(const profiler &other) = delete;
 
-        profiler(const profiler &&other) noexcept;
+        profiler(profiler &&other) noexcept;
 
         profiler &operator=(profiler &&other) noexcept;
 
@@ -72,7 +72,7 @@ namespace hp {
 
         explicit profiler_session(const char *name, const char *output_file = "out.json");
 
-        ~profiler_session();
+        virtual ~profiler_session();
 
         profiler_session &operator=(const profiler_session &eq) = delete;
 
@@ -110,7 +110,7 @@ namespace hp {
 }
 
 #ifdef HP_PROFILING_ENABLED
-#define HP_START_PROFILER hp::profiler __hp_tmp_profiler_obj; if (hp::profiler_session::default_session != nullptr) {__hp_tmp_profiler_obj = std::move(hp::profiler_session::default_session->new_profiler(BOOST_CURRENT_FUNCTION)); __hp_tmp_profiler_obj.start();};
+#define HP_START_PROFILER ::hp::profiler __hp_tmp_profiler_obj; if (::hp::profiler_session::default_session != nullptr) {__hp_tmp_profiler_obj = ::std::move(::hp::profiler_session::default_session->new_profiler(BOOST_CURRENT_FUNCTION)); __hp_tmp_profiler_obj.start();};
 #else
 #define HP_START_PROFILER
 #endif

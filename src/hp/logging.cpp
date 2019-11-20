@@ -2,7 +2,7 @@
 // Created by 25granty on 11/17/19.
 //
 
-#include "logging.hpp"
+#include "hp/logging.hpp"
 
 namespace hp {
     std::string current_datetime() {

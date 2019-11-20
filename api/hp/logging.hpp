@@ -7,8 +7,10 @@
 #ifndef __HEPHAESTUS_LOGGING_HPP
 #define __HEPHAESTUS_LOGGING_HPP
 
-#include "hp/config.hpp"
-#include "hp/hp.hpp"
+#include "config.hpp"
+#include "hp.hpp"
+
+#include "boost/current_function.hpp"
 
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 
@@ -22,10 +24,20 @@
 #include <sstream>
 
 namespace hp {
+    struct code_location {  // Struct containing info from macros.
+        const char *file;
+        const char *func;
+        unsigned line;
+
+        code_location(const char *file, const char *func, unsigned line) : file(file), func(func), line(line) {}
+    };
+
     std::string current_datetime();
 
     void init_logging(bool use_single_file = true);
 }
+
+#define HP_GET_CODE_LOC ::hp::code_location(__FILE__, BOOST_CURRENT_FUNCTION, __LINE__)
 
 #ifdef HP_LOGGING_ENABLED
 

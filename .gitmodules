@@ -13,3 +13,6 @@
 [submodule "vendor/spdlog"]
 	path = vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "vendor/Vulkan-Hpp"]
+	path = vendor/Vulkan-Hpp
+	url = https://github.com/KhronosGroup/Vulkan-Hpp
