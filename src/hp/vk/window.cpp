@@ -2,14 +2,21 @@
 // Created by 25granty on 11/18/19.
 //
 
-#include <vulkan/vulkan.h>
-#include "hp/vk/instance.hpp"
+#include "hp/vk/window.hpp"
 
-hp::vk::instance::instance(const char *app_name, uint32_t version, const std::vector<const char *> &req_ext,
-                           const std::vector<const char *> &req_layer) {
+hp::vk::window::window(int width, int height, const char *app_name, uint32_t version,
+                       const std::vector<const char *> &req_ext,
+                       const std::vector<const char *> &req_layer) {
+
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  // Don't automatically create an OpenGL context
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);  // Don't allow resizing for now: Resizing requires special vulkan code.
+
+    win = glfwCreateWindow(width, height, app_name, nullptr, nullptr);
+
+    uses_validation_layers = hp::vk::validation_layers_enabled;
 
     std::vector<const char *> req_ext_cpy(req_ext);
-    if (hp::vk::validation_layers_enabled) {
+    if (uses_validation_layers) {
         req_ext_cpy.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
 
@@ -29,6 +36,10 @@ hp::vk::instance::instance(const char *app_name, uint32_t version, const std::ve
 
     // Query supported
     supported_ext = ::vk::enumerateInstanceExtensionProperties();
+    if (!ext_supported(VK_EXT_DEBUG_UTILS_EXTENSION_NAME)) {
+        HP_WARN("Validation layer extension is not supported! Disabling validation layers!");
+        uses_validation_layers = false;
+    }
 
     auto supported_names = new const char *[supported_ext.size()];  // Create new arr since it only accepts arrs of const char*
     std::vector<const char *> supported_requested;  // Create a new vec to include required extensions.
@@ -71,7 +82,7 @@ hp::vk::instance::instance(const char *app_name, uint32_t version, const std::ve
     std::vector<const char *> supported_req_layers;
     const char **avail_layers_name = new const char *[supported_lay.size()];
 
-    if (hp::vk::validation_layers_enabled) {
+    if (uses_validation_layers) {
 
         for (const char *layer : req_layer) {
             HP_INFO("Validation layer {} was requested! Checking support...", layer);
@@ -96,16 +107,16 @@ hp::vk::instance::instance(const char *app_name, uint32_t version, const std::ve
         HP_INFO("Validation layers are currently disabled. Skipping it!");
     }
 
-
-    uses_validation_layers = hp::vk::validation_layers_enabled;
     ::vk::InstanceCreateInfo all_support_ci(::vk::InstanceCreateFlags(), &app_inf,
                                             validation_layers_enabled ? supported_lay.size() : 0,
                                             validation_layers_enabled ? avail_layers_name : nullptr,
                                             supported_ext.size(), supported_names);
+    support_mode = 0;
     if (handle_res(::vk::createInstance(&all_support_ci, nullptr, &inst), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+        support_mode = 1;
         HP_FATAL(
-                "Failed to create vulkan instance with full support! Attempting instance creation with only requested features!");
-        inst = ::vk::Instance();  // Clear instance, might not be necesse
+                "Failed to create vulkan window with full support! Attempting window creation with only requested features!");
+        inst = ::vk::Instance();  // Clear window, might not be necesse
 
         ::vk::InstanceCreateInfo all_supp_request_ci(::vk::InstanceCreateFlags(), &app_inf,
                                                      validation_layers_enabled ? supported_req_layers.size() : 0,
@@ -113,8 +124,9 @@ hp::vk::instance::instance(const char *app_name, uint32_t version, const std::ve
                                                      supported_requested.size(), supported_requested.data());
         if (handle_res(::vk::createInstance(&all_supp_request_ci, nullptr, &inst), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
+            support_mode = 2;
             HP_FATAL(
-                    "Failed to create vulkan instance with requested support! Attempting only required features! (Validation layers will be completely disabled)!");
+                    "Failed to create vulkan window with requested support! Attempting only required features! (Validation layers will be completely disabled)!");
             inst = ::vk::Instance();
             uses_validation_layers = false;
 
@@ -122,14 +134,18 @@ hp::vk::instance::instance(const char *app_name, uint32_t version, const std::ve
                                                      require_ext_count, require_ext_arr);
             if (handle_res(::vk::createInstance(&only_require_ci, nullptr, &inst), HP_GET_CODE_LOC) !=
                 ::vk::Result::eSuccess) {
-                HP_FATAL("Failed to create vulkan instance with required support! Aborting!");
+                HP_FATAL("Failed to create vulkan window with required support! Aborting!");
                 std::terminate();
             }
         }
     }
+    HP_INFO("Successfully created vulkan window!");
 
-    debug_msgr = {};
     if (uses_validation_layers) {
+//        ::vk::DebugUtilsMessengerCreateInfoEXT createInfo(::vk::DebugUtilsMessengerCreateFlagsEXT(),
+//                static_cast<::vk::DebugUtilsMessageSeverityFlagsEXT>(VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT),
+//                static_cast<::vk::DebugUtilsMessageTypeFlagsEXT>(VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT),
+//                debugCallback);
 
         VkDebugUtilsMessengerCreateInfoEXT createInfo = {};
         createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -142,7 +158,18 @@ hp::vk::instance::instance(const char *app_name, uint32_t version, const std::ve
         createInfo.pfnUserCallback = debugCallback;
 
         createDebugUtilsMessengerEXT(&createInfo, nullptr, &debug_msgr);
+        HP_INFO("Successfully created debug messenger!");
     }
+
+    auto vanilla_surf = (VkSurfaceKHR) surf;
+
+    if (handle_res(::vk::Result(glfwCreateWindowSurface((VkInstance) inst, win, nullptr, &vanilla_surf)),
+                   HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+        HP_FATAL("Failed to create window surface!");
+    } else {
+        HP_INFO("Constructed window surface");
+    }
+    surf = ::vk::SurfaceKHR(vanilla_surf);
 
     devices = std::multimap<int, ::vk::PhysicalDevice>();
     std::vector<::vk::PhysicalDevice> devs = inst.enumeratePhysicalDevices();
@@ -169,137 +196,225 @@ hp::vk::instance::instance(const char *app_name, uint32_t version, const std::ve
     }
 
     if (devices.rbegin()->first > 0) { // Choose the device with the most score (if above 0)
-        default_dev = &devices.rbegin()->second;
+        phys_dev = &devices.rbegin()->second;
         HP_INFO("Successfully selected physical device.");
     } else {
         HP_FATAL("No suitable device could be found! Selecting the best one we have.");
-        default_dev = &devices.rbegin()->second;
+        phys_dev = &devices.rbegin()->second;
     }
 
-    std::vector<::vk::QueueFamilyProperties> queue_fams = default_dev->getQueueFamilyProperties();
+    std::vector<::vk::QueueFamilyProperties> queue_fams = phys_dev->getQueueFamilyProperties();
     for (unsigned long i = 0; i < queue_fams.size(); i++) {
         if (queue_fams.at(i).queueFlags & ::vk::QueueFlagBits::eGraphics) {
-            queue_fam.graphics_fam = i;
+            queue_fam_indices.graphics_fam = i;
         }
 
-        if (queue_fam.is_complete()) {
+        if (phys_dev->getSurfaceSupportKHR(i, surf)) {
+            queue_fam_indices.present_fam = i;
+        }
+
+        if (queue_fam_indices.is_complete()) {
             break;
         }
     }
 
-    if (!queue_fam.is_complete()) {
+    if (!queue_fam_indices.is_complete()) {
         HP_FATAL("Queue family indicies cannot be constructed!");
     } else {
         HP_INFO("Constructed Queue family indicies!");
     }
 
-    HP_INFO("Successfully created vulkan instance!");
+    float queue_priority = 1.0f;  // We are using only a single queue so assign max priority.
+    std::vector<::vk::DeviceQueueCreateInfo> queue_cis;
+    std::set<uint32_t> unique_queue_fams = {queue_fam_indices.graphics_fam.value(),
+                                            queue_fam_indices.present_fam.value()};
+    for (uint32_t q_fam : unique_queue_fams) {
+        ::vk::DeviceQueueCreateInfo queue_ci(::vk::DeviceQueueCreateFlags(), q_fam, 1, &queue_priority);
+        queue_cis.push_back(queue_ci);
+    }
+
+    ::vk::PhysicalDeviceFeatures req_dev_features;
+
+    // TODO: In the future, implement extension requesting system for devices..
+
+    ::vk::DeviceCreateInfo log_dev_ci(::vk::DeviceCreateFlags(), queue_cis.size(), queue_cis.data(), 0, nullptr, 0,
+                                      nullptr, &req_dev_features);
+    if (support_mode == 0 && uses_validation_layers) {
+        log_dev_ci.enabledLayerCount = supported_lay.size();
+        log_dev_ci.ppEnabledLayerNames = avail_layers_name;
+    } else if (support_mode == 1 && uses_validation_layers) {
+        log_dev_ci.enabledLayerCount = supported_req_layers.size();
+        log_dev_ci.ppEnabledLayerNames = supported_req_layers.data();
+    } // `support_mode == 2` disables validation layers, which is already what it's set to
+
+    if (handle_res(phys_dev->createDevice(&log_dev_ci, nullptr, &log_dev), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+        HP_FATAL("Failed to create logical device! Aborting!");
+        std::terminate();
+    }
+    HP_INFO("Successfully created logical device!");
+
+    log_dev.getQueue(queue_fam_indices.graphics_fam.value(), 0, &graphics_queue);
+    HP_INFO("Successfully queried graphics queue of logical device");
+
+    log_dev.getQueue(queue_fam_indices.present_fam.value(), 0, &present_queue);
+    HP_INFO("Successfully queried present queue of logical divice");
 
     delete[] supported_names;
+    delete[] avail_layers_name;
+
+    HP_INFO("Constructed full vkInstance (use_validation_layers={})", uses_validation_layers);
 }
 
-hp::vk::instance::~instance() {
+hp::vk::window::~window() {
+    log_dev.destroy();
+
     if (uses_validation_layers) {
         destroyDebugUtilsMessengerEXT(debug_msgr, nullptr);
     }
 
-    vkDestroyInstance(inst, nullptr);
+    inst.destroySurfaceKHR(surf, nullptr);
+    inst.destroy();
+//    vkDestroyInstance(inst, nullptr);
+    glfwDestroyWindow(win);
 }
 
-hp::vk::instance::instance(hp::vk::instance &&other) noexcept {
+hp::vk::window::window(hp::vk::window &&other) noexcept {
+    phys_dev = other.phys_dev;
+    support_mode = other.support_mode;
+    queue_fam_indices = std::move(other.queue_fam_indices);
+    devices = std::move(other.devices);
+    log_dev = other.log_dev;
     inst = other.inst;
     supported_ext = std::move(other.supported_ext);
     uses_validation_layers = other.uses_validation_layers;
     supported_lay = std::move(other.supported_lay);
     debug_msgr = other.debug_msgr;
+    win = other.win;
+    surf = other.surf;
+    graphics_queue = other.graphics_queue;
+    present_queue = other.present_queue;
 }
 
-hp::vk::instance &hp::vk::instance::operator=(hp::vk::instance &&other) noexcept {
+hp::vk::window &hp::vk::window::operator=(hp::vk::window &&other) noexcept {
     if (&other == this) { // Self-assignment; do nothing
         return *this;
     }
 
+    log_dev.destroy();
+
     if (uses_validation_layers) {
         destroyDebugUtilsMessengerEXT(debug_msgr, nullptr);
     }
+    inst.destroySurfaceKHR(surf, nullptr);
+    inst.destroy();
 
-    vkDestroyInstance(inst, nullptr);
+    glfwDestroyWindow(win);
+//    vkDestroyInstance(inst, nullptr);
 
+    phys_dev = other.phys_dev;
+    support_mode = other.support_mode;
+    queue_fam_indices = std::move(other.queue_fam_indices);
+    devices = std::move(other.devices);
+    log_dev = other.log_dev;
     inst = other.inst;
     supported_ext = std::move(other.supported_ext);
     uses_validation_layers = other.uses_validation_layers;
     supported_lay = std::move(other.supported_lay);
     debug_msgr = other.debug_msgr;
+    win = other.win;
+    surf = other.surf;
+    graphics_queue = other.graphics_queue;
+    present_queue = other.present_queue;
 
     return *this;
 }
 
-bool hp::vk::instance::ext_supported(const char *ext) {
-    return std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));
-}
+//inline bool hp::vk::window::ext_supported(const char *ext) {
+//    return std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));
+//}
 
-bool hp::vk::instance::layer_supported(const char *lay) {
-    return std::any_of(supported_lay.begin(), supported_lay.end(), __hp_vk_is_in_layer_prop_list(lay));
-}
+//inline bool hp::vk::window::layer_supported(const char *lay) {
+//    return std::any_of(supported_lay.begin(), supported_lay.end(), __hp_vk_is_in_layer_prop_list(lay));
+//}
 
-::vk::Result hp::vk::instance::createDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
-                                                            const VkAllocationCallbacks *pAllocator,
-                                                            VkDebugUtilsMessengerEXT *pDebugMessenger) {
-    auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(inst, "vkCreateDebugUtilsMessengerEXT");
+//inline bool hp::vk::window::should_close() {
+//    return glfwWindowShouldClose(win);
+//}
+
+::vk::Result hp::vk::window::createDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+                                                          const VkAllocationCallbacks *pAllocator,
+                                                          VkDebugUtilsMessengerEXT *pDebugMessenger) {
+    auto func = (PFN_vkCreateDebugUtilsMessengerEXT) inst.getProcAddr("vkCreateDebugUtilsMessengerEXT");
     if (func != nullptr) {
-        return static_cast<::vk::Result>(func(inst, pCreateInfo, pAllocator, pDebugMessenger));
+        return handle_res(::vk::Result(func(inst, pCreateInfo, pAllocator, pDebugMessenger)), HP_GET_CODE_LOC);
     } else {
         return ::vk::Result::eErrorExtensionNotPresent;
     }
 }
 
-::vk::Bool32 hp::vk::instance::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-                                             VkDebugUtilsMessageTypeFlagsEXT messageType,
-                                             const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
-                                             void *pUserData) {
+::vk::Bool32 hp::vk::window::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                           VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                           const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
+                                           void *pUserData) {
     HP_FATAL("[** VULKAN ERROR **]: {}", pCallbackData->pMessage);
     return VK_FALSE;
 }
 
-void hp::vk::instance::destroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT debugMessenger,
-                                                     const VkAllocationCallbacks *pAllocator) {
-    auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(inst, "vkDestroyDebugUtilsMessengerEXT");
+void hp::vk::window::destroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT debugMessenger,
+                                                   const VkAllocationCallbacks *pAllocator) {
+    auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) inst.getProcAddr("vkDestroyDebugUtilsMessengerEXT");
     if (func != nullptr) {
         func(inst, debugMessenger, pAllocator);
     }
 }
 
-inline bool hp::vk::__hp_vk_is_in_required_extensions::operator()(const char *other) const {
-    return strcmp(name, other) == 0;
-}
+//inline bool hp::vk::__hp_vk_is_in_required_extensions::operator()(const char *other) const {
+//    return strcmp(name, other) == 0;
+//}
 
 hp::vk::__hp_vk_is_in_required_extensions::__hp_vk_is_in_required_extensions(const char *name) : name(name) {}
 
 hp::vk::__hp_vk_is_in_layer_prop_list::__hp_vk_is_in_layer_prop_list(const char *lay) : lay(lay) {}
 
-inline bool hp::vk::__hp_vk_is_in_layer_prop_list::operator()(::vk::LayerProperties other) const {
-    return strcmp(lay, other.layerName) == 0;
-}
+//inline bool hp::vk::__hp_vk_is_in_layer_prop_list::operator()(::vk::LayerProperties other) const {
+//    return strcmp(lay, other.layerName) == 0;
+//}
 
 hp::vk::__hp_vk_is_in_extension_prop_list::__hp_vk_is_in_extension_prop_list(const char *ext) : ext(ext) {}
 
-inline bool hp::vk::__hp_vk_is_in_extension_prop_list::operator()(::vk::ExtensionProperties other) const {
-    return strcmp(other.extensionName, ext) == 0;
+//inline bool hp::vk::__hp_vk_is_in_extension_prop_list::operator()(::vk::ExtensionProperties other) const {
+//    return strcmp(other.extensionName, ext) == 0;
+//}
+
+bool hp::vk::queue_family_indices::is_complete() {
+    return graphics_fam.has_value() && present_fam.has_value();
 }
 
-bool hp::vk::queue_family::is_complete() {
-    return graphics_fam.has_value();
+hp::vk::queue_family_indices::queue_family_indices(const hp::vk::queue_family_indices &rhs) {
+    graphics_fam = rhs.graphics_fam;
+    present_fam = rhs.present_fam;
 }
 
-hp::vk::queue_family::queue_family(const hp::vk::queue_family &rhs) {
-    this->graphics_fam = rhs.graphics_fam;
-}
-
-hp::vk::queue_family &hp::vk::queue_family::operator=(const hp::vk::queue_family &rhs) {
+hp::vk::queue_family_indices &hp::vk::queue_family_indices::operator=(const hp::vk::queue_family_indices &rhs) {
     if (this == &rhs) {
         return *this;
     }
-    this->graphics_fam = rhs.graphics_fam;
+    graphics_fam = rhs.graphics_fam;
+    present_fam = rhs.present_fam;
 
+    return *this;
+}
+
+hp::vk::queue_family_indices::queue_family_indices(hp::vk::queue_family_indices &&rhs) noexcept {
+    graphics_fam = rhs.graphics_fam;
+    present_fam = rhs.present_fam;
+}
+
+hp::vk::queue_family_indices &hp::vk::queue_family_indices::operator=(hp::vk::queue_family_indices &&rhs) noexcept {
+    if (this == &rhs) {
+        return *this;
+    }
+    graphics_fam = rhs.graphics_fam;
+    present_fam = rhs.present_fam;
     return *this;
 }

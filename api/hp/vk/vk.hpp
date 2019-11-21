@@ -9,7 +9,7 @@
 
 #include "hp/logging.hpp"
 #include <vulkan/vulkan.hpp>
-
+#include <vulkan/vulkan.h>
 
 namespace hp::vk {
     ::vk::Result handle_res(::vk::Result res, hp::code_location loc);
