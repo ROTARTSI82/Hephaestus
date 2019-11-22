@@ -10,6 +10,8 @@ int main() {
 
     glfwInit();
 
+    HP_FATAL("Test");
+
     {
         hp::vk::window inst(640, 480, "Testing", 1);
 

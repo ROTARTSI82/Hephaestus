@@ -25,6 +25,8 @@
 // Global flag to enable/disable logging. Requires rebuild of Hephaestus and client applications.
 #define HP_LOGGING_ENABLED
 
+#undef HP_ASYNC_LOGGING_ENABLED
+
 #define HP_VK_VALIDATION_LAYERS_ENABLED
 
 #elif
@@ -41,12 +43,19 @@
  */
 namespace hp {
     namespace vk {
+
 #ifdef HP_VK_VALIDATION_LAYERS_ENABLED
         const bool validation_layers_enabled = true;
 #else
         const bool validation_layers_enabled = false;
 #endif
     }
+
+#ifdef HP_ASYNC_LOGGING_ENABLED
+    const bool async_logging_enabled = true;
+#else
+    const bool async_logging_enabled = false;
+#endif
 
 #ifdef HP_PROFILING_ENABLED
     const bool profiling_enabled = true;

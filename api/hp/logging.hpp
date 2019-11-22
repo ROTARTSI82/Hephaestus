@@ -17,7 +17,11 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/async.h"
 #include "spdlog/fmt/fmt.h" // Included so any file that includes this file gets access to `fmt::format()`
+#include "spdlog/sinks/msvc_sink.h"
+#include "spdlog/sinks/syslog_sink.h"
+//#include "spdlog/sinks/systemd_sink.h"
 
 #include <iostream>
 #include <iomanip>
@@ -34,7 +38,7 @@ namespace hp {
 
     std::string current_datetime();
 
-    void init_logging(bool use_single_file = true);
+    void init_logging(bool use_single_file = true, bool use_unique_file = false);
 }
 
 #define HP_GET_CODE_LOC ::hp::code_location(__FILE__, BOOST_CURRENT_FUNCTION, __LINE__)

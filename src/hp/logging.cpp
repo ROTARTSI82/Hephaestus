@@ -19,28 +19,52 @@ namespace hp {
         std::cerr << "[** SPDLOG ERROR **]: " << msg << std::endl;
     }
 
-    void init_logging(bool use_single_file) {
+    void init_logging(bool use_single_file, bool use_unique_file) {
         try {
+            if (async_logging_enabled) {
+                spdlog::init_thread_pool(8192, 1);
+            }
             // Sink for outputting to the console
             auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-//            console_sink->set_level(spdlog::level::trace);
+//            auto systemd_sink = std::make_shared<spdlog::sinks::systemd_sink_st>();
+            auto syslog_sink = std::make_shared<spdlog::sinks::syslog_sink_mt>("ident", LOG_PID, LOG_USER, true);
+#if defined(_WIN32)
+            auto msvc_sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
+#endif
 
             auto now = current_datetime();
 
-            // Sink for outputting to file
-            std::shared_ptr<spdlog::sinks::basic_file_sink_mt> file_sink;
-            if (!use_single_file) {
-                file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + now + ".log", true);
-            } else {
-                file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("latest.log", true);
-            }
-//            file_sink->set_level(spdlog::level::trace);
-
             // Create a logger using both sinks, set it as the default logger, and register it.
-            std::shared_ptr<spdlog::logger> logger = std::make_shared<spdlog::logger>("root",
-                                                                                      spdlog::sinks_init_list(
-                                                                                              {console_sink,
-                                                                                               file_sink}));
+            std::vector<spdlog::sink_ptr> sink_list{console_sink, syslog_sink};
+
+            // Sink for outputting to file
+            std::shared_ptr<spdlog::sinks::basic_file_sink_mt> latest_file_sink;
+            std::shared_ptr<spdlog::sinks::basic_file_sink_mt> unique_file_sink;
+            if (use_single_file) {
+                latest_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("latest.log", true);
+                sink_list.emplace_back(latest_file_sink);
+            }
+
+            if (use_unique_file) {
+                unique_file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/" + now + ".log", true);
+                sink_list.emplace_back(unique_file_sink);
+            }
+
+#if defined(_WIN32)
+            sink_list.emplace_back(msvc_sink);
+#endif
+
+            std::shared_ptr<spdlog::logger> logger;
+            if (async_logging_enabled) {
+                std::cout << "ASYNC logger enabled" << std::endl;
+                logger = std::make_shared<spdlog::async_logger>("root",
+                                                                sink_list.begin(), sink_list.end(),
+                                                                spdlog::thread_pool(),
+                                                                spdlog::async_overflow_policy::block);
+            } else {
+                std::cout << "non-async logger enabled" << std::endl;
+                logger = std::make_shared<spdlog::logger>("root", sink_list.begin(), sink_list.end());
+            }
 //            logger->set_level(spdlog::level::trace);
 
             spdlog::register_logger(logger);

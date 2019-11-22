@@ -52,6 +52,7 @@ namespace hp::vk {
         };
     };
 
+
     struct queue_family_indices {
     public:
         queue_family_indices() = default;
@@ -71,6 +72,16 @@ namespace hp::vk {
         queue_family_indices &operator=(queue_family_indices &&rhs) noexcept;
     };
 
+    struct swap_chain_support {
+        ::vk::SurfaceCapabilitiesKHR capabilities;
+        std::vector<::vk::SurfaceFormatKHR> formats;
+        std::vector<::vk::PresentModeKHR> present_modes;
+    };
+
+    static queue_family_indices build_queue_fam_indices(::vk::PhysicalDevice *dev, ::vk::SurfaceKHR surf);
+
+    static swap_chain_support get_swap_chain_support(::vk::PhysicalDevice *dev, ::vk::SurfaceKHR surf);
+
     class window {
     private:
         GLFWwindow *win{};
@@ -81,16 +92,21 @@ namespace hp::vk {
         VkDebugUtilsMessengerEXT debug_msgr{};
         std::vector<::vk::ExtensionProperties> supported_ext;
         std::vector<::vk::LayerProperties> supported_lay;
+        std::vector<::vk::ExtensionProperties> phys_dev_ext;
 
         ::vk::PhysicalDevice *phys_dev{};
         ::vk::Device log_dev;
-        std::multimap<int, ::vk::PhysicalDevice> devices;
+        std::multimap<float, ::vk::PhysicalDevice> devices;
 
         ::vk::Queue graphics_queue;
         ::vk::Queue present_queue;
 
+        ::vk::SwapchainKHR swap_chain;
+        ::vk::Extent2D swap_extent;
+        ::vk::Format swap_fmt{};
+        std::vector<::vk::Image> swap_imgs;
+
         queue_family_indices queue_fam_indices;
-        char support_mode{};  // Support mode 0 = All support, 1 = Requested support, 2 = minimal support.
 
         static VKAPI_ATTR ::vk::Bool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
                                                                 VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -100,9 +116,7 @@ namespace hp::vk {
     public:
         window() = default;
 
-        window(int width, int height, const char *app_name, uint32_t version,
-               const std::vector<const char *> &req_ext = {},
-               const std::vector<const char *> &req_layer = {"VK_LAYER_KHRONOS_validation"});
+        window(int width, int height, const char *app_name, uint32_t version);
 
         virtual ~window();
 
@@ -123,6 +137,10 @@ namespace hp::vk {
 
         inline bool ext_supported(const char *ext) {
             return std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));
+        };
+
+        inline bool dev_ext_supported(const char *ext) {
+            return std::any_of(phys_dev_ext.begin(), phys_dev_ext.end(), __hp_vk_is_in_extension_prop_list(ext));
         };
 
         inline bool layer_supported(const char *lay) {
