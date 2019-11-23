@@ -8,12 +8,9 @@
 #define __HEPHAESTUS_VK_INSTANCE_HPP
 
 #include "hp/config.hpp"
-#include "hp/logging.hpp"
 #include "hp/vk/vk.hpp"
 #include "hp/hp.hpp"
 
-#include <GLFW/glfw3.h>
-//#include <GLFW/glfw3native.h>
 #include <map>
 #include <set>
 
@@ -82,6 +79,31 @@ namespace hp::vk {
 
     static swap_chain_support get_swap_chain_support(::vk::PhysicalDevice *dev, ::vk::SurfaceKHR surf);
 
+
+    class window;
+
+    class shader_program {
+    private:
+        ::hp::vk::window *parent{};
+
+        friend class ::hp::vk::window;
+
+        shader_program(const std::string &basicString, const char *string, ::hp::vk::window *pWindow);
+
+    public:
+        virtual ~shader_program() = default;
+
+        shader_program() = default;
+
+        shader_program &operator=(const shader_program &rhs) = delete;
+
+        shader_program(const shader_program &rhs) = delete;
+
+        shader_program &operator=(shader_program &&rhs) noexcept;
+
+        shader_program(shader_program &&rhs) noexcept;
+    };
+
     class window {
     private:
         GLFWwindow *win{};
@@ -105,6 +127,7 @@ namespace hp::vk {
         ::vk::Extent2D swap_extent;
         ::vk::Format swap_fmt{};
         std::vector<::vk::Image> swap_imgs;
+        std::vector<::vk::ImageView> swap_views;
 
         queue_family_indices queue_fam_indices;
 
@@ -112,6 +135,8 @@ namespace hp::vk {
                                                                 VkDebugUtilsMessageTypeFlagsEXT messageType,
                                                                 const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
                                                                 void *pUserData);
+
+        friend class shader_program;
 
     public:
         window() = default;
@@ -149,6 +174,15 @@ namespace hp::vk {
 
         inline bool should_close() {
             return glfwWindowShouldClose(win);
+        };
+
+        inline shader_program new_shader_program(const std::string &fp, const char *metapath = "/shader_metadat.txt") {
+            return shader_program(fp, metapath, this);
+        };
+
+        inline shader_program *
+        new_heap_shader_program(const std::string &fp, const char *metapath = "/shader_metadat.txt") {
+            return new shader_program(fp, metapath, this);
         };
     };
 }

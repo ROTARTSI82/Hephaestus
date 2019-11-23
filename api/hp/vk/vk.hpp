@@ -8,11 +8,18 @@
 #define __HEPHAESTUS_VK_HPP
 
 #include "hp/logging.hpp"
+
 #include <vulkan/vulkan.hpp>
 #include <vulkan/vulkan.h>
 
+#include "GLFW/glfw3.h"
+
 namespace hp::vk {
     ::vk::Result handle_res(::vk::Result res, hp::code_location loc);
+
+    void init_vk();
+
+    void quit_vk();
 };
 
 

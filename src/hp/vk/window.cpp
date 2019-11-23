@@ -6,7 +6,6 @@
 
 namespace hp::vk {
     hp::vk::window::window(int width, int height, const char *app_name, uint32_t version) {
-
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  // Don't automatically create an OpenGL context
         glfwWindowHint(GLFW_RESIZABLE,
                        GLFW_FALSE);  // Don't allow resizing for now: Resizing requires special vulkan code.
@@ -52,7 +51,7 @@ namespace hp::vk {
             HP_INFO("Found requested extension '{}'! Checking for support...", ext);
             if (!ext_supported(ext)) {
                 HP_WARN("Requested extension '{}' is not supported! Skipping..", ext);
-            } else {
+            } else if (std::find(support_req_ext.begin(), support_req_ext.end(), ext) == support_req_ext.end()) {
                 support_req_ext.emplace_back(ext);
             }
         }
@@ -170,7 +169,7 @@ namespace hp::vk {
             if (features.geometryShader) { // Required features.
                 score += 1000.0f / n;
             } else {
-                HP_WARN("Device {} doesn't support geometry shaders!", props.deviceName);
+                HP_FATAL("Device {} doesn't support geometry shaders!", props.deviceName);
             }
 
             if (!swap_chain.formats.empty()) {
@@ -351,6 +350,20 @@ namespace hp::vk {
 
         swap_imgs = log_dev.getSwapchainImagesKHR(swap_chain);
 
+        swap_views.resize(swap_imgs.size());
+        for (unsigned i = 0; i < swap_imgs.size(); i++) {
+            ::vk::ImageViewCreateInfo view_ci(::vk::ImageViewCreateFlags(), swap_imgs[i], ::vk::ImageViewType::e2D,
+                                              swap_fmt,
+                                              {::vk::ComponentSwizzle::eIdentity, ::vk::ComponentSwizzle::eIdentity,
+                                               ::vk::ComponentSwizzle::eIdentity, ::vk::ComponentSwizzle::eIdentity},
+                                              {::vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1});
+
+            if (handle_res(log_dev.createImageView(&view_ci, nullptr, &swap_views[i]), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to create image view!");
+            }
+        }
+
         delete[] supported_names;
         delete[] avail_layers_name;
         delete[] dev_ext_names;
@@ -389,6 +402,10 @@ namespace hp::vk {
     }
 
     hp::vk::window::~window() {
+        for (auto img : swap_views) {
+            log_dev.destroyImageView(img, nullptr);
+        }
+
         log_dev.destroySwapchainKHR(swap_chain, nullptr);
         log_dev.destroy();
 
@@ -425,6 +442,10 @@ namespace hp::vk {
     hp::vk::window &hp::vk::window::operator=(hp::vk::window &&other) noexcept {
         if (&other == this) { // Self-assignment; do nothing
             return *this;
+        }
+
+        for (auto img : swap_views) {
+            log_dev.destroyImageView(img, nullptr);
         }
 
         log_dev.destroySwapchainKHR(swap_chain, nullptr);

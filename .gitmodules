@@ -7,12 +7,9 @@
 [submodule "vendor/stb"]
 	path = vendor/stb
 	url = https://github.com/nothings/stb
-[submodule "vendor/boost"]
-	path = vendor/boost
-	url = https://github.com/boostorg/boost
 [submodule "vendor/spdlog"]
 	path = vendor/spdlog
 	url = https://github.com/gabime/spdlog
-[submodule "vendor/Vulkan-Hpp"]
-	path = vendor/Vulkan-Hpp
-	url = https://github.com/KhronosGroup/Vulkan-Hpp
+[submodule "vendor/abseil"]
+	path = vendor/abseil
+	url = https://github.com/abseil/abseil-cpp

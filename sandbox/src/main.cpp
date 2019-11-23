@@ -14,6 +14,7 @@ int main() {
 
     {
         hp::vk::window inst(640, 480, "Testing", 1);
+        hp::vk::shader_program test_shaders = std::move(inst.new_shader_program("shader_pack"));
 
         while (!inst.should_close()) {
             glfwPollEvents();

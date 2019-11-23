@@ -56,6 +56,14 @@ namespace hp::vk {
         }
     }
 
+    void init_vk() {
+        glfwInit();
+    }
+
+    void quit_vk() {
+        glfwTerminate();
+    }
+
 #undef __HP_CASE_VK_ERR
 }
 

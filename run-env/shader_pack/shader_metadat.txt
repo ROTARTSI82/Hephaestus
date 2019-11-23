@@ -1,0 +1,3 @@
+# commet test
+vertex-shader;main: vert.spv
+fragment-shader;main: frag.spv

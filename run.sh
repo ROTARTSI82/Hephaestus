@@ -1,11 +1,7 @@
 echo "[run.sh@Hephaestus]: Building and running Hephaestus with run.sh (Version d2019.11.17)"
 
-export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Hephaestus/lib/vulkan/macOS/etc/vulkan/icd.d/MoltenVK_icd.json"
-export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Hephaestus/lib/vulkan/macOS/etc/vulkan/explicit_layer.d"
-
-if (( ${EUID:-0} || $(id -u) )) ; then
-  echo "[run.sh@Hephaestus]: Not running as root! Things may not work as intented. Try running with sudo if things break."
-fi
+export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/icd.d/MoltenVK_icd.json"
+export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/explicit_layer.d"
 
 for ARG in "$@"
 do
@@ -37,7 +33,7 @@ fi
 cp sandbox/HephaestusSandbox ../run-env/HephaestusSandbox
 #cp libHephaestusShared.dylib ../run-env/libHephaestusShared.dylib
 
-sudo chown -R 25granty .
+#sudo chown -R 25granty .
 
 for ARG in "$@"
 do
