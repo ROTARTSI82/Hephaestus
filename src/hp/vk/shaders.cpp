@@ -52,6 +52,8 @@ namespace hp::vk {
         metapath = rhs.metapath;
         pipeline_layout = rhs.pipeline_layout;
         pipeline = rhs.pipeline;
+        mods = std::move(rhs.mods);
+        cmd_bufs = std::move(rhs.cmd_bufs);
 
         return *this;
     }
@@ -63,6 +65,8 @@ namespace hp::vk {
         metapath = rhs.metapath;
         pipeline_layout = rhs.pipeline_layout;
         pipeline = rhs.pipeline;
+        mods = std::move(rhs.mods);
+        cmd_bufs = std::move(rhs.cmd_bufs);
     }
 
     shader_program::~shader_program() {
@@ -254,6 +258,45 @@ namespace hp::vk {
             HP_FATAL("Failed to create pipeline!");
         }
         HP_DEBUG("Fully constructed graphics pipeline from '{}'", fp);
+
+        cmd_bufs.resize(parent->framebuffers.size());
+        ::vk::CommandBufferAllocateInfo cmd_buf_ai(parent->cmd_pool, ::vk::CommandBufferLevel::ePrimary,
+                                                   cmd_bufs.size());
+
+        if (handle_res(parent->log_dev.allocateCommandBuffers(&cmd_buf_ai, cmd_bufs.data()), HP_GET_CODE_LOC) !=
+            ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to allocated command buffers!");
+            std::terminate();
+        }
+
+        for (size_t i = 0; i < cmd_bufs.size(); i++) {
+            ::vk::CommandBufferBeginInfo cmd_buf_bi(::vk::CommandBufferUsageFlags(), nullptr);
+
+            if (handle_res(cmd_bufs[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to begin command buffer recording!");
+                std::terminate();
+            }
+
+            ::vk::ClearValue clear_col(::vk::ClearColorValue(std::array<float, 4>({0.0f, 0.0f, 0.0f, 1.0f})));
+
+            ::vk::RenderPassBeginInfo rend_pass_bi(parent->render_pass, parent->framebuffers[i],
+                                                   ::vk::Rect2D(::vk::Offset2D(0, 0), parent->swap_extent), 1,
+                                                   &clear_col);
+
+            cmd_bufs[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
+            cmd_bufs[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
+            cmd_bufs[i].draw(3, 1, 0, 0);
+            cmd_bufs[i].endRenderPass();
+
+#ifdef VULKAN_HPP_DISABLE_ENHANCED_MODE
+            if (handle_res(cmd_bufs[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to end command buffer recording!");
+                std::terminate();
+            }
+#else
+            cmd_bufs[i].end();  // Enhanced mode does exception handling for us. :)
+#endif
+        }
 
     }
 }

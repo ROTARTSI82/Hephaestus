@@ -6,7 +6,6 @@
 
 namespace hp::vk {
     hp::vk::window::window(int width, int height, const char *app_name, uint32_t version) {
-        cmd_bufs_recorded = false;
         current_shader = nullptr;  // Avoid hours of debugging undefined behavior.
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  // Don't automatically create an OpenGL context
         glfwWindowHint(GLFW_RESIZABLE,
@@ -279,6 +278,26 @@ namespace hp::vk {
         swap_chain = ::vk::SwapchainKHR();
         create_swapchain();
 
+        ::vk::SemaphoreCreateInfo sm_ci((::vk::SemaphoreCreateFlags()));
+        ::vk::FenceCreateInfo fence_ci(::vk::FenceCreateFlagBits::eSignaled);
+
+        img_avail_sms.resize(max_frames_in_flight);
+        rend_fin_sms.resize(max_frames_in_flight);
+        flight_fences.resize(max_frames_in_flight);
+        img_fences.resize(swap_imgs.size(), ::vk::Fence());
+
+        for (size_t i = 0; i < max_frames_in_flight; i++) {
+            if (handle_res(log_dev.createSemaphore(&sm_ci, nullptr, &img_avail_sms[i]), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess ||
+                handle_res(log_dev.createSemaphore(&sm_ci, nullptr, &rend_fin_sms[i]), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess ||
+                handle_res(log_dev.createFence(&fence_ci, nullptr, &flight_fences[i]), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to create a semaphore!");
+                std::terminate();
+            }
+        }
+
         delete[] supported_names;
         delete[] avail_layers_name;
         delete[] dev_ext_names;
@@ -317,6 +336,14 @@ namespace hp::vk {
     }
 
     hp::vk::window::~window() {
+        log_dev.waitIdle(); // Wait for operations to finish
+
+        for (size_t i = 0; i < max_frames_in_flight; i++) {
+            log_dev.destroySemaphore(img_avail_sms.at(i), nullptr);
+            log_dev.destroySemaphore(rend_fin_sms.at(i), nullptr);
+            log_dev.destroyFence(flight_fences.at(i), nullptr);
+        }
+
         log_dev.destroyCommandPool(cmd_pool, nullptr);
 
         for (auto fb : framebuffers) {
@@ -371,6 +398,11 @@ namespace hp::vk {
         current_shader = other.current_shader;
         framebuffers = std::move(other.framebuffers);
         cmd_pool = other.cmd_pool;
+        img_avail_sms = std::move(other.img_avail_sms);
+        rend_fin_sms = std::move(other.rend_fin_sms);
+        current_frame = other.current_frame;
+        flight_fences = std::move(other.flight_fences);
+        img_fences = std::move(other.img_fences);
     }
 
     hp::vk::window &hp::vk::window::operator=(hp::vk::window &&other) noexcept {
@@ -403,6 +435,11 @@ namespace hp::vk {
         current_shader = other.current_shader;
         framebuffers = std::move(other.framebuffers);
         cmd_pool = other.cmd_pool;
+        img_avail_sms = std::move(other.img_avail_sms);
+        rend_fin_sms = std::move(other.rend_fin_sms);
+        current_frame = other.current_frame;
+        flight_fences = std::move(other.flight_fences);
+        img_fences = std::move(other.img_fences);
 
         return *this;
     }
@@ -553,8 +590,13 @@ namespace hp::vk {
                                          nullptr,
                                          1, &color_attach_ref, nullptr, nullptr, 0, nullptr);
 
-        ::vk::RenderPassCreateInfo rend_pass_ci(::vk::RenderPassCreateFlags(), 1, &color_attach, 1, &subpass, 0,
-                                                nullptr);
+        ::vk::SubpassDependency subpass_dep(VK_SUBPASS_EXTERNAL, 0, ::vk::PipelineStageFlagBits::eColorAttachmentOutput,
+                                            ::vk::PipelineStageFlagBits::eColorAttachmentOutput, ::vk::AccessFlags(),
+                                            ::vk::AccessFlagBits::eColorAttachmentRead |
+                                            ::vk::AccessFlagBits::eColorAttachmentWrite, ::vk::DependencyFlags());
+
+        ::vk::RenderPassCreateInfo rend_pass_ci(::vk::RenderPassCreateFlags(), 1, &color_attach, 1, &subpass, 1,
+                                                &subpass_dep);
 
         if (handle_res(log_dev.createRenderPass(&rend_pass_ci, nullptr, &render_pass), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
@@ -585,15 +627,6 @@ namespace hp::vk {
             std::terminate();
         }
         HP_DEBUG("Command pool constructed successfully!");
-
-        cmd_bufs.resize(framebuffers.size());
-        ::vk::CommandBufferAllocateInfo cmd_buf_ai(cmd_pool, ::vk::CommandBufferLevel::ePrimary, cmd_bufs.size());
-
-        if (handle_res(log_dev.allocateCommandBuffers(&cmd_buf_ai, cmd_bufs.data()), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to allocated command buffers!");
-            std::terminate();
-        }
     }
 
     shader_program *window::bind_shader_program(shader_program *rhs) {
@@ -603,37 +636,47 @@ namespace hp::vk {
             return nullptr;
         }
 
-        cmd_bufs_recorded = true;
+        return current_shader = rhs;
+    }
 
-        for (size_t i = 0; i < cmd_bufs.size(); i++) {
-            ::vk::CommandBufferBeginInfo cmd_buf_bi(::vk::CommandBufferUsageFlags(), nullptr);
-
-            if (handle_res(cmd_bufs[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
-                HP_FATAL("Failed to begin command buffer recording!");
-                std::terminate();
-            }
-
-            ::vk::ClearValue clear_col(::vk::ClearColorValue(std::array<float, 4>({0.0f, 0.0f, 0.0f, 1.0f})));
-
-            ::vk::RenderPassBeginInfo rend_pass_bi(render_pass, framebuffers[i],
-                                                   ::vk::Rect2D(::vk::Offset2D(0, 0), swap_extent), 1, &clear_col);
-
-            cmd_bufs[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
-            cmd_bufs[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, rhs->pipeline);
-            cmd_bufs[i].draw(3, 1, 0, 0);
-            cmd_bufs[i].endRenderPass();
-
-#ifdef VULKAN_HPP_DISABLE_ENHANCED_MODE
-            if (handle_res(cmd_bufs[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
-                HP_FATAL("Failed to end command buffer recording!");
-                std::terminate();
-            }
-#else
-            cmd_bufs[i].end();  // Enhanced mode does exception handling for us. :)
-#endif
+    void window::draw_frame() {
+        if (current_shader == nullptr) {
+            HP_FATAL("hp::window::draw_frame() called without bound shader program! Ignoring call!");
+            return;
         }
 
-        return current_shader = rhs;
+//        vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
+//        vkResetFences(device, 1, &inFlightFences[currentFrame]);
+        log_dev.waitForFences(1, &flight_fences[current_frame], ::vk::Bool32(VK_TRUE), UINT64_MAX);
+
+        uint32_t img_indx;
+        log_dev.acquireNextImageKHR(swap_chain, UINT64_MAX, img_avail_sms[current_frame], ::vk::Fence(), &img_indx);
+
+        // Check if a previous frame is using this image (i.e. there is its fence to wait on)
+        if (img_fences[img_indx] != ::vk::Fence()) {
+            log_dev.waitForFences(1, &img_fences[img_indx], VK_TRUE, UINT64_MAX);
+        }
+        // Mark the image as now being in use by this frame
+        img_fences[img_indx] = flight_fences[current_frame];
+
+        ::vk::PipelineStageFlags wait_stage = ::vk::PipelineStageFlagBits::eColorAttachmentOutput;
+        ::vk::SubmitInfo cmd_buf_si(1, &img_avail_sms[current_frame], &wait_stage, 1,
+                                    &current_shader->cmd_bufs[img_indx], 1, &rend_fin_sms[current_frame]);
+
+        log_dev.resetFences(1, &flight_fences[current_frame]);
+        if (handle_res(graphics_queue.submit(1, &cmd_buf_si, flight_fences[current_frame]), HP_GET_CODE_LOC) !=
+            ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to submit draw commands! Skipping frame!");
+            return;
+        }
+
+        ::vk::PresentInfoKHR frame_pi(1, &rend_fin_sms[current_frame], 1, &swap_chain, &img_indx, nullptr);
+        if (handle_res(present_queue.presentKHR(&frame_pi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to submit image for presentation! Skipping frame!");
+            return;
+        }
+
+        current_frame = (current_frame + 1) % max_frames_in_flight;
     }
 
     hp::vk::__hp_vk_is_in_required_extensions::__hp_vk_is_in_required_extensions(const char *name) : name(name) {}

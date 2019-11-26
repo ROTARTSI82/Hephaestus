@@ -97,8 +97,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a8d71fd16e5bad54045baeb6b088a96a7"><td class="memItemLeft" align="right" valign="top">::vk::Result&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a8d71fd16e5bad54045baeb6b088a96a7">handle_res</a> (::vk::Result res, <a class="el" href="../../df/d37/structhp_1_1code__location.html">hp::code_location</a> loc)</td></tr>
 <tr class="separator:a8d71fd16e5bad54045baeb6b088a96a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83d303400add5d7a62f6f74c2f83ca56"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a83d303400add5d7a62f6f74c2f83ca56">init_vk</a> ()</td></tr>
+<tr class="memdesc:a83d303400add5d7a62f6f74c2f83ca56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize vulkan.  <a href="../../da/d74/namespacehp_1_1vk.html#a83d303400add5d7a62f6f74c2f83ca56">More...</a><br /></td></tr>
 <tr class="separator:a83d303400add5d7a62f6f74c2f83ca56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9254c4f381798c610c4c9bf015c2e9a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a9254c4f381798c610c4c9bf015c2e9a3">quit_vk</a> ()</td></tr>
+<tr class="memdesc:a9254c4f381798c610c4c9bf015c2e9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy allocated objects by vulkan.  <a href="../../da/d74/namespacehp_1_1vk.html#a9254c4f381798c610c4c9bf015c2e9a3">More...</a><br /></td></tr>
 <tr class="separator:a9254c4f381798c610c4c9bf015c2e9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1ca9ad580c2073431bc3661794ac3fc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../df/d1c/structhp_1_1vk_1_1queue__family__indices.html">queue_family_indices</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#ac1ca9ad580c2073431bc3661794ac3fc">build_queue_fam_indices</a> (::vk::PhysicalDevice *dev, ::vk::SurfaceKHR surf)</td></tr>
 <tr class="separator:ac1ca9ad580c2073431bc3661794ac3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,6 +109,9 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a4dd21ec8e64202cc6d9215936c6cb27a"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a4dd21ec8e64202cc6d9215936c6cb27a">max_frames_in_flight</a> = 2</td></tr>
+<tr class="memdesc:a4dd21ec8e64202cc6d9215936c6cb27a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of frames the Vulkan renderer would attempt to process concurrently.  <a href="../../da/d74/namespacehp_1_1vk.html#a4dd21ec8e64202cc6d9215936c6cb27a">More...</a><br /></td></tr>
+<tr class="separator:a4dd21ec8e64202cc6d9215936c6cb27a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ee355743ea0bfc12d435b2dc788a86d"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a8ee355743ea0bfc12d435b2dc788a86d">validation_layers_enabled</a> = false</td></tr>
 <tr class="memdesc:a8ee355743ea0bfc12d435b2dc788a86d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>true</code> if <code>HP_VK_VALIDATION_LAYERS_ENABLED</code> is defined, otherwise <code>false</code>.  <a href="../../da/d74/namespacehp_1_1vk.html#a8ee355743ea0bfc12d435b2dc788a86d">More...</a><br /></td></tr>
 <tr class="separator:a8ee355743ea0bfc12d435b2dc788a86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,14 +214,6 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">res</td><td>The result of the operation to check. </td></tr>
-    <tr><td class="paramname">loc</td><td><a class="el" href="../../df/d37/structhp_1_1code__location.html" title="A struct containing filename, funciton name, and line number.">hp::code_location</a> struct returned by macro <code>HP_GET_CODE_LOC</code> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Forwards the <code>res</code> parameter that was passed in. Success code is vk::Result::eSuccess </dd></dl>
 
 </div>
 </div>
@@ -235,6 +232,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Initialize vulkan. </p>
+<dl class="section note"><dt>Note</dt><dd>Call this function before using ANY Vulkan functionality! </dd></dl>
+
 </div>
 </div>
 <a id="a9254c4f381798c610c4c9bf015c2e9a3"></a>
@@ -252,9 +252,31 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Destroy allocated objects by vulkan. </p>
+<dl class="section note"><dt>Note</dt><dd>Best practice is to call this function upon program exit. </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a4dd21ec8e64202cc6d9215936c6cb27a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dd21ec8e64202cc6d9215936c6cb27a">&#9670;&nbsp;</a></span>max_frames_in_flight</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const in hp::vk::max_frames_in_flight = 2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Maximum number of frames the Vulkan renderer would attempt to process concurrently. </p>
+<dl class="section note"><dt>Note</dt><dd>Do not set too low or too high; Too low and the renderer would waste time sitting idly, Too high and it gets bottle-necked. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/dfd/config_8hpp_source.html#l00132">132</a> of file <a class="el" href="../../d8/dfd/config_8hpp_source.html">config.hpp</a>.</p>
+
+</div>
+</div>
 <a id="a8ee355743ea0bfc12d435b2dc788a86d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ee355743ea0bfc12d435b2dc788a86d">&#9670;&nbsp;</a></span>validation_layers_enabled</h2>
 
@@ -269,14 +291,14 @@ Variables</h2></td></tr>
 
 <p><code>true</code> if <code>HP_VK_VALIDATION_LAYERS_ENABLED</code> is defined, otherwise <code>false</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dfd/config_8hpp_source.html#l00138">138</a> of file <a class="el" href="../../d8/dfd/config_8hpp_source.html">config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dfd/config_8hpp_source.html#l00145">145</a> of file <a class="el" href="../../d8/dfd/config_8hpp_source.html">config.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 26 2019 09:44:46 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 26 2019 15:23:57 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

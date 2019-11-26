@@ -88,6 +88,7 @@ namespace hp::vk {
         ::hp::vk::window *parent{};
         std::vector<::vk::PipelineShaderStageCreateInfo> stage_cis;
         std::queue<::vk::ShaderModule> mods;
+        std::vector<::vk::CommandBuffer> cmd_bufs;
 
         ::vk::PipelineLayout pipeline_layout;
         ::vk::Pipeline pipeline;
@@ -121,6 +122,7 @@ namespace hp::vk {
     private:
         GLFWwindow *win{};
         ::vk::SurfaceKHR surf;
+        size_t current_frame = 0;
 
         bool uses_validation_layers{};
         ::vk::Instance inst;
@@ -144,15 +146,17 @@ namespace hp::vk {
         std::vector<::vk::Framebuffer> framebuffers;
 
         ::vk::CommandPool cmd_pool;
-        std::vector<::vk::CommandBuffer> cmd_bufs;
-        bool cmd_bufs_recorded;
-
         ::vk::RenderPass render_pass;
 
         queue_family_indices queue_fam_indices;
 
         std::queue<::hp::vk::shader_program *> child_shaders;
         ::hp::vk::shader_program *current_shader{};
+
+        std::vector<::vk::Semaphore> img_avail_sms;
+        std::vector<::vk::Semaphore> rend_fin_sms;
+        std::vector<::vk::Fence> flight_fences;
+        std::vector<::vk::Fence> img_fences;
 
         static VKAPI_ATTR ::vk::Bool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
                                                                 VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -209,6 +213,8 @@ namespace hp::vk {
             child_shaders.push(new_prog);
             return new_prog;
         };
+
+        void draw_frame();
 
         shader_program *bind_shader_program(shader_program *rhs);
     };

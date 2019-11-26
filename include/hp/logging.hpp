@@ -92,7 +92,8 @@ namespace hp {
      *          This function initializes SPDLOG, so see https://github.com/gabime/spdlog.
      *
      * @param use_single_file If true, `latest.log` would be created and logged to.
-     * @param use_unique_file If true, a logfile with the current datetime as a name would be created and logged to.
+     * @param use_unique_file If true, a logfile with the current datetime as a name under directory `logs` would be created and logged to.
+     *                        If the directory `logs` doesn't exist, it would be treated as if this parameter was set to false.
      */
     void init_logging(bool use_single_file = true, bool use_unique_file = false);
 }

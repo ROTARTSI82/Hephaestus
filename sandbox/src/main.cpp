@@ -8,7 +8,7 @@
 int main() {
     hp::init_logging(true);
 
-    glfwInit();
+    hp::vk::init_vk();
 
     HP_FATAL("Test");
 
@@ -19,8 +19,9 @@ int main() {
 
         while (!inst.should_close()) {
             glfwPollEvents();
+            inst.draw_frame();
         }
 
     }
-    glfwTerminate();
+    hp::vk::quit_vk();
 }

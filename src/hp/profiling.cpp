@@ -35,7 +35,7 @@ namespace hp {
             return *this;
         }
 
-        this->close();  // Close current thingy.
+        this->~profiler_session();
         out = std::move(mv.out);
         closed = mv.closed;
         name = mv.name;

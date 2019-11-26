@@ -6,12 +6,12 @@
 
 #pragma once
 
-#ifndef __HEPHAESTUS_CONFIG_H
+#ifndef __HEPHAESTUS_CONFIG_HPP
 /**
- * @def __HEPHAESTUS_CONFIG_H
+ * @def __HEPHAESTUS_CONFIG_HPP
  * @brief This macro is defined if `config.hpp` has been included.
  */
-#define __HEPHAESTUS_CONFIG_H
+#define __HEPHAESTUS_CONFIG_HPP
 
 #undef NDEBUG
 
@@ -123,6 +123,13 @@
  */
 namespace hp {
     namespace vk {
+        /**
+         * @var const in max_frames_in_flight
+         * @brief Maximum number of frames the Vulkan renderer would attempt to process concurrently.
+         * @note Do not set too low or too high; Too low and the renderer would waste time sitting idly,
+         *       Too high and it gets bottle-necked.
+         */
+        const int max_frames_in_flight = 2;
 
 #ifdef HP_VK_VALIDATION_LAYERS_ENABLED
         /**
@@ -196,4 +203,4 @@ namespace hp {
 #endif
 }
 
-#endif //HEPHAESTUSSHARED_CONFIG_H
+#endif //__HEPHAESTUS_CONFIG_HPP

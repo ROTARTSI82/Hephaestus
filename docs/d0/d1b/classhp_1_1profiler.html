@@ -76,6 +76,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Object for timing operations.  
+ <a href="../../d0/d1b/classhp_1_1profiler.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for hp::profiler:</div>
@@ -86,20 +89,25 @@ Collaboration diagram for hp::profiler:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a667b3443a42beb3b889da20947c28def"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a667b3443a42beb3b889da20947c28def">profiler</a> ()</td></tr>
+<tr class="memdesc:a667b3443a42beb3b889da20947c28def"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor; builds a dummy profiler object.  <a href="../../d0/d1b/classhp_1_1profiler.html#a667b3443a42beb3b889da20947c28def">More...</a><br /></td></tr>
 <tr class="separator:a667b3443a42beb3b889da20947c28def"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa032d2858955ad5ecfff348221884e9e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#aa032d2858955ad5ecfff348221884e9e">~profiler</a> ()</td></tr>
-<tr class="separator:aa032d2858955ad5ecfff348221884e9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacee8cd5f68ecf60363c5cf4aa34186e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#aacee8cd5f68ecf60363c5cf4aa34186e">~profiler</a> ()</td></tr>
+<tr class="memdesc:aacee8cd5f68ecf60363c5cf4aa34186e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of profiler object, stops timing if active.  <a href="../../d0/d1b/classhp_1_1profiler.html#aacee8cd5f68ecf60363c5cf4aa34186e">More...</a><br /></td></tr>
+<tr class="separator:aacee8cd5f68ecf60363c5cf4aa34186e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90c53173763f5277ff5cc3627c94dd33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a90c53173763f5277ff5cc3627c94dd33">profiler</a> (const <a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;other)=delete</td></tr>
 <tr class="separator:a90c53173763f5277ff5cc3627c94dd33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13ba18976c885f03dd2fd0fd549fc3ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a13ba18976c885f03dd2fd0fd549fc3ca">operator=</a> (const <a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;other)=delete</td></tr>
 <tr class="separator:a13ba18976c885f03dd2fd0fd549fc3ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa096f490ff5f3bbc679b5bbf4a4238d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#aa096f490ff5f3bbc679b5bbf4a4238d7">profiler</a> (<a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:aa096f490ff5f3bbc679b5bbf4a4238d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move copy constructor of profilers.  <a href="../../d0/d1b/classhp_1_1profiler.html#aa096f490ff5f3bbc679b5bbf4a4238d7">More...</a><br /></td></tr>
 <tr class="separator:aa096f490ff5f3bbc679b5bbf4a4238d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31389e076addbd6a121582e346c671d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a31389e076addbd6a121582e346c671d4">operator=</a> (<a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="separator:a31389e076addbd6a121582e346c671d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83ebff8f2289894c0958fbc9d115109e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a83ebff8f2289894c0958fbc9d115109e">operator=</a> (<a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a83ebff8f2289894c0958fbc9d115109e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d98b54a544b1f198a2adde8508de5f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a3d98b54a544b1f198a2adde8508de5f4">stop</a> ()</td></tr>
+<tr class="memdesc:a3d98b54a544b1f198a2adde8508de5f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops the timing if timing is active. Otherwise invocations are quietly ignored.  <a href="../../d0/d1b/classhp_1_1profiler.html#a3d98b54a544b1f198a2adde8508de5f4">More...</a><br /></td></tr>
 <tr class="separator:a3d98b54a544b1f198a2adde8508de5f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3aad27744cac592ec62ef0f2a5cfbbdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a3aad27744cac592ec62ef0f2a5cfbbdd">start</a> ()</td></tr>
+<tr class="memdesc:a3aad27744cac592ec62ef0f2a5cfbbdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start timing if timing is not active. Otherwise invocations are quietly ignored.  <a href="../../d0/d1b/classhp_1_1profiler.html#a3aad27744cac592ec62ef0f2a5cfbbdd">More...</a><br /></td></tr>
 <tr class="separator:a3aad27744cac592ec62ef0f2a5cfbbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -124,8 +132,10 @@ Friends</h2></td></tr>
 <tr class="separator:a0577305cc3aa23d0a269cc37fa1cfea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00034">34</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<div class="textblock"><p>Object for timing operations. </p>
+<dl class="section note"><dt>Note</dt><dd>Timing needs to be explicitly started with the <code><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a3aad27744cac592ec62ef0f2a5cfbbdd" title="Start timing if timing is not active. Otherwise invocations are quietly ignored.">hp::profiler::start()</a></code> function, but timing is automatically stopped (if active) on the destruction of the profiler object. This object can be started and stopped multiple times with calls to <code><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a3aad27744cac592ec62ef0f2a5cfbbdd" title="Start timing if timing is not active. Otherwise invocations are quietly ignored.">start()</a></code> and <code><a class="el" href="../../d0/d1b/classhp_1_1profiler.html#a3d98b54a544b1f198a2adde8508de5f4" title="Stops the timing if timing is active. Otherwise invocations are quietly ignored.">stop()</a></code>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00074">74</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a667b3443a42beb3b889da20947c28def"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a667b3443a42beb3b889da20947c28def">&#9670;&nbsp;</a></span>profiler() <span class="overload">[1/4]</span></h2>
@@ -142,10 +152,12 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Default constructor; builds a dummy profiler object. </p>
+
 </div>
 </div>
-<a id="aa032d2858955ad5ecfff348221884e9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa032d2858955ad5ecfff348221884e9e">&#9670;&nbsp;</a></span>~profiler()</h2>
+<a id="aacee8cd5f68ecf60363c5cf4aa34186e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacee8cd5f68ecf60363c5cf4aa34186e">&#9670;&nbsp;</a></span>~profiler()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -154,7 +166,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual hp::profiler::~profiler </td>
+          <td class="memname">hp::profiler::~profiler </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -166,6 +178,8 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Destructor of profiler object, stops timing if active. </p>
 
 </div>
 </div>
@@ -218,6 +232,14 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Move copy constructor of profilers. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The profiler to move. (RHS of the move) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -284,8 +306,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a31389e076addbd6a121582e346c671d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31389e076addbd6a121582e346c671d4">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+<a id="a83ebff8f2289894c0958fbc9d115109e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83ebff8f2289894c0958fbc9d115109e">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -294,7 +316,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a>&amp; hp::profiler::operator= </td>
+          <td class="memname"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp; hp::profiler::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d0/d1b/classhp_1_1profiler.html">profiler</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
@@ -307,6 +329,13 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The profiler to move. (RHS of the move) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a reference <code>*this</code>. </dd></dl>
 
 </div>
 </div>
@@ -325,6 +354,9 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Start timing if timing is not active. Otherwise invocations are quietly ignored. </p>
+<p>It is safe to start, stop, restart, and stop this object as many times as you'd like. </p><dl class="section note"><dt>Note</dt><dd>This function needs to be explicitly called for timing to start! Timing is NOT automatically started when constructed! </dd></dl>
+
 </div>
 </div>
 <a id="a3d98b54a544b1f198a2adde8508de5f4"></a>
@@ -341,6 +373,9 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Stops the timing if timing is active. Otherwise invocations are quietly ignored. </p>
+<p>It is safe to start, stop, restart, and stop this object as many times as you'd like. </p>
 
 </div>
 </div>
@@ -365,7 +400,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00055">55</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00124">124</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 
 </div>
 </div>
@@ -390,7 +425,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00059">59</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00128">128</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 
 </div>
 </div>
@@ -414,7 +449,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00061">61</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00130">130</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 
 </div>
 </div>
@@ -438,7 +473,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00060">60</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00129">129</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 
 </div>
 </div>
@@ -462,7 +497,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00062">62</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00131">131</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 
 </div>
 </div>
@@ -472,7 +507,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 26 2019 09:44:46 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 26 2019 15:23:57 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

@@ -6,12 +6,12 @@
 
 #pragma once
 
-#ifndef __HEPHAESTUS_HP_H
+#ifndef __HEPHAESTUS_HP_HPP
 /**
- * @def __HEPHAESTUS_HP_H
+ * @def __HEPHAESTUS_HP_HPP
  * @brief This macro is defined if `hp.hpp` is included.
  */
-#define __HEPHAESTUS_HP_H
+#define __HEPHAESTUS_HP_HPP
 
 /**
  * @def HP_VERSION_STRING
@@ -27,4 +27,4 @@
  */
 #define HP_VK_VERSION_INT 2
 
-#endif //HEPHAESTUS_HP_H
+#endif //__HEPHAESTUS_HP_HPP
