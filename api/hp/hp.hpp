@@ -7,7 +7,7 @@
 #ifndef __HEPHAESTUS_HP_H
 #define __HEPHAESTUS_HP_H
 
-#define HP_VERSION_STRING "d2019.11.17"
-#define HP_VK_VERSION_INT 1
+#define HP_VERSION_STRING "d2019.11.25"
+#define HP_VK_VERSION_INT 2
 
 #endif //HEPHAESTUS_HP_H

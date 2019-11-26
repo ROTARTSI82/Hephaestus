@@ -13,6 +13,7 @@
 
 #include <map>
 #include <set>
+#include <queue>
 
 namespace hp::vk {
     /*
@@ -85,13 +86,21 @@ namespace hp::vk {
     class shader_program {
     private:
         ::hp::vk::window *parent{};
+        std::vector<::vk::PipelineShaderStageCreateInfo> stage_cis;
+        std::queue<::vk::ShaderModule> mods;
+
+        ::vk::PipelineLayout pipeline_layout;
+        ::vk::Pipeline pipeline;
+
+        std::string fp;
+        const char *metapath{};
 
         friend class ::hp::vk::window;
 
-        shader_program(const std::string &basicString, const char *string, ::hp::vk::window *pWindow);
+        shader_program(std::string basicString, const char *string, ::hp::vk::window *pWindow);
 
     public:
-        virtual ~shader_program() = default;
+        virtual ~shader_program();
 
         shader_program() = default;
 
@@ -102,6 +111,10 @@ namespace hp::vk {
         shader_program &operator=(shader_program &&rhs) noexcept;
 
         shader_program(shader_program &&rhs) noexcept;
+
+        void reload_from_file();
+
+        void rebuild_pipeline();
     };
 
     class window {
@@ -128,13 +141,25 @@ namespace hp::vk {
         ::vk::Format swap_fmt{};
         std::vector<::vk::Image> swap_imgs;
         std::vector<::vk::ImageView> swap_views;
+        std::vector<::vk::Framebuffer> framebuffers;
+
+        ::vk::CommandPool cmd_pool;
+        std::vector<::vk::CommandBuffer> cmd_bufs;
+        bool cmd_bufs_recorded;
+
+        ::vk::RenderPass render_pass;
 
         queue_family_indices queue_fam_indices;
+
+        std::queue<::hp::vk::shader_program *> child_shaders;
+        ::hp::vk::shader_program *current_shader{};
 
         static VKAPI_ATTR ::vk::Bool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
                                                                 VkDebugUtilsMessageTypeFlagsEXT messageType,
                                                                 const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
                                                                 void *pUserData);
+
+        void create_swapchain();
 
         friend class shader_program;
 
@@ -176,14 +201,16 @@ namespace hp::vk {
             return glfwWindowShouldClose(win);
         };
 
-        inline shader_program new_shader_program(const std::string &fp, const char *metapath = "/shader_metadat.txt") {
-            return shader_program(fp, metapath, this);
+        /*
+         * DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
+         */
+        inline shader_program *new_shader_program(const std::string &fp, const char *metapath = "/shader_metadat.txt") {
+            auto new_prog = new shader_program(fp, metapath, this);
+            child_shaders.push(new_prog);
+            return new_prog;
         };
 
-        inline shader_program *
-        new_heap_shader_program(const std::string &fp, const char *metapath = "/shader_metadat.txt") {
-            return new shader_program(fp, metapath, this);
-        };
+        shader_program *bind_shader_program(shader_program *rhs);
     };
 }
 
