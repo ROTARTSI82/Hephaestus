@@ -162,7 +162,7 @@ namespace hp::vk {
 
             phys_dev_ext = device.enumerateDeviceExtensionProperties();
 
-            HP_DEBUG("Checking support of physical device '{}' with api {} and driver {}...", props.deviceName,
+            HP_DEBUG("Checking support of physical device '{}' with include {} and driver {}...", props.deviceName,
                      props.apiVersion, props.driverVersion);
 
             float n = req_dev_ext.size() + 4;

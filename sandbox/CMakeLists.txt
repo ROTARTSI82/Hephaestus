@@ -12,4 +12,4 @@ target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../cmake-build-deb
 target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib glfw spdlog)
 target_link_directories(HephaestusSandbox PUBLIC ${PROJECT_SOURCE_DIR}/../cmake-build-debug)
 
-target_include_directories(HephaestusSandbox PUBLIC ../src ../api ../vendor/glfw/include ../vendor/glm ../vendor/spdlog/include ../vendor ../vendor/lunarg-vulkan-sdk/macOS/include ../vendor/boost)
+target_include_directories(HephaestusSandbox PUBLIC ../src ../include ../vendor/glfw/include ../vendor/glm ../vendor/spdlog/include ../vendor ../vendor/lunarg-vulkan-sdk/macOS/include ../vendor/boost)

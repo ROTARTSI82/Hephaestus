@@ -1,0 +1,10 @@
+/*!
+@mainpage Hephaestus 0.0.2 Documentation
+
+@section main_intro Introduction
+
+@author Grant Yang
+
+
+Hephaestus is a game engine written on top of vulkan. This is my first time writing vulkan code, so the code is terrible and should not be used.
+ */

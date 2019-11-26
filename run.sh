@@ -12,6 +12,9 @@ do
   fi
 done
 
+rm -rf docs
+doxygen
+
 mkdir -p cmake-build-debug
 cd cmake-build-debug
 
