@@ -48,8 +48,16 @@ done
 
 echo "[run.sh@Hephaestus]: Successfully built Hephaestus project. Executing the sandbox application..."
 
-cd /Users/25granty/Desktop/CLion/Hephaestus/run-env
+cd ../run-env/shader_pack/
+rm frag.spv
+rm vert.spv
+
+glslc frag.frag -o frag.spv
+glslc vert.vert -o vert.spv
+
+cd ..
+
 ./HephaestusSandbox
-cd /Users/25granty/Desktop/CLion/Hephaestus
+cd ..
 
 echo "[run.sh@Hephaestus]: Hephaestus built and ran successfully"

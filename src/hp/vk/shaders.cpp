@@ -236,19 +236,15 @@ namespace hp::vk {
                                                          ::vk::PrimitiveTopology::eTriangleList,
                                                          ::vk::Bool32(VK_FALSE));
 
-        ::vk::Viewport viewport(0.0f, 0.0f, (float) parent->swap_extent.width, (float) parent->swap_extent.height, 0.0f,
-                                1.0f);
-
-        ::vk::Rect2D scissor(::vk::Offset2D(0, 0), parent->swap_extent);
-
-        ::vk::PipelineViewportStateCreateInfo viewport_state_ci(::vk::PipelineViewportStateCreateFlags(), 1, &viewport,
-                                                                1, &scissor);
+        // Viewports and scissors are set in the dynamic state, so these args are ignored.
+        ::vk::PipelineViewportStateCreateInfo viewport_state_ci(::vk::PipelineViewportStateCreateFlags(), 1, nullptr,
+                                                                1, nullptr);
 
         ::vk::PipelineRasterizationStateCreateInfo raster_ci(::vk::PipelineRasterizationStateCreateFlags(),
                                                              ::vk::Bool32(VK_FALSE),
                                                              ::vk::Bool32(VK_FALSE), ::vk::PolygonMode::eFill,
                                                              ::vk::CullModeFlagBits::eBack,
-                                                             ::vk::FrontFace::eCounterClockwise,
+                                                             ::vk::FrontFace::eClockwise,  // Typically counter clockwise
                                                              ::vk::Bool32(VK_FALSE), 0.0f, 0.0f, 0.0f, 1.0f);
 
         ::vk::PipelineMultisampleStateCreateInfo multisample_ci(::vk::PipelineMultisampleStateCreateFlags(),
@@ -286,7 +282,7 @@ namespace hp::vk {
 
         ::vk::GraphicsPipelineCreateInfo pipeline_ci(::vk::PipelineCreateFlags(), stage_cis.size(), stage_cis.data(),
                                                      &vert_in_ci, &in_ci, nullptr, &viewport_state_ci, &raster_ci,
-                                                     &multisample_ci, nullptr, &blend_ci, nullptr,
+                                                     &multisample_ci, nullptr, &blend_ci, &dynamic_state_ci,
                                                      pipeline_layout, parent->render_pass, 0, ::vk::Pipeline(), -1);
 
         if (handle_res(
@@ -296,44 +292,62 @@ namespace hp::vk {
         }
         HP_DEBUG("Fully constructed graphics pipeline from '{}'", fp);
 
-        cmd_bufs.resize(parent->framebuffers.size());
-        ::vk::CommandBufferAllocateInfo cmd_buf_ai(parent->cmd_pool, ::vk::CommandBufferLevel::ePrimary,
-                                                   cmd_bufs.size());
+        rebuild_cmd_bufs();
+    }
 
-        if (handle_res(parent->log_dev.allocateCommandBuffers(&cmd_buf_ai, cmd_bufs.data()), HP_GET_CODE_LOC) !=
+    void shader_program::rebuild_cmd_bufs() {
+        cmd_bufs = std::move(
+                get_cmd_bufs(&parent->framebuffers, &parent->render_pass, &parent->swap_extent, &parent->cmd_pool));
+    }
+
+    std::vector<::vk::CommandBuffer> shader_program::get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
+                                                                  ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
+                                                                  ::vk::CommandPool *cmd_pool) {
+        std::vector<::vk::CommandBuffer> ret(frame_bufs->size());
+        ::vk::CommandBufferAllocateInfo cmd_buf_ai(*cmd_pool, ::vk::CommandBufferLevel::ePrimary,
+                                                   ret.size());
+
+        if (handle_res(parent->log_dev.allocateCommandBuffers(&cmd_buf_ai, ret.data()), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
             HP_FATAL("Failed to allocated command buffers!");
             std::terminate();
         }
 
-        for (size_t i = 0; i < cmd_bufs.size(); i++) {
+        for (size_t i = 0; i < ret.size(); i++) {
             ::vk::CommandBufferBeginInfo cmd_buf_bi(::vk::CommandBufferUsageFlags(), nullptr);
 
-            if (handle_res(cmd_bufs[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            if (handle_res(ret[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
                 HP_FATAL("Failed to begin command buffer recording!");
                 std::terminate();
             }
 
             ::vk::ClearValue clear_col(::vk::ClearColorValue(std::array<float, 4>({0.0f, 0.0f, 0.0f, 1.0f})));
 
-            ::vk::RenderPassBeginInfo rend_pass_bi(parent->render_pass, parent->framebuffers[i],
-                                                   ::vk::Rect2D(::vk::Offset2D(0, 0), parent->swap_extent), 1,
+            ::vk::RenderPassBeginInfo rend_pass_bi(*rend_pass, (*frame_bufs)[i],
+                                                   ::vk::Rect2D(::vk::Offset2D(0, 0), *extent), 1,
                                                    &clear_col);
 
-            cmd_bufs[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
-            cmd_bufs[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
-            cmd_bufs[i].draw(3, 1, 0, 0);
-            cmd_bufs[i].endRenderPass();
+            ::vk::Viewport viewport(0.0f, 0.0f, (float) extent->width, (float) extent->height, 0.0f,
+                                    1.0f);
+
+            ::vk::Rect2D scissor(::vk::Offset2D(0, 0), *extent);
+
+            ret[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
+            ret[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
+            ret[i].setViewport(0, 1, &viewport);
+            ret[i].setScissor(0, 1, &scissor);
+            ret[i].draw(3, 1, 0, 0);
+            ret[i].endRenderPass();
 
 #ifdef VULKAN_HPP_DISABLE_ENHANCED_MODE
-            if (handle_res(cmd_bufs[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            if (handle_res(ret[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
                 HP_FATAL("Failed to end command buffer recording!");
                 std::terminate();
             }
 #else
-            cmd_bufs[i].end();  // Enhanced mode does exception handling for us. :)
+            ret[i].end();  // Enhanced mode does exception handling for us. :)
 #endif
         }
-
+        return ret;
     }
 }

@@ -103,6 +103,14 @@ namespace hp::vk {
 
         shader_program(std::string basicString, const char *string, ::hp::vk::window *pWindow);
 
+        void rebuild_pipeline();
+
+        void rebuild_cmd_bufs();
+
+        std::vector<::vk::CommandBuffer> get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
+                                                      ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
+                                                      ::vk::CommandPool *cmd_pool);
+
     public:
         virtual ~shader_program();
 
@@ -117,8 +125,6 @@ namespace hp::vk {
         shader_program(shader_program &&rhs) noexcept;
 
         void reload_from_file();
-
-        void rebuild_pipeline();
     };
 
     static void on_resize_event(GLFWwindow *win, int width, int height);
@@ -172,7 +178,7 @@ namespace hp::vk {
                                                                 const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
                                                                 void *pUserData);
 
-        void create_swapchain();
+        void create_swapchain(bool do_destroy = false);
 
         void recreate_swapchain();
 

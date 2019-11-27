@@ -75,7 +75,7 @@ namespace hp {
 
             HP_INFO("{:=^150}", " [NEW LOGGING SESSION | " + now + "] ");
 
-            spdlog::set_pattern("%^[%Y.%m.%d] [%H:%M:%S.%F] [%n:%l] [%s:%#]: %v%$");
+            spdlog::set_pattern("%^[%H:%M:%S.%e] [%l] [%P|%t] [%!|%s:%#]: %v%$");
 
             spdlog::set_error_handler(on_spdlog_err);
 

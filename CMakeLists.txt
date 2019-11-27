@@ -6,9 +6,10 @@ set(GLFW_VULKAN_STATIC ON CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 add_subdirectory(vendor/glfw)
 
-#add_subdirectory(vendor/abseil)
 # ======= DEPENDENCY: GLM ===========
 add_subdirectory(vendor/glm)
+
+#add_subdirectory(vendor/tinygltf)
 
 # ======= DEPENDENCY: SPDLOG ========
 add_subdirectory(vendor/spdlog)

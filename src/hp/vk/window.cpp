@@ -289,7 +289,7 @@ namespace hp::vk {
         HP_DEBUG("Successfully created logical device!");
 
         swap_chain = ::vk::SwapchainKHR();
-        create_swapchain();
+        create_swapchain(false);
 
         ::vk::SemaphoreCreateInfo sm_ci((::vk::SemaphoreCreateFlags()));
         ::vk::FenceCreateInfo fence_ci(::vk::FenceCreateFlagBits::eSignaled);
@@ -484,11 +484,20 @@ namespace hp::vk {
         }
     }
 
-    void window::create_swapchain() {
+    void window::create_swapchain(bool do_destroy) {
         auto swap_deets = get_swap_chain_support(phys_dev, surf);
 
+        ::vk::SwapchainKHR new_swap;
+        ::vk::Extent2D new_extent;
+        std::vector<::vk::Image> new_imgs;
+        std::vector<::vk::ImageView> new_views = std::vector<::vk::ImageView>();
+        ::vk::SurfaceFormatKHR new_fmt;
+        ::vk::RenderPass new_pass;
+        std::vector<::vk::Framebuffer> new_bufs = std::vector<::vk::Framebuffer>();
+        ::vk::CommandPool new_pool;
+
         if (swap_deets.capabilities.currentExtent.width != UINT32_MAX) {
-            swap_extent = swap_deets.capabilities.currentExtent;
+            new_extent = swap_deets.capabilities.currentExtent;
         } else {
             int width, height;
             glfwGetFramebufferSize(win, &width, &height);
@@ -499,24 +508,21 @@ namespace hp::vk {
             actualExtent.setHeight(std::max(swap_deets.capabilities.minImageExtent.height,
                                             std::min(swap_deets.capabilities.maxImageExtent.height,
                                                      actualExtent.height)));
-            swap_extent = actualExtent;
+            new_extent = actualExtent;
         }
 
-        HP_DEBUG("Got surface extent of {}x{}", swap_extent.width, swap_extent.height);
+        HP_DEBUG("Got surface extent of {}x{}", new_extent.width, new_extent.height);
 
-        ::vk::SurfaceFormatKHR surf_fmt;
         if (std::any_of(swap_deets.formats.begin(), swap_deets.formats.end(), [](::vk::SurfaceFormatKHR i) {
             return i.format == ::vk::Format::eB8G8R8A8Unorm && i.colorSpace == ::vk::ColorSpaceKHR::eSrgbNonlinear;
         })) {
-            surf_fmt = ::vk::SurfaceFormatKHR({VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR});
+            new_fmt = ::vk::SurfaceFormatKHR({VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR});
             HP_DEBUG(
                     "Optimal surface format is available! Selecting vk::Format::eB8G8R8A8Unorm with vk::ColorSpaceKHR::eSrgbNonlinear");
         } else {
-            surf_fmt = swap_deets.formats[0];
+            new_fmt = swap_deets.formats[0];
             HP_DEBUG("Optimal surface format isn't supported! Selecting first supported format...");
         }
-
-        swap_fmt = surf_fmt.format;
 
         ::vk::PresentModeKHR present_mode;
         if (std::any_of(swap_deets.present_modes.begin(), swap_deets.present_modes.end(),
@@ -535,8 +541,8 @@ namespace hp::vk {
             min_img_count = swap_deets.capabilities.maxImageCount;
         }
 
-        ::vk::SwapchainCreateInfoKHR swap_ci(::vk::SwapchainCreateFlagsKHR(), surf, min_img_count, surf_fmt.format,
-                                             surf_fmt.colorSpace, swap_extent, 1,
+        ::vk::SwapchainCreateInfoKHR swap_ci(::vk::SwapchainCreateFlagsKHR(), surf, min_img_count, new_fmt.format,
+                                             new_fmt.colorSpace, new_extent, 1,
                                              ::vk::ImageUsageFlagBits::eColorAttachment);
 
         if (queue_fam_indices.graphics_fam.value() != queue_fam_indices.present_fam.value()) {
@@ -560,28 +566,27 @@ namespace hp::vk {
         swap_ci.presentMode = present_mode;
         swap_ci.clipped = ::vk::Bool32(VK_TRUE);
 
-        swap_ci.oldSwapchain = ::vk::SwapchainKHR();
+        swap_ci.oldSwapchain = swap_chain;
 
-        ::vk::SwapchainCreateInfoKHR test_ci;
-        if (handle_res(log_dev.createSwapchainKHR(&swap_ci, nullptr, &swap_chain), HP_GET_CODE_LOC) !=
+        if (handle_res(log_dev.createSwapchainKHR(&swap_ci, nullptr, &new_swap), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
             HP_FATAL("Failed to create swapchain! Aborting..");
             std::terminate();
         }
         HP_DEBUG("Swapchain with minimum {} images has been constructed!", min_img_count);
 
-        swap_imgs = log_dev.getSwapchainImagesKHR(swap_chain);
-        HP_DEBUG("Queried {} swap chain images!", swap_imgs.size());
+        new_imgs = log_dev.getSwapchainImagesKHR(new_swap);
+        HP_DEBUG("Queried {} swap chain images!", new_imgs.size());
 
-        swap_views.resize(swap_imgs.size());
-        for (size_t i = 0; i < swap_imgs.size(); i++) {
-            ::vk::ImageViewCreateInfo view_ci(::vk::ImageViewCreateFlags(), swap_imgs[i], ::vk::ImageViewType::e2D,
-                                              swap_fmt,
+        new_views.resize(new_imgs.size());
+        for (size_t i = 0; i < new_imgs.size(); i++) {
+            ::vk::ImageViewCreateInfo view_ci(::vk::ImageViewCreateFlags(), new_imgs[i], ::vk::ImageViewType::e2D,
+                                              new_fmt.format,
                                               {::vk::ComponentSwizzle::eIdentity, ::vk::ComponentSwizzle::eIdentity,
                                                ::vk::ComponentSwizzle::eIdentity, ::vk::ComponentSwizzle::eIdentity},
                                               {::vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1});
 
-            if (handle_res(log_dev.createImageView(&view_ci, nullptr, &swap_views[i]), HP_GET_CODE_LOC) !=
+            if (handle_res(log_dev.createImageView(&view_ci, nullptr, &new_views[i]), HP_GET_CODE_LOC) !=
                 ::vk::Result::eSuccess) {
                 HP_FATAL("Failed to create image view!");
             }
@@ -590,7 +595,7 @@ namespace hp::vk {
 
 
         // Render pass stuff
-        ::vk::AttachmentDescription color_attach(::vk::AttachmentDescriptionFlags(), swap_fmt,
+        ::vk::AttachmentDescription color_attach(::vk::AttachmentDescriptionFlags(), new_fmt.format,
                                                  ::vk::SampleCountFlagBits::e1,
                                                  ::vk::AttachmentLoadOp::eClear, ::vk::AttachmentStoreOp::eStore,
                                                  ::vk::AttachmentLoadOp::eDontCare,
@@ -611,7 +616,7 @@ namespace hp::vk {
         ::vk::RenderPassCreateInfo rend_pass_ci(::vk::RenderPassCreateFlags(), 1, &color_attach, 1, &subpass, 1,
                                                 &subpass_dep);
 
-        if (handle_res(log_dev.createRenderPass(&rend_pass_ci, nullptr, &render_pass), HP_GET_CODE_LOC) !=
+        if (handle_res(log_dev.createRenderPass(&rend_pass_ci, nullptr, &new_pass), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
             HP_FATAL("Failed to create render pass! Aborting!");
             std::terminate();
@@ -619,12 +624,12 @@ namespace hp::vk {
         HP_DEBUG("Render pass constructed successfully!");
 
         // Framebuffers
-        framebuffers.resize(swap_views.size());
-        for (size_t i = 0; i < swap_views.size(); i++) {
-            ::vk::FramebufferCreateInfo framebuf_ci(::vk::FramebufferCreateFlags(), render_pass, 1, &swap_views[i],
-                                                    swap_extent.width, swap_extent.height, 1);
+        new_bufs.resize(new_views.size());
+        for (size_t i = 0; i < new_views.size(); i++) {
+            ::vk::FramebufferCreateInfo framebuf_ci(::vk::FramebufferCreateFlags(), new_pass, 1, &new_views[i],
+                                                    new_extent.width, new_extent.height, 1);
 
-            if (handle_res(log_dev.createFramebuffer(&framebuf_ci, nullptr, &framebuffers[i]), HP_GET_CODE_LOC) !=
+            if (handle_res(log_dev.createFramebuffer(&framebuf_ci, nullptr, &new_bufs[i]), HP_GET_CODE_LOC) !=
                 ::vk::Result::eSuccess) {
                 HP_FATAL("Failed to create framebuffer!");
                 std::terminate();
@@ -634,12 +639,53 @@ namespace hp::vk {
 
         // Command pools and buffers
         ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
-        if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &cmd_pool), HP_GET_CODE_LOC) !=
+        if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &new_pool), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
             HP_FATAL("Failed to create command pool!");
             std::terminate();
         }
         HP_DEBUG("Command pool constructed successfully!");
+
+        std::vector<std::vector<::vk::CommandBuffer>> cmd_bufs;
+        if (do_destroy) {
+            for (auto sh : child_shaders) {
+                cmd_bufs.emplace_back(sh->get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &new_pool));
+            }
+        }
+
+        log_dev.waitIdle();
+
+        if (do_destroy) {
+            log_dev.destroyCommandPool(cmd_pool, nullptr);
+
+            for (auto fb : framebuffers) {
+                log_dev.destroyFramebuffer(fb, nullptr);
+            }
+
+            log_dev.destroyRenderPass(render_pass, nullptr);
+
+            for (auto img : swap_views) {
+                log_dev.destroyImageView(img, nullptr);
+            }
+
+            log_dev.destroySwapchainKHR(swap_chain, nullptr);
+        }
+
+        swap_extent = new_extent;
+        swap_chain = new_swap;
+        swap_imgs = std::move(new_imgs);
+        swap_views = std::move(new_views);
+        render_pass = new_pass;
+        framebuffers = std::move(new_bufs);
+        cmd_pool = new_pool;
+        swap_fmt = new_fmt.format;
+        render_pass = new_pass;
+
+        if (do_destroy) {
+            for (size_t i = 0; i < child_shaders.size(); i++) {
+                child_shaders[i]->cmd_bufs = std::move(cmd_bufs[i]);
+            }
+        }
     }
 
     shader_program *window::bind_shader_program(shader_program *rhs) {
@@ -714,35 +760,7 @@ namespace hp::vk {
             glfwWaitEvents();
         }
 
-        log_dev.waitIdle();
-
-        log_dev.destroyCommandPool(cmd_pool, nullptr);
-
-        for (auto fb : framebuffers) {
-            log_dev.destroyFramebuffer(fb, nullptr);
-        }
-
-        for (auto sh : child_shaders) {
-            if (sh->pipeline != ::vk::Pipeline()) {
-                log_dev.destroyPipeline(sh->pipeline, nullptr);
-                sh->pipeline = ::vk::Pipeline();
-            }
-        }
-
-        log_dev.destroyRenderPass(render_pass, nullptr);
-
-        for (auto img : swap_views) {
-            log_dev.destroyImageView(img, nullptr);
-        }
-
-        log_dev.destroySwapchainKHR(swap_chain, nullptr);
-
-        create_swapchain();
-
-        for (auto sh : child_shaders) {
-            sh->rebuild_pipeline();
-        }
-
+        create_swapchain(true);
     }
 
     hp::vk::__hp_vk_is_in_required_extensions::__hp_vk_is_in_required_extensions(const char *name) : name(name) {}
