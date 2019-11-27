@@ -54,6 +54,7 @@ namespace hp::vk {
         pipeline = rhs.pipeline;
         mods = std::move(rhs.mods);
         cmd_bufs = std::move(rhs.cmd_bufs);
+        entrypoint_keepalives = std::move(rhs.entrypoint_keepalives);
 
         return *this;
     }
@@ -67,15 +68,18 @@ namespace hp::vk {
         pipeline = rhs.pipeline;
         mods = std::move(rhs.mods);
         cmd_bufs = std::move(rhs.cmd_bufs);
+        entrypoint_keepalives = std::move(rhs.entrypoint_keepalives);
     }
 
     shader_program::~shader_program() {
         if (pipeline != ::vk::Pipeline()) {
             parent->log_dev.destroyPipeline(pipeline, nullptr);
+            pipeline = ::vk::Pipeline();
         }
 
         if (pipeline_layout != ::vk::PipelineLayout()) {
             parent->log_dev.destroyPipelineLayout(pipeline_layout, nullptr);
+            pipeline_layout = ::vk::PipelineLayout();
         }
 
         while (!mods.empty()) {
@@ -83,14 +87,24 @@ namespace hp::vk {
             parent->log_dev.destroyShaderModule(front, nullptr);
             mods.pop();
         }
+
+        while (!entrypoint_keepalives.empty()) {
+            auto f = entrypoint_keepalives.front();
+            delete f;
+            entrypoint_keepalives.pop();
+        }
     }
 
     void shader_program::reload_from_file() {
-        this->~shader_program();  // Umm, this would be called from constructor... soooo.... \^o^/
-
         if (fp.find_last_not_of("/\\") + 2 == fp.length()) {
             HP_WARN("Do not include trailing slashes in shader program filepaths! Shader program '{}' will not be loaded!",
                     fp);
+        }
+
+        while (!mods.empty()) {
+            auto front = mods.front();
+            parent->log_dev.destroyShaderModule(front, nullptr);
+            mods.pop();
         }
 
         std::ifstream fs(fp + metapath);
@@ -101,6 +115,12 @@ namespace hp::vk {
 
         std::string line;
         stage_cis.clear();
+
+        while (!entrypoint_keepalives.empty()) {
+            auto f = entrypoint_keepalives.front();
+            delete f;
+            entrypoint_keepalives.pop();
+        }
 
         unsigned line_num = 0;
         while (std::getline(fs, line)) {
@@ -161,10 +181,15 @@ namespace hp::vk {
             }
             mods.push(mod_obj);
 
+
+            char *entry_cstr = new char[entry_point.length()];
+            std::strcpy(entry_cstr, entry_point.c_str());
+            entrypoint_keepalives.push(entry_cstr);
+
             bool succ = false;
             ::vk::PipelineShaderStageCreateInfo stage_ci(::vk::PipelineShaderStageCreateFlags(),
                                                          get_bit_from_name(shader_type, succ), mod_obj,
-                                                         entry_point.c_str());
+                                                         entry_cstr);
 
             if (!succ) {
                 HP_WARN("[** SYNTAX ERROR **] [{}:{}]: Unrecognized shader module type: '{}'", fp + metapath, line_num,
@@ -180,10 +205,30 @@ namespace hp::vk {
 
         fs.close();
 
+        // Pipeline layout creation
+
+        if (pipeline_layout != ::vk::PipelineLayout()) {
+            parent->log_dev.destroyPipelineLayout(pipeline_layout, nullptr);
+            pipeline_layout = ::vk::PipelineLayout();
+        }
+
+        ::vk::PipelineLayoutCreateInfo pipeline_lyo_ci(::vk::PipelineLayoutCreateFlags(), 0, nullptr, 0, nullptr);
+
+        if (handle_res(parent->log_dev.createPipelineLayout(&pipeline_lyo_ci, nullptr, &pipeline_layout),
+                       HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to create pipeline layout!");
+        }
+        HP_DEBUG("Pipeline layout successfully constructed from '{}'", fp);
+
         rebuild_pipeline();
     }
 
     void shader_program::rebuild_pipeline() {
+        if (pipeline != ::vk::Pipeline()) {
+            parent->log_dev.destroyPipeline(pipeline, nullptr);
+            pipeline = ::vk::Pipeline();
+        }
+
         ::vk::PipelineVertexInputStateCreateInfo vert_in_ci(::vk::PipelineVertexInputStateCreateFlags(), 0, nullptr, 0,
                                                             nullptr);
 
@@ -238,14 +283,6 @@ namespace hp::vk {
 
         ::vk::PipelineDynamicStateCreateInfo dynamic_state_ci(::vk::PipelineDynamicStateCreateFlags(), 9,
                                                               dynamic_states);
-
-        ::vk::PipelineLayoutCreateInfo pipeline_lyo_ci(::vk::PipelineLayoutCreateFlags(), 0, nullptr, 0, nullptr);
-
-        if (handle_res(parent->log_dev.createPipelineLayout(&pipeline_lyo_ci, nullptr, &pipeline_layout),
-                       HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to create pipeline layout!");
-        }
-        HP_DEBUG("Pipeline layout successfully constructed from '{}'", fp);
 
         ::vk::GraphicsPipelineCreateInfo pipeline_ci(::vk::PipelineCreateFlags(), stage_cis.size(), stage_cis.data(),
                                                      &vert_in_ci, &in_ci, nullptr, &viewport_state_ci, &raster_ci,

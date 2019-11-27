@@ -87,11 +87,14 @@ namespace hp::vk {
     private:
         ::hp::vk::window *parent{};
         std::vector<::vk::PipelineShaderStageCreateInfo> stage_cis;
-        std::queue<::vk::ShaderModule> mods;
+        // The entrypoint string's `c_str` is passed to the create info, and when the pipeline needs to be rebuilt,
+        // The string has gone out of scope, and the pointer points to unallocated memory. This prevents that.
+        std::queue<const char *> entrypoint_keepalives;
         std::vector<::vk::CommandBuffer> cmd_bufs;
 
         ::vk::PipelineLayout pipeline_layout;
         ::vk::Pipeline pipeline;
+        std::queue<::vk::ShaderModule> mods;
 
         std::string fp;
         const char *metapath{};
@@ -117,6 +120,10 @@ namespace hp::vk {
 
         void rebuild_pipeline();
     };
+
+    static void on_resize_event(GLFWwindow *win, int width, int height);
+
+    static void on_iconify_event(GLFWwindow *win, int state);
 
     class window {
     private:
@@ -150,13 +157,15 @@ namespace hp::vk {
 
         queue_family_indices queue_fam_indices;
 
-        std::queue<::hp::vk::shader_program *> child_shaders;
+        std::vector<::hp::vk::shader_program *> child_shaders;
         ::hp::vk::shader_program *current_shader{};
 
         std::vector<::vk::Semaphore> img_avail_sms;
         std::vector<::vk::Semaphore> rend_fin_sms;
         std::vector<::vk::Fence> flight_fences;
         std::vector<::vk::Fence> img_fences;
+
+        bool swapchain_recreate_event = false;
 
         static VKAPI_ATTR ::vk::Bool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
                                                                 VkDebugUtilsMessageTypeFlagsEXT messageType,
@@ -165,7 +174,13 @@ namespace hp::vk {
 
         void create_swapchain();
 
+        void recreate_swapchain();
+
         friend class shader_program;
+
+        friend void on_resize_event(GLFWwindow *win, int width, int height);
+
+        friend void on_iconify_event(GLFWwindow *win, int state);
 
     public:
         window() = default;
@@ -210,7 +225,7 @@ namespace hp::vk {
          */
         inline shader_program *new_shader_program(const std::string &fp, const char *metapath = "/shader_metadat.txt") {
             auto new_prog = new shader_program(fp, metapath, this);
-            child_shaders.push(new_prog);
+            child_shaders.emplace_back(new_prog);
             return new_prog;
         };
 

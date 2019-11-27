@@ -5,11 +5,21 @@
 #include "hp/vk/window.hpp"
 
 namespace hp::vk {
+    static void on_resize_event(GLFWwindow *win, int width, int height) {
+        auto app = reinterpret_cast<window *>(glfwGetWindowUserPointer(win));
+        app->swapchain_recreate_event = true;
+    }
+
+    static void on_iconify_event(GLFWwindow *win, int state) {
+        if (state == GLFW_TRUE) {
+            auto app = reinterpret_cast<window *>(glfwGetWindowUserPointer(win));
+            app->swapchain_recreate_event = true;
+        }
+    }
+
     hp::vk::window::window(int width, int height, const char *app_name, uint32_t version) {
         current_shader = nullptr;  // Avoid hours of debugging undefined behavior.
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  // Don't automatically create an OpenGL context
-        glfwWindowHint(GLFW_RESIZABLE,
-                       GLFW_FALSE);  // Don't allow resizing for now: Resizing requires special vulkan code.
 
         // "VK_LAYER_LUNARG_api_dump",
         const std::vector<const char *> &req_layer = {"VK_LAYER_KHRONOS_validation",
@@ -20,6 +30,9 @@ namespace hp::vk {
         bool only_use_requested = true;
 
         win = glfwCreateWindow(width, height, app_name, nullptr, nullptr);
+        glfwSetWindowUserPointer(win, this);
+        glfwSetFramebufferSizeCallback(win, on_resize_event);
+        glfwSetWindowIconifyCallback(win, on_iconify_event);
 
         uses_validation_layers = hp::vk::validation_layers_enabled;
 
@@ -350,10 +363,8 @@ namespace hp::vk {
             log_dev.destroyFramebuffer(fb, nullptr);
         }
 
-        while (!child_shaders.empty()) {
-            auto front = child_shaders.front();
+        for (auto front : child_shaders) {
             delete front;
-            child_shaders.pop();
         }
 
         log_dev.destroyRenderPass(render_pass, nullptr);
@@ -403,6 +414,7 @@ namespace hp::vk {
         current_frame = other.current_frame;
         flight_fences = std::move(other.flight_fences);
         img_fences = std::move(other.img_fences);
+        swapchain_recreate_event = other.swapchain_recreate_event;
     }
 
     hp::vk::window &hp::vk::window::operator=(hp::vk::window &&other) noexcept {
@@ -440,6 +452,7 @@ namespace hp::vk {
         current_frame = other.current_frame;
         flight_fences = std::move(other.flight_fences);
         img_fences = std::move(other.img_fences);
+        swapchain_recreate_event = other.swapchain_recreate_event;
 
         return *this;
     }
@@ -547,7 +560,7 @@ namespace hp::vk {
         swap_ci.presentMode = present_mode;
         swap_ci.clipped = ::vk::Bool32(VK_TRUE);
 
-        swap_ci.oldSwapchain = swap_chain;
+        swap_ci.oldSwapchain = ::vk::SwapchainKHR();
 
         ::vk::SwapchainCreateInfoKHR test_ci;
         if (handle_res(log_dev.createSwapchainKHR(&swap_ci, nullptr, &swap_chain), HP_GET_CODE_LOC) !=
@@ -650,7 +663,16 @@ namespace hp::vk {
         log_dev.waitForFences(1, &flight_fences[current_frame], ::vk::Bool32(VK_TRUE), UINT64_MAX);
 
         uint32_t img_indx;
-        log_dev.acquireNextImageKHR(swap_chain, UINT64_MAX, img_avail_sms[current_frame], ::vk::Fence(), &img_indx);
+        ::vk::Result res = log_dev.acquireNextImageKHR(swap_chain, UINT64_MAX, img_avail_sms[current_frame],
+                                                       ::vk::Fence(), &img_indx);
+        if (res == ::vk::Result::eErrorOutOfDateKHR || res == ::vk::Result::eSuboptimalKHR) {
+            HP_INFO("Recreating swapchain from image querying!");
+            recreate_swapchain();
+            return;
+        } else if (handle_res(res, HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to query next image! Skipping frame!");
+            return;
+        }
 
         // Check if a previous frame is using this image (i.e. there is its fence to wait on)
         if (img_fences[img_indx] != ::vk::Fence()) {
@@ -671,12 +693,56 @@ namespace hp::vk {
         }
 
         ::vk::PresentInfoKHR frame_pi(1, &rend_fin_sms[current_frame], 1, &swap_chain, &img_indx, nullptr);
-        if (handle_res(present_queue.presentKHR(&frame_pi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to submit image for presentation! Skipping frame!");
-            return;
+        ::vk::Result pres_res = present_queue.presentKHR(&frame_pi);
+        if (pres_res == ::vk::Result::eErrorOutOfDateKHR || pres_res == ::vk::Result::eSuboptimalKHR ||
+            swapchain_recreate_event) {
+            swapchain_recreate_event = false;
+            HP_INFO("Recreating swapchain from presentation!");
+            recreate_swapchain();
+        } else if (handle_res(pres_res, HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to present image! Skipping frame!");
         }
 
         current_frame = (current_frame + 1) % max_frames_in_flight;
+    }
+
+    void window::recreate_swapchain() {
+        int width = 0, height = 0;
+        glfwGetFramebufferSize(win, &width, &height);
+        while (width == 0 || height == 0) {
+            glfwGetFramebufferSize(win, &width, &height);
+            glfwWaitEvents();
+        }
+
+        log_dev.waitIdle();
+
+        log_dev.destroyCommandPool(cmd_pool, nullptr);
+
+        for (auto fb : framebuffers) {
+            log_dev.destroyFramebuffer(fb, nullptr);
+        }
+
+        for (auto sh : child_shaders) {
+            if (sh->pipeline != ::vk::Pipeline()) {
+                log_dev.destroyPipeline(sh->pipeline, nullptr);
+                sh->pipeline = ::vk::Pipeline();
+            }
+        }
+
+        log_dev.destroyRenderPass(render_pass, nullptr);
+
+        for (auto img : swap_views) {
+            log_dev.destroyImageView(img, nullptr);
+        }
+
+        log_dev.destroySwapchainKHR(swap_chain, nullptr);
+
+        create_swapchain();
+
+        for (auto sh : child_shaders) {
+            sh->rebuild_pipeline();
+        }
+
     }
 
     hp::vk::__hp_vk_is_in_required_extensions::__hp_vk_is_in_required_extensions(const char *name) : name(name) {}

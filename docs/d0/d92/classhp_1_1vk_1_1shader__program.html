@@ -113,14 +113,16 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a3362c058fc25ec04f1ad96e9faf0d87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2f0ce08b26fce9b9edc2c501b2a4635"><td class="memItemLeft" align="right" valign="top">std::vector&lt;::vk::PipelineShaderStageCreateInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#ae2f0ce08b26fce9b9edc2c501b2a4635">stage_cis</a></td></tr>
 <tr class="separator:ae2f0ce08b26fce9b9edc2c501b2a4635"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa123d92f53f9d54afbe0196e9f67463"><td class="memItemLeft" align="right" valign="top">std::queue&lt;::vk::ShaderModule &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#afa123d92f53f9d54afbe0196e9f67463">mods</a></td></tr>
-<tr class="separator:afa123d92f53f9d54afbe0196e9f67463"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa64807750de187bad1662731c63cfe9d"><td class="memItemLeft" align="right" valign="top">std::queue&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#aa64807750de187bad1662731c63cfe9d">entrypoint_keepalives</a></td></tr>
+<tr class="separator:aa64807750de187bad1662731c63cfe9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27733f20ae1a53ad2c065e4d8aec5577"><td class="memItemLeft" align="right" valign="top">std::vector&lt;::vk::CommandBuffer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a27733f20ae1a53ad2c065e4d8aec5577">cmd_bufs</a></td></tr>
 <tr class="separator:a27733f20ae1a53ad2c065e4d8aec5577"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6e2e898e7986bf8df4d77a08a9ad357"><td class="memItemLeft" align="right" valign="top">::vk::PipelineLayout&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#ad6e2e898e7986bf8df4d77a08a9ad357">pipeline_layout</a></td></tr>
 <tr class="separator:ad6e2e898e7986bf8df4d77a08a9ad357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3b515a74acf2b403709e530670bcfe8"><td class="memItemLeft" align="right" valign="top">::vk::Pipeline&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#af3b515a74acf2b403709e530670bcfe8">pipeline</a></td></tr>
 <tr class="separator:af3b515a74acf2b403709e530670bcfe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa123d92f53f9d54afbe0196e9f67463"><td class="memItemLeft" align="right" valign="top">std::queue&lt;::vk::ShaderModule &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#afa123d92f53f9d54afbe0196e9f67463">mods</a></td></tr>
+<tr class="separator:afa123d92f53f9d54afbe0196e9f67463"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e58c7d8f5447c788d8021e5855a0e12"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a4e58c7d8f5447c788d8021e5855a0e12">fp</a></td></tr>
 <tr class="separator:a4e58c7d8f5447c788d8021e5855a0e12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a898291199fedabc1de83d2c07d733372"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a898291199fedabc1de83d2c07d733372">metapath</a> {}</td></tr>
@@ -387,7 +389,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00099">99</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00102">102</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -412,7 +414,31 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00091">91</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00093">93</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+
+</div>
+</div>
+<a id="aa64807750de187bad1662731c63cfe9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa64807750de187bad1662731c63cfe9d">&#9670;&nbsp;</a></span>entrypoint_keepalives</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::queue&lt;const char *&gt; hp::vk::shader_program::entrypoint_keepalives</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00092">92</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -436,7 +462,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00096">96</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00099">99</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -460,7 +486,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00097">97</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00100">100</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -484,7 +510,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00090">90</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00097">97</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -532,7 +558,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00094">94</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00096">96</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -556,7 +582,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00093">93</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00095">95</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -590,7 +616,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 26 2019 15:23:57 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 26 2019 17:31:09 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
