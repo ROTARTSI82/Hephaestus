@@ -18,17 +18,28 @@ namespace hp::vk {
         }
     }
 
-    static void bind_vbo_helper(vertex_buffer *vbo, ::vk::CommandBuffer cmd) {
+    static void bind_vbo_helper(::vk::Buffer *vbo, ::vk::CommandBuffer cmd, window *win) {
         ::vk::DeviceSize offset = 0;
-        cmd.bindVertexBuffers(0, 1, &vbo->buf, &offset);
+        cmd.bindVertexBuffers(0, 1, vbo, &offset);
     }
 
-    static void draw_cmd_helper(unsigned num_verts, ::vk::CommandBuffer cmd) {
+    static void bind_shader_helper(::vk::Pipeline pipeline, ::vk::CommandBuffer cmd, window *win) {
+        cmd.bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
+    }
+
+    static void draw_cmd_helper(unsigned num_verts, ::vk::CommandBuffer cmd, window *win) {
         cmd.draw(num_verts, 1, 0, 0);
     }
 
+    static void set_viewport_helper(::vk::Viewport vp, ::vk::CommandBuffer cmd, window *win) {
+        cmd.setViewport(0, 1, &vp);
+    }
+
+    static void set_scissor_helper(::vk::Rect2D sc, ::vk::CommandBuffer cmd, window *win) {
+        cmd.setScissor(0, 1, &sc);
+    }
+
     hp::vk::window::window(int width, int height, const char *app_name, uint32_t version) {
-        current_shader = nullptr;  // Avoid hours of debugging undefined behavior.
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  // Don't automatically create an OpenGL context
 
         // "VK_LAYER_LUNARG_api_dump",
@@ -329,6 +340,7 @@ namespace hp::vk {
         HP_DEBUG("Constructed full vkInstance (use_validation_layers={})", uses_validation_layers);
     }
 
+
     hp::vk::queue_family_indices build_queue_fam_indices(::vk::PhysicalDevice *dev, ::vk::SurfaceKHR surf) {
         std::vector<::vk::QueueFamilyProperties> queue_fams = dev->getQueueFamilyProperties();
         queue_family_indices ret = {};
@@ -432,7 +444,6 @@ namespace hp::vk {
         swap_imgs = std::move(other.swap_imgs);
         child_shaders = std::move(other.child_shaders);
         render_pass = other.render_pass;
-        current_shader = other.current_shader;
         framebuffers = std::move(other.framebuffers);
         cmd_pool = other.cmd_pool;
         img_avail_sms = std::move(other.img_avail_sms);
@@ -444,6 +455,8 @@ namespace hp::vk {
         mem_props = other.mem_props;
         child_vbos = std::move(other.child_vbos);
         record_buffer = std::move(other.record_buffer);
+        cmd_bufs = std::move(other.cmd_bufs);
+        swap_recreate_callback = other.swap_recreate_callback;
 
         return *this;
     }
@@ -637,9 +650,15 @@ namespace hp::vk {
         }
         HP_DEBUG("Command pool constructed successfully!");
 
-        std::vector<::vk::CommandBuffer> cmd_bufs = std::vector<::vk::CommandBuffer>();
-        if (do_destroy && current_shader != nullptr) {
-            cmd_bufs = current_shader->get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &new_pool);
+        std::vector<::vk::CommandBuffer> ncmd_bufs = std::vector<::vk::CommandBuffer>();
+        if (do_destroy) {
+            if (swap_recreate_callback != nullptr) {
+                swap_recreate_callback(new_extent);
+            } else {
+                HP_WARN("No swapchain recreation callback is set! Command buffers may become outdated!");
+            }
+
+            ncmd_bufs = get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &new_pool);
         }
 
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
@@ -671,28 +690,12 @@ namespace hp::vk {
         swap_fmt = new_fmt.format;
         render_pass = new_pass;
 
-        if (do_destroy && current_shader != nullptr) {
-            current_shader->cmd_bufs = std::move(cmd_bufs);
+        if (do_destroy) {
+            cmd_bufs = std::move(ncmd_bufs);
         }
-    }
-
-    shader_program *window::bind_shader_program(shader_program *rhs) {
-        if (rhs->pipeline == ::vk::Pipeline()) {
-            HP_WARN("Tried to bind an incomplete shader program '{}'! Ignoring call to hp::vk::window::bind_shader_program()!",
-                    rhs->fp);
-            return nullptr;
-        }
-        current_shader = rhs;
-        save_recording(); // Write to the command buffers
-        return current_shader;
     }
 
     void window::draw_frame() {
-        if (current_shader == nullptr) {
-            HP_FATAL("hp::window::draw_frame() called without bound shader program! Ignoring call!");
-            return;
-        }
-
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
 
         log_dev.waitForFences(1, &flight_fences[current_frame], ::vk::Bool32(VK_TRUE), UINT64_MAX);
@@ -718,12 +721,12 @@ namespace hp::vk {
 
         ::vk::PipelineStageFlags wait_stage = ::vk::PipelineStageFlagBits::eColorAttachmentOutput;
         ::vk::SubmitInfo cmd_buf_si(1, &img_avail_sms[current_frame], &wait_stage, 1,
-                                    &current_shader->cmd_bufs[img_indx], 1, &rend_fin_sms[current_frame]);
+                                    &cmd_bufs[img_indx], 1, &rend_fin_sms[current_frame]);
 
         log_dev.resetFences(1, &flight_fences[current_frame]);
         if (handle_res(graphics_queue.submit(1, &cmd_buf_si, flight_fences[current_frame]), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to submit rec_draw commands! Skipping frame!");
+            HP_FATAL("Failed to submit draw commands! Skipping frame!");
             return;
         }
 
@@ -739,6 +742,58 @@ namespace hp::vk {
         }
 
         current_frame = (current_frame + 1) % max_frames_in_flight;
+    }
+
+
+    std::vector<::vk::CommandBuffer> window::get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
+                                                          ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
+                                                          ::vk::CommandPool *use_cmd_pool) {
+        std::vector<::vk::CommandBuffer> ret(frame_bufs->size());
+        ::vk::CommandBufferAllocateInfo cmd_buf_ai(*use_cmd_pool, ::vk::CommandBufferLevel::ePrimary,
+                                                   ret.size());
+
+        if (handle_res(log_dev.allocateCommandBuffers(&cmd_buf_ai, ret.data()), HP_GET_CODE_LOC) !=
+            ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to allocated command buffers!");
+            std::terminate();
+        }
+
+        for (size_t i = 0; i < ret.size(); i++) {
+            ::vk::CommandBufferBeginInfo cmd_buf_bi(::vk::CommandBufferUsageFlags(), nullptr);
+
+            if (handle_res(ret[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to begin command buffer recording!");
+                std::terminate();
+            }
+
+            ::vk::ClearValue clear_col(::vk::ClearColorValue(std::array<float, 4>({0.0f, 0.0f, 0.0f, 1.0f})));
+
+            ::vk::RenderPassBeginInfo rend_pass_bi(*rend_pass, (*frame_bufs)[i],
+                                                   ::vk::Rect2D(::vk::Offset2D(0, 0), *extent), 1,
+                                                   &clear_col);
+
+            ret[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
+
+//            ret[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
+//            ret[i].setViewport(0, 1, &viewport);
+//            ret[i].setScissor(0, 1, &scissor);
+
+            for (const auto &fn : record_buffer) {
+                fn(ret[i], this);
+            }
+
+            ret[i].endRenderPass();
+
+#ifdef VULKAN_HPP_DISABLE_ENHANCED_MODE
+            if (handle_res(ret[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to end command buffer recording!");
+                std::terminate();
+            }
+#else
+            ret[i].end();  // Enhanced mode does exception handling for us. :)
+#endif
+        }
+        return ret;
     }
 
     void window::recreate_swapchain() {
@@ -757,11 +812,6 @@ namespace hp::vk {
     }
 
     void window::save_recording() {
-        if (current_shader == nullptr) {
-            HP_WARN("Unable to save recording: No shader program is bound to save to!");
-            return;
-        }
-
         ::vk::CommandPool new_cmd_pool;
 
         ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
@@ -771,25 +821,46 @@ namespace hp::vk {
             std::terminate();
         }
 
-        auto cmd_bufs = current_shader->get_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &new_cmd_pool);
+        auto new_cmd_buf = get_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &new_cmd_pool);
 
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
 
         log_dev.waitIdle();
         log_dev.destroyCommandPool(cmd_pool, nullptr);
         cmd_pool = new_cmd_pool;
-        current_shader->cmd_bufs = std::move(cmd_bufs);
+        cmd_bufs = std::move(new_cmd_buf);
     }
 
     void window::rec_bind_vbo(vertex_buffer *vbo) {
-        record_buffer.emplace_back(boost::bind(bind_vbo_helper, vbo, _1));
+        record_buffer.emplace_back(boost::bind(bind_vbo_helper, &vbo->buf, _1, _2));
     }
 
     void window::rec_draw(unsigned num_verts) {
-        record_buffer.emplace_back(boost::bind(draw_cmd_helper, num_verts, _1));
+        record_buffer.emplace_back(boost::bind(draw_cmd_helper, num_verts, _1, _2));
     }
 
-    hp::vk::__hp_vk_is_in_required_extensions::__hp_vk_is_in_required_extensions(const char *name) : name(name) {}
+    void window::rec_bind_shader(shader_program *shader) {
+        record_buffer.emplace_back(boost::bind(bind_shader_helper, shader->pipeline, _1, _2));
+    }
+
+    void window::rec_set_viewport(::vk::Viewport viewport) {
+        record_buffer.emplace_back(boost::bind(set_viewport_helper, viewport, _1, _2));
+    }
+
+    void window::rec_set_scissor(::vk::Rect2D scissor) {
+        record_buffer.emplace_back(boost::bind(set_scissor_helper, scissor, _1, _2));
+    }
+
+    void window::rec_set_default_viewport() {
+        ::vk::Viewport viewport(0.0f, 0.0f, (float) swap_extent.width, (float) swap_extent.height, 0.0f,
+                                1.0f);
+        record_buffer.emplace_back(boost::bind(set_viewport_helper, viewport, _1, _2));
+    }
+
+    void window::rec_set_default_scissor() {
+        ::vk::Rect2D scissor(::vk::Offset2D(0, 0), swap_extent);
+        record_buffer.emplace_back(boost::bind(set_scissor_helper, scissor, _1, _2));
+    }
 
     hp::vk::__hp_vk_is_in_layer_prop_list::__hp_vk_is_in_layer_prop_list(const char *lay) : lay(lay) {}
 

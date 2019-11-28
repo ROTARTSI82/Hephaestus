@@ -158,4 +158,3 @@ namespace hp::vk {
         parent->log_dev.unmapMemory(mem);
     }
 }
-

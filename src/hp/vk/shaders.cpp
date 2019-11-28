@@ -54,7 +54,6 @@ namespace hp::vk {
         pipeline_layout = rhs.pipeline_layout;
         pipeline = rhs.pipeline;
         mods = std::move(rhs.mods);
-        cmd_bufs = std::move(rhs.cmd_bufs);
         entrypoint_keepalives = std::move(rhs.entrypoint_keepalives);
 
         return *this;
@@ -68,20 +67,12 @@ namespace hp::vk {
         pipeline_layout = rhs.pipeline_layout;
         pipeline = rhs.pipeline;
         mods = std::move(rhs.mods);
-        cmd_bufs = std::move(rhs.cmd_bufs);
         entrypoint_keepalives = std::move(rhs.entrypoint_keepalives);
     }
 
     shader_program::~shader_program() {
-        if (pipeline != ::vk::Pipeline()) {
-            parent->log_dev.destroyPipeline(pipeline, nullptr);
-            pipeline = ::vk::Pipeline();
-        }
-
-        if (pipeline_layout != ::vk::PipelineLayout()) {
-            parent->log_dev.destroyPipelineLayout(pipeline_layout, nullptr);
-            pipeline_layout = ::vk::PipelineLayout();
-        }
+        parent->log_dev.destroyPipeline(pipeline, nullptr);
+        parent->log_dev.destroyPipelineLayout(pipeline_layout, nullptr);
 
         while (!mods.empty()) {
             auto front = mods.front();
@@ -201,17 +192,14 @@ namespace hp::vk {
             HP_DEBUG("Constructed {} module and stage from '{}/{}' with entry point of {}", shader_type, fp,
                      shader_file, entry_point);
 
-            delete[] shader_src; // Does this mess with the thingy? Should we wait to delete it?
+            delete[] shader_src; // Does this mess with the thingy? Should we wait to delete it? ANSWERS: No, Yes.
         }
 
         fs.close();
 
         // Pipeline layout creation
 
-        if (pipeline_layout != ::vk::PipelineLayout()) {
-            parent->log_dev.destroyPipelineLayout(pipeline_layout, nullptr);
-            pipeline_layout = ::vk::PipelineLayout();
-        }
+        parent->log_dev.destroyPipelineLayout(pipeline_layout, nullptr);
 
         ::vk::PipelineLayoutCreateInfo pipeline_lyo_ci(::vk::PipelineLayoutCreateFlags(), 0, nullptr, 0, nullptr);
 
@@ -225,10 +213,7 @@ namespace hp::vk {
     }
 
     void shader_program::rebuild_pipeline() {
-        if (pipeline != ::vk::Pipeline()) {
-            parent->log_dev.destroyPipeline(pipeline, nullptr);
-            pipeline = ::vk::Pipeline();
-        }
+        parent->log_dev.destroyPipeline(pipeline, nullptr);
 
         if (buffer_layout::get_bound() == nullptr) {
             HP_WARN("No bound buffer layout found! Binding the default one.");
@@ -301,67 +286,5 @@ namespace hp::vk {
             HP_FATAL("Failed to create pipeline!");
         }
         HP_DEBUG("Fully constructed graphics pipeline from '{}'", fp);
-
-        rebuild_cmd_bufs();
-    }
-
-    void shader_program::rebuild_cmd_bufs() {
-        cmd_bufs = std::move(
-                get_cmd_bufs(&parent->framebuffers, &parent->render_pass, &parent->swap_extent, &parent->cmd_pool));
-    }
-
-    std::vector<::vk::CommandBuffer> shader_program::get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
-                                                                  ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
-                                                                  ::vk::CommandPool *cmd_pool) {
-        std::vector<::vk::CommandBuffer> ret(frame_bufs->size());
-        ::vk::CommandBufferAllocateInfo cmd_buf_ai(*cmd_pool, ::vk::CommandBufferLevel::ePrimary,
-                                                   ret.size());
-
-        if (handle_res(parent->log_dev.allocateCommandBuffers(&cmd_buf_ai, ret.data()), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to allocated command buffers!");
-            std::terminate();
-        }
-
-        for (size_t i = 0; i < ret.size(); i++) {
-            ::vk::CommandBufferBeginInfo cmd_buf_bi(::vk::CommandBufferUsageFlags(), nullptr);
-
-            if (handle_res(ret[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
-                HP_FATAL("Failed to begin command buffer recording!");
-                std::terminate();
-            }
-
-            ::vk::ClearValue clear_col(::vk::ClearColorValue(std::array<float, 4>({0.0f, 0.0f, 0.0f, 1.0f})));
-
-            ::vk::RenderPassBeginInfo rend_pass_bi(*rend_pass, (*frame_bufs)[i],
-                                                   ::vk::Rect2D(::vk::Offset2D(0, 0), *extent), 1,
-                                                   &clear_col);
-
-            ::vk::Viewport viewport(0.0f, 0.0f, (float) extent->width, (float) extent->height, 0.0f,
-                                    1.0f);
-
-            ::vk::Rect2D scissor(::vk::Offset2D(0, 0), *extent);
-
-            ret[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
-            ret[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
-            ret[i].setViewport(0, 1, &viewport);
-            ret[i].setScissor(0, 1, &scissor);
-
-            for (const auto &fn : parent->record_buffer) {
-                fn(ret[i]);
-            }
-
-            ret[i].endRenderPass();
-
-#ifdef VULKAN_HPP_DISABLE_ENHANCED_MODE
-            if (handle_res(ret[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
-                HP_FATAL("Failed to end command buffer recording!");
-                std::terminate();
-            }
-#else
-            ret[i].end();  // Enhanced mode does exception handling for us. :)
-#endif
-        }
-        return ret;
     }
 }

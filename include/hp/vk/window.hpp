@@ -18,19 +18,6 @@
 #include <queue>
 
 namespace hp::vk {
-    /*
-     * Can only be used after `glfwInit` since it relies on some GLFW calls.
-     */
-
-    struct __hp_vk_is_in_required_extensions {
-        const char *name;
-
-        explicit __hp_vk_is_in_required_extensions(const char *name);
-
-        inline bool operator()(const char *other) const {
-            return strcmp(name, other) == 0;
-        };
-    };
 
     struct __hp_vk_is_in_extension_prop_list {
         const char *ext;
@@ -138,8 +125,6 @@ namespace hp::vk {
 
     class vertex_buffer;
 
-    static void bind_vbo_helper(vertex_buffer *vbo, ::vk::CommandBuffer cmd);
-
     class vertex_buffer {
     private:
         size_t capacity = 0;
@@ -151,12 +136,10 @@ namespace hp::vk {
 
         friend class shader_program;
 
-        friend void bind_vbo_helper(vertex_buffer *vbo, ::vk::CommandBuffer cmd);
-
         vertex_buffer(size_t size, unsigned num_verts, window *parent);
 
     public:
-        unsigned vertex_count;
+        unsigned vertex_count = 0;
 
         vertex_buffer() = default;
 
@@ -176,7 +159,6 @@ namespace hp::vk {
         // The entrypoint string's `c_str` is passed to the create info, and when the pipeline needs to be rebuilt,
         // The string has gone out of scope, and the pointer points to unallocated memory. This prevents that.
         std::queue<const char *> entrypoint_keepalives;
-        std::vector<::vk::CommandBuffer> cmd_bufs;
 
         ::vk::PipelineLayout pipeline_layout;
         ::vk::Pipeline pipeline;
@@ -190,12 +172,6 @@ namespace hp::vk {
         shader_program(std::string basicString, const char *string, ::hp::vk::window *pWindow);
 
         void rebuild_pipeline();
-
-        void rebuild_cmd_bufs();
-
-        std::vector<::vk::CommandBuffer> get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
-                                                      ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
-                                                      ::vk::CommandPool *cmd_pool);
 
     public:
         virtual ~shader_program();
@@ -247,20 +223,22 @@ namespace hp::vk {
 
         ::vk::CommandPool cmd_pool;
         ::vk::RenderPass render_pass;
+        std::vector<::vk::CommandBuffer> cmd_bufs;
 
         queue_family_indices queue_fam_indices;
 
         std::vector<vertex_buffer *> child_vbos;
         std::vector<::hp::vk::shader_program *> child_shaders;
-        ::hp::vk::shader_program *current_shader{};
 
         std::vector<::vk::Semaphore> img_avail_sms;
         std::vector<::vk::Semaphore> rend_fin_sms;
         std::vector<::vk::Fence> flight_fences;
         std::vector<::vk::Fence> img_fences;
 
-        std::vector<std::function<void(::vk::CommandBuffer)>> record_buffer;
+        std::vector<std::function<void(::vk::CommandBuffer, window * )>> record_buffer;
         std::recursive_mutex render_mtx;
+
+        void (*swap_recreate_callback)(::vk::Extent2D) = nullptr;
 
         bool swapchain_recreate_event = false;
 
@@ -296,6 +274,10 @@ namespace hp::vk {
 
         window &operator=(window &&other) noexcept;
 
+        std::vector<::vk::CommandBuffer> get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
+                                                      ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
+                                                      ::vk::CommandPool *use_cmd_pool);
+
         ::vk::Result createDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                                   const VkAllocationCallbacks *pAllocator,
                                                   VkDebugUtilsMessengerEXT *pDebugMessenger);
@@ -319,9 +301,31 @@ namespace hp::vk {
             return glfwWindowShouldClose(win);
         };
 
+        inline ::vk::Extent2D get_dims() {
+            return swap_extent;
+        }
+
+        /**
+         * @param new_callback The new callback to replace the old one.
+         * @warn DO NOT CALL `save_recording` IN THE CALLBACK! SWAP CHAIN RECREATION ALREADY IMPLICITLY CALLS IT!
+         */
+        inline void set_swap_recreate_callback(void(*new_callback)(::vk::Extent2D)) {
+            swap_recreate_callback = new_callback;
+        }
+
         void clear_recording();
 
         void save_recording();
+
+        void rec_bind_shader(shader_program *shader);
+
+        void rec_set_viewport(::vk::Viewport viewport);
+
+        void rec_set_scissor(::vk::Rect2D scissor);
+
+        void rec_set_default_viewport();
+
+        void rec_set_default_scissor();
 
         void rec_bind_vbo(vertex_buffer *vbo);
 
@@ -343,8 +347,6 @@ namespace hp::vk {
         }
 
         void draw_frame();
-
-        shader_program *bind_shader_program(shader_program *rhs);
     };
 }
 
