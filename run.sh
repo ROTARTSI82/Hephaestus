@@ -12,8 +12,14 @@ do
   fi
 done
 
-rm -rf docs
-doxygen
+for ARG in "$@"
+do
+  if [ "$ARG" == "-d" ] || [ "$ARG" == "--build-docs" ] ; then
+      echo "[run.sh@Hephaestus]: Building documentation using doxygen!"
+      rm -rf docs
+      doxygen
+  fi
+done
 
 mkdir -p cmake-build-debug
 cd cmake-build-debug

@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 3.11)
 SET(CMAKE_CXX_STANDARD 17)
+enable_language(CXX)
 
 # ======= DEPENDENCY: GLFW =========
 set(GLFW_VULKAN_STATIC ON CACHE BOOL "" FORCE)
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 add_subdirectory(vendor/glfw)
+
+# BOOST
+FIND_PACKAGE(Boost 1.71.0 COMPONENTS system thread REQUIRED)
 
 # ======= DEPENDENCY: GLM ===========
 add_subdirectory(vendor/glm)
@@ -23,9 +27,9 @@ add_subdirectory(vendor/spdlog)
 
 # ====== SHARED LIBRARY BUILDING ========
 project(HephaestusShared VERSION 0.0.2 LANGUAGES CXX)
-add_library(HephaestusShared SHARED include/hp/hp.hpp src/hp/profiling.cpp include/hp/profiling.hpp include/hp/config.hpp src/hp/logging.cpp include/hp/logging.hpp src/hp/vk/window.cpp include/hp/vk/window.hpp src/hp/vk/vk.cpp include/hp/vk/vk.hpp src/hp/vk/shaders.cpp src/hp/vk/window.cpp include/hp/vk/window.hpp)
-target_link_libraries(HephaestusShared PUBLIC ${PROJECT_SOURCE_DIR}/vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib spdlog glm)
-target_include_directories(HephaestusShared PUBLIC src include vendor/glfw/include vendor/glm vendor/spdlog/include vendor vendor/lunarg-vulkan-sdk/macOS/include vendor/boost)
+add_library(HephaestusShared SHARED include/hp/hp.hpp src/hp/profiling.cpp include/hp/profiling.hpp include/hp/config.hpp src/hp/logging.cpp include/hp/logging.hpp src/hp/vk/window.cpp include/hp/vk/window.hpp src/hp/vk/vk.cpp include/hp/vk/vk.hpp src/hp/vk/shaders.cpp src/hp/vk/window.cpp include/hp/vk/window.hpp src/hp/multithreading.cpp include/hp/multithreading.hpp src/hp/vk/vertex_buffers.cpp include/hp/vk/vertex_buffers.hpp)
+target_link_libraries(HephaestusShared PUBLIC ${PROJECT_SOURCE_DIR}/vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib spdlog glm ${Boost_LIBRARIES})
+target_include_directories(HephaestusShared PUBLIC src include vendor/glfw/include vendor/glm vendor/spdlog/include vendor vendor/lunarg-vulkan-sdk/macOS/include ${Boost_INCLUDE_DIR})
 target_link_libraries(HephaestusShared PUBLIC glfw)
 
 

@@ -3,6 +3,7 @@
 //
 
 #include "hp/vk/window.hpp"
+#include "boost/bind.hpp"
 
 namespace hp::vk {
     static void on_resize_event(GLFWwindow *win, int width, int height) {
@@ -15,6 +16,15 @@ namespace hp::vk {
             auto app = reinterpret_cast<window *>(glfwGetWindowUserPointer(win));
             app->swapchain_recreate_event = true;
         }
+    }
+
+    static void bind_vbo_helper(vertex_buffer *vbo, ::vk::CommandBuffer cmd) {
+        ::vk::DeviceSize offset = 0;
+        cmd.bindVertexBuffers(0, 1, &vbo->buf, &offset);
+    }
+
+    static void draw_cmd_helper(unsigned num_verts, ::vk::CommandBuffer cmd) {
+        cmd.draw(num_verts, 1, 0, 0);
     }
 
     hp::vk::window::window(int width, int height, const char *app_name, uint32_t version) {
@@ -233,6 +243,7 @@ namespace hp::vk {
 
         queue_fam_indices = build_queue_fam_indices(phys_dev, surf);
 
+        phys_dev->getMemoryProperties(&mem_props);
         phys_dev_ext = phys_dev->enumerateDeviceExtensionProperties();
         const char **dev_ext_names = new const char *[phys_dev_ext.size()];
         std::vector<const char *> support_req_dev_ext;
@@ -374,6 +385,11 @@ namespace hp::vk {
         }
 
         log_dev.destroySwapchainKHR(swap_chain, nullptr);
+
+        for (auto vbo : child_vbos) {
+            delete vbo;
+        }
+
         log_dev.destroy();
 
         if (uses_validation_layers) {
@@ -386,35 +402,7 @@ namespace hp::vk {
     }
 
     hp::vk::window::window(hp::vk::window &&other) noexcept {
-        phys_dev = other.phys_dev;
-        phys_dev_ext = std::move(other.phys_dev_ext);
-        queue_fam_indices = std::move(other.queue_fam_indices);
-        devices = std::move(other.devices);
-        log_dev = other.log_dev;
-        inst = other.inst;
-        supported_ext = std::move(other.supported_ext);
-        uses_validation_layers = other.uses_validation_layers;
-        supported_lay = std::move(other.supported_lay);
-        debug_msgr = other.debug_msgr;
-        win = other.win;
-        surf = other.surf;
-        graphics_queue = other.graphics_queue;
-        present_queue = other.present_queue;
-        swap_chain = other.swap_chain;
-        swap_extent = other.swap_extent;
-        swap_fmt = other.swap_fmt;
-        swap_imgs = std::move(other.swap_imgs);
-        child_shaders = std::move(other.child_shaders);
-        render_pass = other.render_pass;
-        current_shader = other.current_shader;
-        framebuffers = std::move(other.framebuffers);
-        cmd_pool = other.cmd_pool;
-        img_avail_sms = std::move(other.img_avail_sms);
-        rend_fin_sms = std::move(other.rend_fin_sms);
-        current_frame = other.current_frame;
-        flight_fences = std::move(other.flight_fences);
-        img_fences = std::move(other.img_fences);
-        swapchain_recreate_event = other.swapchain_recreate_event;
+        *this = std::move(other);
     }
 
     hp::vk::window &hp::vk::window::operator=(hp::vk::window &&other) noexcept {
@@ -453,6 +441,9 @@ namespace hp::vk {
         flight_fences = std::move(other.flight_fences);
         img_fences = std::move(other.img_fences);
         swapchain_recreate_event = other.swapchain_recreate_event;
+        mem_props = other.mem_props;
+        child_vbos = std::move(other.child_vbos);
+        record_buffer = std::move(other.record_buffer);
 
         return *this;
     }
@@ -646,13 +637,12 @@ namespace hp::vk {
         }
         HP_DEBUG("Command pool constructed successfully!");
 
-        std::vector<std::vector<::vk::CommandBuffer>> cmd_bufs;
-        if (do_destroy) {
-            for (auto sh : child_shaders) {
-                cmd_bufs.emplace_back(sh->get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &new_pool));
-            }
+        std::vector<::vk::CommandBuffer> cmd_bufs = std::vector<::vk::CommandBuffer>();
+        if (do_destroy && current_shader != nullptr) {
+            cmd_bufs = current_shader->get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &new_pool);
         }
 
+        std::lock_guard<std::recursive_mutex> lg(render_mtx);
         log_dev.waitIdle();
 
         if (do_destroy) {
@@ -681,10 +671,8 @@ namespace hp::vk {
         swap_fmt = new_fmt.format;
         render_pass = new_pass;
 
-        if (do_destroy) {
-            for (size_t i = 0; i < child_shaders.size(); i++) {
-                child_shaders[i]->cmd_bufs = std::move(cmd_bufs[i]);
-            }
+        if (do_destroy && current_shader != nullptr) {
+            current_shader->cmd_bufs = std::move(cmd_bufs);
         }
     }
 
@@ -694,8 +682,9 @@ namespace hp::vk {
                     rhs->fp);
             return nullptr;
         }
-
-        return current_shader = rhs;
+        current_shader = rhs;
+        save_recording(); // Write to the command buffers
+        return current_shader;
     }
 
     void window::draw_frame() {
@@ -704,8 +693,8 @@ namespace hp::vk {
             return;
         }
 
-//        vkWaitForFences(device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
-//        vkResetFences(device, 1, &inFlightFences[currentFrame]);
+        std::lock_guard<std::recursive_mutex> lg(render_mtx);
+
         log_dev.waitForFences(1, &flight_fences[current_frame], ::vk::Bool32(VK_TRUE), UINT64_MAX);
 
         uint32_t img_indx;
@@ -734,7 +723,7 @@ namespace hp::vk {
         log_dev.resetFences(1, &flight_fences[current_frame]);
         if (handle_res(graphics_queue.submit(1, &cmd_buf_si, flight_fences[current_frame]), HP_GET_CODE_LOC) !=
             ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to submit draw commands! Skipping frame!");
+            HP_FATAL("Failed to submit rec_draw commands! Skipping frame!");
             return;
         }
 
@@ -763,6 +752,43 @@ namespace hp::vk {
         create_swapchain(true);
     }
 
+    void window::clear_recording() {
+        record_buffer.clear();
+    }
+
+    void window::save_recording() {
+        if (current_shader == nullptr) {
+            HP_WARN("Unable to save recording: No shader program is bound to save to!");
+            return;
+        }
+
+        ::vk::CommandPool new_cmd_pool;
+
+        ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
+        if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &new_cmd_pool), HP_GET_CODE_LOC) !=
+            ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to create command pool!");
+            std::terminate();
+        }
+
+        auto cmd_bufs = current_shader->get_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &new_cmd_pool);
+
+        std::lock_guard<std::recursive_mutex> lg(render_mtx);
+
+        log_dev.waitIdle();
+        log_dev.destroyCommandPool(cmd_pool, nullptr);
+        cmd_pool = new_cmd_pool;
+        current_shader->cmd_bufs = std::move(cmd_bufs);
+    }
+
+    void window::rec_bind_vbo(vertex_buffer *vbo) {
+        record_buffer.emplace_back(boost::bind(bind_vbo_helper, vbo, _1));
+    }
+
+    void window::rec_draw(unsigned num_verts) {
+        record_buffer.emplace_back(boost::bind(draw_cmd_helper, num_verts, _1));
+    }
+
     hp::vk::__hp_vk_is_in_required_extensions::__hp_vk_is_in_required_extensions(const char *name) : name(name) {}
 
     hp::vk::__hp_vk_is_in_layer_prop_list::__hp_vk_is_in_layer_prop_list(const char *lay) : lay(lay) {}
@@ -774,8 +800,7 @@ namespace hp::vk {
     }
 
     hp::vk::queue_family_indices::queue_family_indices(const hp::vk::queue_family_indices &rhs) {
-        graphics_fam = rhs.graphics_fam;
-        present_fam = rhs.present_fam;
+        *this = rhs;
     }
 
     hp::vk::queue_family_indices &hp::vk::queue_family_indices::operator=(const hp::vk::queue_family_indices &rhs) {
@@ -789,8 +814,7 @@ namespace hp::vk {
     }
 
     hp::vk::queue_family_indices::queue_family_indices(hp::vk::queue_family_indices &&rhs) noexcept {
-        graphics_fam = rhs.graphics_fam;
-        present_fam = rhs.present_fam;
+        *this = std::move(rhs);
     }
 
     hp::vk::queue_family_indices &hp::vk::queue_family_indices::operator=(hp::vk::queue_family_indices &&rhs) noexcept {

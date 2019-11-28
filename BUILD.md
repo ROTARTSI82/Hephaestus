@@ -2,7 +2,7 @@
 
 ##Mac OSX
 1. Download LunarG's Vulkan SDK from https://vulkan.lunarg.com/ and place it at `vendor/lunarg-vulkan-sdk`
-2. Download boost from https://www.boost.org/users/download/ and place it at `vendor/boost`
+2. Install Boost 1.71.0 by running `brew install boost` or `brew upgrade boost` to update boost.
 3. Ensure that all git submodules are cloned and present with `git submodule init` and `git submodule update`
 4. `cd` to the root directory and run `bash run.sh`. (Do not run with sudo!)
 

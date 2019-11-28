@@ -11,6 +11,8 @@
 #include "hp/vk/vk.hpp"
 #include "hp/hp.hpp"
 
+#include "glm/glm.hpp"
+
 #include <map>
 #include <set>
 #include <queue>
@@ -50,6 +52,57 @@ namespace hp::vk {
         };
     };
 
+    struct vertex {
+        glm::vec2 pos;
+        glm::vec3 color;
+    };
+
+    class buffer_layout {
+    private:
+        static buffer_layout default_lyo;
+        static const buffer_layout *active_lyo;
+        std::vector<::vk::VertexInputAttributeDescription> attribs;
+        ::vk::VertexInputBindingDescription binding;
+        size_t stride = 0;
+        bool complete = false;
+
+        friend class shader_program;
+
+    public:
+        buffer_layout() = default;
+
+        virtual ~buffer_layout();
+
+        void push_floats(int num_floats);
+
+        void finalize();
+
+        inline void bind() const {
+            active_lyo = this;
+        }
+
+        static void build_default_layout();
+
+        buffer_layout &operator=(const buffer_layout &rhs);
+
+        buffer_layout(const buffer_layout &rhs);
+
+        buffer_layout &operator=(buffer_layout &&rhs) noexcept;
+
+        buffer_layout(buffer_layout &&rhs) noexcept;
+
+        [[nodiscard]] inline bool is_complete() const {
+            return complete;
+        }
+
+        static inline const buffer_layout *get_default() {
+            return &default_lyo;  // Return ptr bc otherwise it gets unbound due to it going out of scope.
+        }
+
+        static inline const buffer_layout *get_bound() {
+            return active_lyo;
+        }
+    };
 
     struct queue_family_indices {
     public:
@@ -82,6 +135,39 @@ namespace hp::vk {
 
 
     class window;
+
+    class vertex_buffer;
+
+    static void bind_vbo_helper(vertex_buffer *vbo, ::vk::CommandBuffer cmd);
+
+    class vertex_buffer {
+    private:
+        size_t capacity = 0;
+        ::vk::Buffer buf;
+        ::vk::DeviceMemory mem;
+        window *parent{};
+
+        friend class window;
+
+        friend class shader_program;
+
+        friend void bind_vbo_helper(vertex_buffer *vbo, ::vk::CommandBuffer cmd);
+
+        vertex_buffer(size_t size, unsigned num_verts, window *parent);
+
+    public:
+        unsigned vertex_count;
+
+        vertex_buffer() = default;
+
+        virtual ~vertex_buffer();
+
+        void write(const void *data);
+
+        [[nodiscard]] inline size_t get_size() const {
+            return capacity;
+        }
+    };
 
     class shader_program {
     private:
@@ -145,6 +231,7 @@ namespace hp::vk {
         std::vector<::vk::ExtensionProperties> phys_dev_ext;
 
         ::vk::PhysicalDevice *phys_dev{};
+        ::vk::PhysicalDeviceMemoryProperties mem_props;
         ::vk::Device log_dev;
         std::multimap<float, ::vk::PhysicalDevice> devices;
 
@@ -163,6 +250,7 @@ namespace hp::vk {
 
         queue_family_indices queue_fam_indices;
 
+        std::vector<vertex_buffer *> child_vbos;
         std::vector<::hp::vk::shader_program *> child_shaders;
         ::hp::vk::shader_program *current_shader{};
 
@@ -170,6 +258,9 @@ namespace hp::vk {
         std::vector<::vk::Semaphore> rend_fin_sms;
         std::vector<::vk::Fence> flight_fences;
         std::vector<::vk::Fence> img_fences;
+
+        std::vector<std::function<void(::vk::CommandBuffer)>> record_buffer;
+        std::recursive_mutex render_mtx;
 
         bool swapchain_recreate_event = false;
 
@@ -183,6 +274,8 @@ namespace hp::vk {
         void recreate_swapchain();
 
         friend class shader_program;
+
+        friend class vertex_buffer;
 
         friend void on_resize_event(GLFWwindow *win, int width, int height);
 
@@ -226,6 +319,14 @@ namespace hp::vk {
             return glfwWindowShouldClose(win);
         };
 
+        void clear_recording();
+
+        void save_recording();
+
+        void rec_bind_vbo(vertex_buffer *vbo);
+
+        void rec_draw(unsigned num_verts);
+
         /*
          * DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
          */
@@ -234,6 +335,12 @@ namespace hp::vk {
             child_shaders.emplace_back(new_prog);
             return new_prog;
         };
+
+        inline vertex_buffer *new_vbo(size_t size, unsigned vert_count) {
+            auto vbo = new vertex_buffer(size, vert_count, this);
+            child_vbos.emplace_back(vbo);
+            return vbo;
+        }
 
         void draw_frame();
 

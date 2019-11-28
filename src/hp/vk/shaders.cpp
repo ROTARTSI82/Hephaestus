@@ -3,6 +3,7 @@
 //
 
 #include "hp/vk/window.hpp"
+//#include "hp/vk/vertex_buffers.hpp"
 
 #include <boost/algorithm/string/predicate.hpp>
 
@@ -229,8 +230,17 @@ namespace hp::vk {
             pipeline = ::vk::Pipeline();
         }
 
-        ::vk::PipelineVertexInputStateCreateInfo vert_in_ci(::vk::PipelineVertexInputStateCreateFlags(), 0, nullptr, 0,
-                                                            nullptr);
+        if (buffer_layout::get_bound() == nullptr) {
+            HP_WARN("No bound buffer layout found! Binding the default one.");
+            buffer_layout::build_default_layout();
+            buffer_layout::get_default()->bind();
+        }
+
+        auto current_bindings = buffer_layout::get_bound()->binding;
+        auto current_attribs = buffer_layout::get_bound()->attribs;
+        ::vk::PipelineVertexInputStateCreateInfo vert_in_ci(::vk::PipelineVertexInputStateCreateFlags(), 1,
+                                                            &current_bindings,
+                                                            current_attribs.size(), current_attribs.data());
 
         ::vk::PipelineInputAssemblyStateCreateInfo in_ci(::vk::PipelineInputAssemblyStateCreateFlags(),
                                                          ::vk::PrimitiveTopology::eTriangleList,
@@ -336,7 +346,11 @@ namespace hp::vk {
             ret[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
             ret[i].setViewport(0, 1, &viewport);
             ret[i].setScissor(0, 1, &scissor);
-            ret[i].draw(3, 1, 0, 0);
+
+            for (const auto &fn : parent->record_buffer) {
+                fn(ret[i]);
+            }
+
             ret[i].endRenderPass();
 
 #ifdef VULKAN_HPP_DISABLE_ENHANCED_MODE
