@@ -124,7 +124,7 @@
 namespace hp {
     namespace vk {
         /**
-         * @var const in max_frames_in_flight
+         * @var const int max_frames_in_flight
          * @brief Maximum number of frames the Vulkan renderer would attempt to process concurrently.
          * @note Do not set too low or too high; Too low and the renderer would waste time sitting idly,
          *       Too high and it gets bottle-necked.

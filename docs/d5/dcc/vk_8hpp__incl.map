@@ -1,0 +1,21 @@
+<map id="include/hp/vk/vk.hpp" name="include/hp/vk/vk.hpp">
+<area shape="rect" id="node1" title="Provides basic functionality used across the vulkan core." alt="" coords="1122,5,1265,31"/>
+<area shape="rect" id="node2" href="$d0/da9/logging_8hpp.html" title="This file defines logging functionality." alt="" coords="852,79,961,104"/>
+<area shape="rect" id="node16" title=" " alt="" coords="985,79,1113,104"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1137,79,1250,104"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1274,79,1380,104"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1404,79,1522,104"/>
+<area shape="rect" id="node3" href="$d8/dfd/config_8hpp.html" title="File containing configuration for Hephaestus." alt="" coords="5,159,88,184"/>
+<area shape="rect" id="node4" href="$d7/dea/hp_8hpp.html" title="This file defines the version macros for Hephaestus." alt="" coords="112,159,174,184"/>
+<area shape="rect" id="node5" title=" " alt="" coords="197,159,376,184"/>
+<area shape="rect" id="node6" title=" " alt="" coords="400,159,515,184"/>
+<area shape="rect" id="node7" title=" " alt="" coords="539,152,674,191"/>
+<area shape="rect" id="node8" title=" " alt="" coords="698,152,828,191"/>
+<area shape="rect" id="node9" title=" " alt="" coords="852,159,962,184"/>
+<area shape="rect" id="node10" title=" " alt="" coords="986,159,1102,184"/>
+<area shape="rect" id="node11" title=" " alt="" coords="1126,159,1298,184"/>
+<area shape="rect" id="node12" title=" " alt="" coords="1321,152,1458,191"/>
+<area shape="rect" id="node13" title=" " alt="" coords="1481,159,1554,184"/>
+<area shape="rect" id="node14" title=" " alt="" coords="1578,159,1646,184"/>
+<area shape="rect" id="node15" title=" " alt="" coords="1670,159,1738,184"/>
+</map>

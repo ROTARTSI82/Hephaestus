@@ -2,7 +2,10 @@
 // Created by 25granty on 11/18/19.
 //
 
+#define VMA_IMPLEMENTATION
 #include "hp/vk/vk.hpp"
+#include "vk_mem_alloc.h"
+
 
 namespace hp::vk {
 #define __HP_CASE_VK_ERR(x) case (x): {HP_FATAL("[** VULKAN ERROR **] Recieved `{}` from {}:{} in `{}`!", (#x), loc.file, loc.line, loc.func); return res;}

@@ -5,6 +5,7 @@
 #include "hp/logging.hpp"
 #include "hp/vk/window.hpp"
 
+hp::vk::staging_buffer *sbo;
 hp::vk::vertex_buffer *vbo;
 hp::vk::window *inst;
 hp::vk::shader_program *shaders;
@@ -32,6 +33,7 @@ int main() {
         inst->set_swap_recreate_callback(&recreate_callback);
         shaders = inst->new_shader_program("shader_pack");
 
+        sbo = inst->new_staging_buf((sizeof(float) * 3 + sizeof(float) * 2) * 3, 3);
         vbo = inst->new_vbo((sizeof(float) * 3 + sizeof(float) * 2) * 3, 3);
         const std::vector<hp::vk::vertex> vertices = {
                 {{0.0f,  -0.5f}, {1.0f, 0.0f, 0.0f}},
@@ -39,7 +41,8 @@ int main() {
                 {{-0.5f, 0.5f},  {0.0f, 0.0f, 1.0f}}
         };
 
-        vbo->write(reinterpret_cast<const void *>(vertices.data()));
+        sbo->write(reinterpret_cast<const void *>(vertices.data()));
+        vbo->write(sbo, true);
 
         inst->clear_recording();
         inst->rec_bind_shader(shaders);

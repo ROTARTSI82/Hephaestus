@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['close_164',['close',['../d8/d84/classhp_1_1profiler__session.html#ac811c883ca32e6cca8aba3fb4e1f9b65',1,'hp::profiler_session']]],
-  ['code_5flocation_165',['code_location',['../df/d37/structhp_1_1code__location.html#a161667448743e29b18ec92f496d46601',1,'hp::code_location']]],
-  ['create_5fswapchain_166',['create_swapchain',['../dd/d17/classhp_1_1vk_1_1window.html#aa97457f77b6864d395fc82550089cfb6',1,'hp::vk::window']]],
-  ['createdebugutilsmessengerext_167',['createDebugUtilsMessengerEXT',['../dd/d17/classhp_1_1vk_1_1window.html#a65ac4ef8da15037ce8357668350a6ea5',1,'hp::vk::window']]],
-  ['current_5fdatetime_168',['current_datetime',['../d6/d7a/namespacehp.html#a2b53ecb5238f0067a6f884cde6026c8f',1,'hp']]]
+  ['delete_5fbuffer_155',['delete_buffer',['../dd/d17/classhp_1_1vk_1_1window.html#a9d650c3959dc947637110f2ebb5b2689',1,'hp::vk::window']]],
+  ['delete_5ffence_156',['delete_fence',['../dd/d17/classhp_1_1vk_1_1window.html#a980d2dd9c9b95281488e5b2de6d5dc3a',1,'hp::vk::window']]],
+  ['delete_5fshader_5fprogram_157',['delete_shader_program',['../dd/d17/classhp_1_1vk_1_1window.html#a8065ba588e52c870c41e718d309ec78d',1,'hp::vk::window']]],
+  ['dev_5fext_5fsupported_158',['dev_ext_supported',['../dd/d17/classhp_1_1vk_1_1window.html#af7021dcc20c2920b0a10daf40494ae61',1,'hp::vk::window']]],
+  ['draw_5fframe_159',['draw_frame',['../dd/d17/classhp_1_1vk_1_1window.html#a2776b0cbd1678b9a395b28724501ee27',1,'hp::vk::window']]]
 ];

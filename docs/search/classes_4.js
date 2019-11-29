@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['shader_5fprogram_147',['shader_program',['../d0/d92/classhp_1_1vk_1_1shader__program.html',1,'hp::vk']]],
-  ['swap_5fchain_5fsupport_148',['swap_chain_support',['../d2/dda/structhp_1_1vk_1_1swap__chain__support.html',1,'hp::vk']]]
+  ['profile_5fresult_127',['profile_result',['../d4/d10/structhp_1_1profile__result.html',1,'hp']]],
+  ['profiler_128',['profiler',['../d0/d1b/classhp_1_1profiler.html',1,'hp']]],
+  ['profiler_5fsession_129',['profiler_session',['../d8/d84/classhp_1_1profiler__session.html',1,'hp']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['rend_5ffin_5fsms_256',['rend_fin_sms',['../dd/d17/classhp_1_1vk_1_1window.html#abddb52c1f35d3a5b2b8ddf458fec9e11',1,'hp::vk::window']]],
-  ['render_5fpass_257',['render_pass',['../dd/d17/classhp_1_1vk_1_1window.html#aff648702963c853d23680273fcc145b8',1,'hp::vk::window']]]
+  ['validation_5flayers_5fenabled_237',['validation_layers_enabled',['../da/d74/namespacehp_1_1vk.html#a8ee355743ea0bfc12d435b2dc788a86d',1,'hp::vk']]],
+  ['vertex_5fcount_238',['vertex_count',['../d0/dbc/classhp_1_1vk_1_1staging__buffer.html#ae06ef19481e824130cc5e63475228890',1,'hp::vk::staging_buffer::vertex_count()'],['../dc/d08/classhp_1_1vk_1_1vertex__buffer.html#ab5d7923537efce35c4617191125d37ec',1,'hp::vk::vertex_buffer::vertex_count()']]]
 ];

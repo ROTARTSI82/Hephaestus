@@ -1,6 +1,7 @@
-//
-// Created by 25granty on 11/18/19.
-//
+/**
+ * @file vk.hpp
+ * @brief Provides basic functionality used across the vulkan core.
+ */
 
 #pragma once
 
@@ -18,13 +19,15 @@
 
 #include "GLFW/glfw3.h"
 
+#include "vk_mem_alloc.h"
+
 namespace hp::vk {
     /**
-     * @fn ::vk::Result handle_res(::vk::Result res, hp::code_loction loc)
+     * @fn ::vk::Result hp::vk::handle_res (::vk::Result res, hp::code_location loc)
      * @brief Handle the results returned by vulkan functions, and log it if an error had occurred.
      * @param res The result of the operation to check.
      * @param loc hp::code_location struct returned by macro `HP_GET_CODE_LOC`
-     * @return Forwards the `res` parameter that was passed in. Success code is vk::Result::eSuccess
+     * @return Forwards the `res` parameter that was passed in. Success code is `vk::Result::eSuccess`
      */
     ::vk::Result handle_res(::vk::Result res, hp::code_location loc);
 

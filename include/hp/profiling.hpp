@@ -86,19 +86,30 @@ namespace hp {
          */
         virtual ~profiler();
 
+        /**
+         * @fn profiler(const profiler &other) = delete
+         * @note The copy constructor is deleted. You *MUST* use the `profiler(profiler &&) noexcept` move
+         *       constructor instead.
+         */
         profiler(const profiler &other) = delete;
 
+        /**
+         * @fn profiler &operator=(const profiler &other) = delete
+         * @note The copy assignment operator is deleted. You *MUST* use the `profiler &operator=(profiler &&) noexcept`
+         *       move assignment operator instead.
+         */
         profiler &operator=(const profiler &other) = delete;
 
         /**
          * @fn profiler(profiler &&other) noexcept
-         * @brief Move copy constructor of profilers.
+         * @brief Standard move constructor.
          * @param other The profiler to move. (RHS of the move)
          */
         profiler(profiler &&other) noexcept;
 
         /**
          * @fn profiler &operator=(profiler &&other) noexcept
+         * @brief Standard move assignment operator.
          * @param other The profiler to move. (RHS of the move)
          * @return Returns a reference `*this`.
          */
@@ -123,12 +134,12 @@ namespace hp {
 
         friend class profiler_session;
 
-        explicit profiler(const char *name, profiler_session *par);
+        explicit profiler(const char *name, profiler_session *par); ///< @private
 
-        const char *name;
-        std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
-        profiler_session *parent;
-        bool stopped;
+        const char *name; ///< @private
+        std::chrono::time_point<std::chrono::high_resolution_clock> start_time; ///< @private
+        profiler_session *parent; ///< @private
+        bool stopped; ///< @private
     };
 
     /**
@@ -142,7 +153,7 @@ namespace hp {
          * @var static profiler_session *default_session
          * @brief A user-defined pointer to the session to be used by `HP_START_PROFILER`
          * @details The user should assign this variable before using `HP_START_PROFILER`.
-         *          Example usage: `hp::profiler_session::default_session = new profiler_session("Profiling Session");`
+         *          Example Usage: `hp::profiler_session::default_session = new profiler_session("Profiling Session");` would set the default profiler session for use in `HP_START_PROFILER`
          */
         static profiler_session *default_session;
 
@@ -161,19 +172,56 @@ namespace hp {
          */
         virtual ~profiler_session();
 
+        /**
+         * @fn profiler_session &operator=(const profiler_session &eq) = delete;
+         * @note The standard copy assignment operator is deleted. You *MUST* use the
+         *       `profiler_session &operator=(profiler_session &&) noexcept` move assignment operator.
+         */
         profiler_session &operator=(const profiler_session &eq) = delete;
 
+        /**
+         * @fn profiler_session(const profiler_session &cpy) = delete
+         * @note The standard copy constructor is deleted. You *MUST* use the
+         *       `profiler_session(profiler_session &&) noexcept` standard move constructor.
+         */
         profiler_session(const profiler_session &cpy) = delete;
 
+        /**
+         * @fn profiler_session()
+         * @brief Standard default constructor. Initializes with dummy values.
+         */
         profiler_session();
 
+        /**
+         * @fn profiler_session &operator=(profiler_session &&mv) noexcept
+         * @brief Standard move assignment operator.
+         * @param mv RHS of the move assignment
+         * @return Forwards the `mv` parameter.
+         */
         profiler_session &operator=(profiler_session &&mv) noexcept;
 
+        /**
+         * @fn profiler_session(profiler_session &&mv) noexcept
+         * @brief Standard move constructor.
+         * @param mv RHS of the move construction.
+         */
         profiler_session(profiler_session &&mv) noexcept;
 
+        /**
+         * @fn profiler new_profiler(const char *pname = "Unnamed Profiler")
+         * @brief Construct and retrieve a new `hp::profiler`.
+         * @param pname Name of the profiler.
+         * @return Returns the newly constructed profiler.
+         */
         profiler new_profiler(const char *pname = "Unnamed Profiler");
 
-        profiler *new_heap_profiler(const char *pname = "Unnamed Profiler");
+        /**
+         * @fn profiler *new_dynamic_profiler(const char *pname = "Unnamed Profiler")
+         * @brief Construct and retrieve a new dynamically allocated `hp::profiler`. (Allocated with `new`)
+         * @param pname Name of the profiler.
+         * @return Pointer to the newly constructed profiler.
+         */
+        profiler *new_dynamic_profiler(const char *pname = "Unnamed Profiler");
 
         /**
          * @fn void close()
@@ -185,7 +233,8 @@ namespace hp {
 
         /**
          * @fn void flush_single()
-         * @brief Write
+         * @brief Write a SINGLE profile report to the file
+         * @note See `void flush_all()` if you wish to write ALL queued profile reports.
          */
         void flush_single();
 
@@ -200,20 +249,33 @@ namespace hp {
 
         friend class profiler;
 
-        std::mutex mtx;
-        std::queue<profile_result> queue;
-        const char *file;
-        const char *name;
-        std::ofstream out;
-        bool closed;
+        std::mutex mtx; ///< @private
+        std::queue<profile_result> queue; ///< @private
+        const char *file; ///< @private
+        const char *name; ///< @private
+        std::ofstream out; ///< @private
+        bool closed; ///< @private
 
-        bool first_event_written;
+        bool first_event_written; ///< @private
     };
 }
 
 #ifdef HP_PROFILING_ENABLED
+/**
+ * @def HP_START_PROFILER
+ * @brief Create a profiler from the default session and start timing. Will stop when scope exits.
+ * @details Useful for timing function calls and sections of code. You can simply create a scope and put
+ *          `HP_START_PROFILER` at the beginning to time the execution time of the code within that scope.
+ */
 #define HP_START_PROFILER ::hp::profiler __hp_tmp_profiler_obj; if (::hp::profiler_session::default_session != nullptr) {__hp_tmp_profiler_obj = ::std::move(::hp::profiler_session::default_session->new_profiler(BOOST_CURRENT_FUNCTION)); __hp_tmp_profiler_obj.start();};
 #else
+
+/**
+ * @def HP_START_PROFILER
+ * @brief Create a profiler from the default session and start timing. Will stop when scope exits.
+ * @details Useful for timing function calls and sections of code. You can simply create a scope and put
+ *          `HP_START_PROFILER` at the beginning to time the execution time of the code within that scope.
+ */
 #define HP_START_PROFILER
 #endif
 

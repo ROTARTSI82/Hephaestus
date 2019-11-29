@@ -1,0 +1,4 @@
+<map id="include/hp/vk/vk.hpp" name="include/hp/vk/vk.hpp">
+<area shape="rect" id="node1" title="Provides basic functionality used across the vulkan core." alt="" coords="21,5,163,31"/>
+<area shape="rect" id="node2" href="$d2/d5a/window_8hpp.html" title="Provide basically all Vulkan functionality, including vertex buffers, shaders, &amp; windows." alt="" coords="5,79,178,104"/>
+</map>

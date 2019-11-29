@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['debug_5fmode_5factive_26',['debug_mode_active',['../d6/d7a/namespacehp.html#a944777c0c2552ce1fdf454f079714f4c',1,'hp']]],
-  ['debug_5fmsgr_27',['debug_msgr',['../dd/d17/classhp_1_1vk_1_1window.html#adebdf2e32e6b8390a7a9267626d7e347',1,'hp::vk::window']]],
-  ['debugcallback_28',['debugCallback',['../dd/d17/classhp_1_1vk_1_1window.html#aa7d0d78610c0a5862ba5c165a7b680a8',1,'hp::vk::window']]],
-  ['default_5fsession_29',['default_session',['../d8/d84/classhp_1_1profiler__session.html#ab91f26219be958e91c5252b71facccdc',1,'hp::profiler_session']]],
-  ['destroydebugutilsmessengerext_30',['destroyDebugUtilsMessengerEXT',['../dd/d17/classhp_1_1vk_1_1window.html#a8c3e40e6eb99fdf077da37f614a0c01d',1,'hp::vk::window']]],
-  ['dev_5fext_5fsupported_31',['dev_ext_supported',['../dd/d17/classhp_1_1vk_1_1window.html#af7021dcc20c2920b0a10daf40494ae61',1,'hp::vk::window']]],
-  ['devices_32',['devices',['../dd/d17/classhp_1_1vk_1_1window.html#a3f7412cbf8de193212ea0ba357249076',1,'hp::vk::window']]],
-  ['draw_5fframe_33',['draw_frame',['../dd/d17/classhp_1_1vk_1_1window.html#a2776b0cbd1678b9a395b28724501ee27',1,'hp::vk::window']]]
+  ['debug_5fmode_5factive_22',['debug_mode_active',['../d6/d7a/namespacehp.html#a944777c0c2552ce1fdf454f079714f4c',1,'hp']]],
+  ['default_5fsession_23',['default_session',['../d8/d84/classhp_1_1profiler__session.html#ab91f26219be958e91c5252b71facccdc',1,'hp::profiler_session']]],
+  ['default_5fthreadpool_24',['default_threadpool',['../d6/d7a/namespacehp.html#a86e442ea65987157ec1f8e7f3683d5b1',1,'hp']]],
+  ['delete_5fbuffer_25',['delete_buffer',['../dd/d17/classhp_1_1vk_1_1window.html#a9d650c3959dc947637110f2ebb5b2689',1,'hp::vk::window']]],
+  ['delete_5ffence_26',['delete_fence',['../dd/d17/classhp_1_1vk_1_1window.html#a980d2dd9c9b95281488e5b2de6d5dc3a',1,'hp::vk::window']]],
+  ['delete_5fshader_5fprogram_27',['delete_shader_program',['../dd/d17/classhp_1_1vk_1_1window.html#a8065ba588e52c870c41e718d309ec78d',1,'hp::vk::window']]],
+  ['dev_5fext_5fsupported_28',['dev_ext_supported',['../dd/d17/classhp_1_1vk_1_1window.html#af7021dcc20c2920b0a10daf40494ae61',1,'hp::vk::window']]],
+  ['draw_5fframe_29',['draw_frame',['../dd/d17/classhp_1_1vk_1_1window.html#a2776b0cbd1678b9a395b28724501ee27',1,'hp::vk::window']]]
 ];

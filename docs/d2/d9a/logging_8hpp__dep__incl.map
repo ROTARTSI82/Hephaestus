@@ -1,0 +1,6 @@
+<map id="include/hp/logging.hpp" name="include/hp/logging.hpp">
+<area shape="rect" id="node1" title="This file defines logging functionality." alt="" coords="94,5,249,31"/>
+<area shape="rect" id="node2" href="$d2/de4/profiling_8hpp.html" title="Offers profiling functionality for timing operations." alt="" coords="5,79,164,104"/>
+<area shape="rect" id="node3" href="$d2/d02/vk_8hpp.html" title="Provides basic functionality used across the vulkan core." alt="" coords="188,79,330,104"/>
+<area shape="rect" id="node4" href="$d2/d5a/window_8hpp.html" title="Provide basically all Vulkan functionality, including vertex buffers, shaders, &amp; windows." alt="" coords="173,152,346,177"/>
+</map>

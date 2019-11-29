@@ -3,6 +3,7 @@
 //
 
 #include "hp/vk/window.hpp"
+#include "vk_mem_alloc.h"
 
 namespace hp::vk {
 
@@ -91,6 +92,7 @@ namespace hp::vk {
         if (active_lyo == this) {
             active_lyo = nullptr;
             HP_WARN("Bound buffer layout was destroyed! Unbinding it!");
+            HP_WARN("This may not be intended behaviour and may lead to segfaults; did a copy of the bound layout go out of scope?");
         }
     }
 
@@ -103,58 +105,52 @@ namespace hp::vk {
         default_lyo.finalize();
     }
 
-    vertex_buffer::vertex_buffer(size_t size, unsigned num_verts, window *parent) : capacity(size),
-                                                                                    vertex_count(num_verts) {
-        this->parent = parent;
-        ::vk::BufferCreateInfo buf_ci(::vk::BufferCreateFlags(), size, ::vk::BufferUsageFlagBits::eVertexBuffer,
-                                      ::vk::SharingMode::eExclusive, 0, nullptr);
+    staging_buffer::staging_buffer(size_t size, unsigned num_verts, window *parent) :
+            generic_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                           VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, parent),
+            vertex_count(num_verts) {}
 
-        if (handle_res(parent->log_dev.createBuffer(&buf_ci, nullptr, &buf), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to create vertex buffer!");
-            std::terminate();
-        }
-
-        ::vk::MemoryRequirements mem_req;
-        parent->log_dev.getBufferMemoryRequirements(buf, &mem_req);
-
-        uint32_t mem_type = UINT32_MAX;
-        // VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
-        ::vk::MemoryPropertyFlags req_flags =
-                ::vk::MemoryPropertyFlagBits::eHostVisible | ::vk::MemoryPropertyFlagBits::eHostCoherent;
-        for (uint32_t i = 0; i < parent->mem_props.memoryTypeCount; i++) {
-            if (mem_req.memoryTypeBits & (1 << i) &&
-                (parent->mem_props.memoryTypes[i].propertyFlags & req_flags) == req_flags) {
-                mem_type = i;
-                break;
-            }
-        }
-
-        if (mem_type == UINT32_MAX) {
-            HP_FATAL("No suitable memory type is supported!");
-            std::terminate();
-        }
-
-        ::vk::MemoryAllocateInfo alloc_inf(mem_req.size, mem_type);
-
-        if (handle_res(parent->log_dev.allocateMemory(&alloc_inf, nullptr, &mem), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Cannot allocate memory required for vertex buffer! Did we run out of memory?");
-            std::terminate();
-        }
-
-        parent->log_dev.bindBufferMemory(buf, mem, 0);
-    }
-
-    vertex_buffer::~vertex_buffer() {
-        parent->log_dev.destroyBuffer(buf, nullptr);
-        parent->log_dev.freeMemory(mem, nullptr);
-    }
-
-    void vertex_buffer::write(const void *data) {
+    void staging_buffer::write(const void *data) {
         void *dat;
-        parent->log_dev.mapMemory(mem, 0, capacity, ::vk::MemoryMapFlags(), &dat);
+        vmaMapMemory(parent->allocator, allocation, &dat);
         std::memcpy(dat, data, capacity);
-        parent->log_dev.unmapMemory(mem);
+        vmaUnmapMemory(parent->allocator, allocation);
+    }
+
+    vertex_buffer::vertex_buffer(size_t size, unsigned num_verts, window *parent) : vertex_count(num_verts),
+                                                                                    generic_buffer(size,
+                                                                                                   VK_BUFFER_USAGE_TRANSFER_DST_BIT |
+                                                                                                   VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                                                                                                   VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+                                                                                                   parent) {}
+
+    std::pair<::vk::Fence *, ::vk::CommandBuffer> vertex_buffer::write(staging_buffer *staging_buf, bool wait) {
+        return parent->copy_buffer(staging_buf, this, wait);
+    }
+
+    generic_buffer::generic_buffer(size_t size, VkBufferUsageFlags usage, VkMemoryPropertyFlags flags, window *parent) {
+        capacity = size;
+        this->parent = parent;
+
+        VkBufferCreateInfo buffer_ci = {};
+        buffer_ci.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        buffer_ci.flags = 0;
+        buffer_ci.size = size;
+        buffer_ci.usage = usage;
+        buffer_ci.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        buffer_ci.queueFamilyIndexCount = 0;
+        buffer_ci.pQueueFamilyIndices = nullptr;
+
+        VmaAllocationCreateInfo alloc_ci = {};
+        alloc_ci.usage = VMA_MEMORY_USAGE_GPU_ONLY; // VMA_MEMORY_USAGE_CPU_TO_GPU;
+        alloc_ci.requiredFlags = flags;
+
+        auto vanilla_buf = static_cast<VkBuffer>(buf);
+        vmaCreateBuffer(parent->allocator, &buffer_ci, &alloc_ci, &vanilla_buf, &allocation, nullptr);
+        buf = ::vk::Buffer(vanilla_buf);
+    }
+
+    generic_buffer::~generic_buffer() {
+        vmaDestroyBuffer(parent->allocator, static_cast<VkBuffer>(buf), allocation);
     }
 }

@@ -1,0 +1,7 @@
+<map id="include/hp/hp.hpp" name="include/hp/hp.hpp">
+<area shape="rect" id="node1" title="This file defines the version macros for Hephaestus." alt="" coords="247,5,373,31"/>
+<area shape="rect" id="node2" href="$d0/da9/logging_8hpp.html" title="This file defines logging functionality." alt="" coords="175,79,330,104"/>
+<area shape="rect" id="node5" href="$d2/d5a/window_8hpp.html" title="Provide basically all Vulkan functionality, including vertex buffers, shaders, &amp; windows." alt="" coords="226,225,399,251"/>
+<area shape="rect" id="node3" href="$d2/de4/profiling_8hpp.html" title="Offers profiling functionality for timing operations." alt="" coords="5,152,164,177"/>
+<area shape="rect" id="node4" href="$d2/d02/vk_8hpp.html" title="Provides basic functionality used across the vulkan core." alt="" coords="188,152,330,177"/>
+</map>

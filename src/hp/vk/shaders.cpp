@@ -3,12 +3,12 @@
 //
 
 #include "hp/vk/window.hpp"
-//#include "hp/vk/vertex_buffers.hpp"
 
 #include <boost/algorithm/string/predicate.hpp>
 
 #include <fstream>
 #include <utility>
+#include "vk_mem_alloc.h"
 
 namespace hp::vk {
 
@@ -28,7 +28,7 @@ namespace hp::vk {
         }
     }
 
-    shader_program::shader_program(const std::string fp, const char *metadat, window *parent) {
+    shader_program::shader_program(const std::string &fp, const char *metadat, window *parent) {
         this->parent = parent;
         this->fp = fp;
         metapath = metadat;

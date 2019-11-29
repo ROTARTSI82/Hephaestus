@@ -4,6 +4,7 @@
 
 #include "hp/vk/window.hpp"
 #include "boost/bind.hpp"
+#include "vk_mem_alloc.h"
 
 namespace hp::vk {
     static void on_resize_event(GLFWwindow *win, int width, int height) {
@@ -45,7 +46,8 @@ namespace hp::vk {
         // "VK_LAYER_LUNARG_api_dump",
         const std::vector<const char *> &req_layer = {"VK_LAYER_KHRONOS_validation",
                                                       "VK_LAYER_LUNARG_standard_validation"};
-        const std::vector<const char *> &req_dev_ext = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+        const std::vector<const char *> &req_dev_ext = {VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+                                                        "VK_KHR_get_memory_requirements2"};
         std::vector<const char *> req_ext = {};
 
         bool only_use_requested = true;
@@ -194,8 +196,11 @@ namespace hp::vk {
             auto dev_qfam_indx = build_queue_fam_indices(&device, surf);
 
             phys_dev_ext = device.enumerateDeviceExtensionProperties();
+            for (auto ext : phys_dev_ext) {
+                HP_DEBUG("Device {} supports extension '{}'!", props.deviceName, ext.extensionName);
+            }
 
-            HP_DEBUG("Checking support of physical device '{}' with include {} and driver {}...", props.deviceName,
+            HP_DEBUG("Checking support of physical device '{}' with api {} and driver {}...", props.deviceName,
                      props.apiVersion, props.driverVersion);
 
             float n = req_dev_ext.size() + 4;
@@ -310,6 +315,22 @@ namespace hp::vk {
 
         HP_DEBUG("Successfully created logical device!");
 
+        VmaVulkanFunctions vk_func_ptrs = {};
+        vk_func_ptrs.vkGetBufferMemoryRequirements2KHR = (PFN_vkGetBufferMemoryRequirements2KHR) log_dev.getProcAddr(
+                "vkGetBufferMemoryRequirements2KHR");
+
+        if (vk_func_ptrs.vkGetBufferMemoryRequirements2KHR == nullptr) {
+            HP_FATAL("`vkGetBufferMemoryRequirements2KHR()` cannot be loaded! :( ");
+        }
+
+        VmaAllocatorCreateInfo allocator_ci = {};
+        allocator_ci.pVulkanFunctions = &vk_func_ptrs;
+        allocator_ci.physicalDevice = *phys_dev;
+        allocator_ci.device = log_dev;
+        allocator_ci.instance = inst;
+        allocator_ci.vulkanApiVersion = VK_API_VERSION_1_1;
+        vmaCreateAllocator(&allocator_ci, &allocator);
+
         swap_chain = ::vk::SwapchainKHR();
         create_swapchain(false);
 
@@ -380,6 +401,10 @@ namespace hp::vk {
             log_dev.destroyFence(flight_fences.at(i), nullptr);
         }
 
+        for (auto fence : child_fences) {
+            log_dev.destroyFence(fence, nullptr);
+        }
+
         log_dev.destroyCommandPool(cmd_pool, nullptr);
 
         for (auto fb : framebuffers) {
@@ -398,9 +423,11 @@ namespace hp::vk {
 
         log_dev.destroySwapchainKHR(swap_chain, nullptr);
 
-        for (auto vbo : child_vbos) {
-            delete vbo;
+        for (auto buf : child_bufs) {
+            delete buf;
         }
+
+        vmaDestroyAllocator(allocator);
 
         log_dev.destroy();
 
@@ -453,11 +480,14 @@ namespace hp::vk {
         img_fences = std::move(other.img_fences);
         swapchain_recreate_event = other.swapchain_recreate_event;
         mem_props = other.mem_props;
-        child_vbos = std::move(other.child_vbos);
+        child_bufs = std::move(other.child_bufs);
         record_buffer = std::move(other.record_buffer);
         cmd_bufs = std::move(other.cmd_bufs);
         swap_recreate_callback = other.swap_recreate_callback;
-
+        allocator = std::move(other.allocator);
+        child_bufs = std::move(other.child_bufs);
+        child_fences = std::move(other.child_fences);
+//        render_mtx = std::move(other.render_mtx);
         return *this;
     }
 
@@ -498,7 +528,7 @@ namespace hp::vk {
         ::vk::SurfaceFormatKHR new_fmt;
         ::vk::RenderPass new_pass;
         std::vector<::vk::Framebuffer> new_bufs = std::vector<::vk::Framebuffer>();
-        ::vk::CommandPool new_pool;
+//        ::vk::CommandPool new_pool;
 
         if (swap_deets.capabilities.currentExtent.width != UINT32_MAX) {
             new_extent = swap_deets.capabilities.currentExtent;
@@ -641,14 +671,16 @@ namespace hp::vk {
         }
         HP_DEBUG("Framebuffers constructed successfully!");
 
-        // Command pools and buffers
-        ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
-        if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &new_pool), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to create command pool!");
-            std::terminate();
+        if (!do_destroy) {
+            // Command pools and buffers
+            ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
+            if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &cmd_pool), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to create command pool!");
+                std::terminate();
+            }
+            HP_DEBUG("Command pool constructed successfully!");
         }
-        HP_DEBUG("Command pool constructed successfully!");
 
         std::vector<::vk::CommandBuffer> ncmd_bufs = std::vector<::vk::CommandBuffer>();
         if (do_destroy) {
@@ -658,14 +690,17 @@ namespace hp::vk {
                 HP_WARN("No swapchain recreation callback is set! Command buffers may become outdated!");
             }
 
-            ncmd_bufs = get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &new_pool);
+            ncmd_bufs = get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &cmd_pool);
         }
 
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
         log_dev.waitIdle();
 
         if (do_destroy) {
-            log_dev.destroyCommandPool(cmd_pool, nullptr);
+            for (auto buf : cmd_bufs) {
+                log_dev.freeCommandBuffers(cmd_pool, 1, &buf);
+            }
+//            log_dev.destroyCommandPool(cmd_pool, nullptr);
 
             for (auto fb : framebuffers) {
                 log_dev.destroyFramebuffer(fb, nullptr);
@@ -686,7 +721,7 @@ namespace hp::vk {
         swap_views = std::move(new_views);
         render_pass = new_pass;
         framebuffers = std::move(new_bufs);
-        cmd_pool = new_pool;
+//        cmd_pool = new_pool;
         swap_fmt = new_fmt.format;
         render_pass = new_pass;
 
@@ -812,22 +847,25 @@ namespace hp::vk {
     }
 
     void window::save_recording() {
-        ::vk::CommandPool new_cmd_pool;
+//        ::vk::CommandPool new_cmd_pool;
+//
+//        ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
+//        if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &new_cmd_pool), HP_GET_CODE_LOC) !=
+//            ::vk::Result::eSuccess) {
+//            HP_FATAL("Failed to create command pool!");
+//            std::terminate();
+//        }
 
-        ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
-        if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &new_cmd_pool), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to create command pool!");
-            std::terminate();
-        }
-
-        auto new_cmd_buf = get_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &new_cmd_pool);
+        auto new_cmd_buf = get_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &cmd_pool);
 
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
 
         log_dev.waitIdle();
-        log_dev.destroyCommandPool(cmd_pool, nullptr);
-        cmd_pool = new_cmd_pool;
+        for (auto buf : cmd_bufs) {
+            log_dev.freeCommandBuffers(cmd_pool, 1, &buf);
+        }
+//        log_dev.destroyCommandPool(cmd_pool, nullptr);
+//        cmd_pool = new_cmd_pool;
         cmd_bufs = std::move(new_cmd_buf);
     }
 
@@ -860,6 +898,47 @@ namespace hp::vk {
     void window::rec_set_default_scissor() {
         ::vk::Rect2D scissor(::vk::Offset2D(0, 0), swap_extent);
         record_buffer.emplace_back(boost::bind(set_scissor_helper, scissor, _1, _2));
+    }
+
+    std::pair<::vk::Fence *, ::vk::CommandBuffer> window::copy_buffer(generic_buffer *source, generic_buffer *dest,
+                                                                      bool wait, size_t src_offset, size_t dest_offset,
+                                                                      size_t size) {
+        if (source->capacity != dest->capacity && size == 0) {
+            HP_FATAL("copy_buffer() called with auto size and mismatched source & dest buffer sizes!");
+            HP_FATAL("Source buffer was {} bytes, but dest buffer was {} bytes!", source->capacity, dest->capacity);
+            return {nullptr, ::vk::CommandBuffer()};
+        }
+        ::vk::CommandBufferAllocateInfo cmd_ai(cmd_pool, ::vk::CommandBufferLevel::ePrimary, 1);
+
+        ::vk::CommandBuffer cmd_buf;
+        log_dev.allocateCommandBuffers(&cmd_ai, &cmd_buf);
+
+        ::vk::CommandBufferBeginInfo cmd_bi(::vk::CommandBufferUsageFlagBits::eOneTimeSubmit, nullptr);
+        cmd_buf.begin(&cmd_bi);
+
+        ::vk::BufferCopy cpy_region(src_offset, dest_offset, size == 0 ? source->capacity : size);
+        cmd_buf.copyBuffer(source->buf, dest->buf, 1, &cpy_region);
+        cmd_buf.end();
+
+        ::vk::SubmitInfo submit_inf(0, nullptr, nullptr, 1, &cmd_buf, 0, nullptr);
+
+        ::vk::Fence *ret = new_fence();
+
+        ::vk::FenceCreateInfo fence_ci((::vk::FenceCreateFlags()));
+        if (handle_res(log_dev.createFence(&fence_ci, nullptr, ret), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            HP_FATAL("Failed to create fences!");
+        }
+
+        graphics_queue.submit(1, &submit_inf, *ret);
+
+        if (wait) {
+            log_dev.waitForFences(1, ret, ::vk::Bool32(VK_TRUE), UINT64_MAX);
+            delete_fence(ret);
+            log_dev.freeCommandBuffers(cmd_pool, 1, &cmd_buf);
+            return {nullptr, ::vk::CommandBuffer()};;
+        } else {
+            return {ret, cmd_buf};
+        }
     }
 
     hp::vk::__hp_vk_is_in_layer_prop_list::__hp_vk_is_in_layer_prop_list(const char *lay) : lay(lay) {}

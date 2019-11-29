@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['queue_5ffamily_5findices_146',['queue_family_indices',['../df/d1c/structhp_1_1vk_1_1queue__family__indices.html',1,'hp::vk']]]
+  ['generic_5fbuffer_126',['generic_buffer',['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html',1,'hp::vk']]]
 ];

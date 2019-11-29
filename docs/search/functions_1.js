@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['bind_5fshader_5fprogram_162',['bind_shader_program',['../dd/d17/classhp_1_1vk_1_1window.html#a4ade47402c9be158f335274a91b63a4c',1,'hp::vk::window']]],
-  ['build_5fqueue_5ffam_5findices_163',['build_queue_fam_indices',['../da/d74/namespacehp_1_1vk.html#ac1ca9ad580c2073431bc3661794ac3fc',1,'hp::vk']]]
+  ['clear_5frecording_150',['clear_recording',['../dd/d17/classhp_1_1vk_1_1window.html#a1717af3841efc5694069541010d42c35',1,'hp::vk::window']]],
+  ['close_151',['close',['../d8/d84/classhp_1_1profiler__session.html#ac811c883ca32e6cca8aba3fb4e1f9b65',1,'hp::profiler_session']]],
+  ['code_5flocation_152',['code_location',['../df/d37/structhp_1_1code__location.html#a161667448743e29b18ec92f496d46601',1,'hp::code_location']]],
+  ['copy_5fbuffer_153',['copy_buffer',['../dd/d17/classhp_1_1vk_1_1window.html#ac7f1c43a402cb856ada4c30b0f8f506f',1,'hp::vk::window']]],
+  ['current_5fdatetime_154',['current_datetime',['../d6/d7a/namespacehp.html#a2b53ecb5238f0067a6f884cde6026c8f',1,'hp']]]
 ];

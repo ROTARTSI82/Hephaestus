@@ -61,7 +61,7 @@ namespace hp {
         }
     }
 
-    profiler *profiler_session::new_heap_profiler(const char *pname) {
+    profiler *profiler_session::new_dynamic_profiler(const char *pname) {
         if (!closed) {
             return new profiler(pname, this);
         } else {

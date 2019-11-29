@@ -68,20 +68,16 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a>  </div>
   <div class="headertitle">
 <div class="title">hp::vk::shader_program Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
+<p>An abstraction of graphics pipelines (aka <code>vk::Pipeline</code> objects). See <a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a5ca9e8ae513e459b6fb0b6111b35624f" title="Construct and retrieve a new hp::vk::shader_program">hp::vk::window::new_shader_program</a>.  
+ <a href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Collaboration diagram for hp::vk::shader_program:</div>
-<div class="dyncontent">
-<div class="center"><img src="../../d5/d6a/classhp_1_1vk_1_1shader__program__coll__graph.png" border="0" usemap="#hp_1_1vk_1_1shader__program_coll__map" alt="Collaboration graph"/></div>
-<center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -99,38 +95,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:add5ba06ca5224a19ae2ac5d5b2347efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a145dbed8dd77355a205705cb37e752c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a145dbed8dd77355a205705cb37e752c2">reload_from_file</a> ()</td></tr>
 <tr class="separator:a145dbed8dd77355a205705cb37e752c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a475b340f2bd4409a2108388316d61e33"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a475b340f2bd4409a2108388316d61e33">shader_program</a> (std::string basicString, const char *string, ::<a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html">hp::vk::window</a> *pWindow)</td></tr>
-<tr class="separator:a475b340f2bd4409a2108388316d61e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a801d5d749762b5309eb620bc8692d07b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a801d5d749762b5309eb620bc8692d07b">rebuild_pipeline</a> ()</td></tr>
 <tr class="separator:a801d5d749762b5309eb620bc8692d07b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f766235d258635371bd8570204143ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a0f766235d258635371bd8570204143ac">rebuild_cmd_bufs</a> ()</td></tr>
-<tr class="separator:a0f766235d258635371bd8570204143ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acafc98556ca6558bd5856bbf56062ea8"><td class="memItemLeft" align="right" valign="top">std::vector&lt;::vk::CommandBuffer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#acafc98556ca6558bd5856bbf56062ea8">get_cmd_bufs</a> (std::vector&lt;::vk::Framebuffer &gt; *frame_bufs, ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent, ::vk::CommandPool *cmd_pool)</td></tr>
-<tr class="separator:acafc98556ca6558bd5856bbf56062ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a3362c058fc25ec04f1ad96e9faf0d87b"><td class="memItemLeft" align="right" valign="top">::<a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html">hp::vk::window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a3362c058fc25ec04f1ad96e9faf0d87b">parent</a> {}</td></tr>
-<tr class="separator:a3362c058fc25ec04f1ad96e9faf0d87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2f0ce08b26fce9b9edc2c501b2a4635"><td class="memItemLeft" align="right" valign="top">std::vector&lt;::vk::PipelineShaderStageCreateInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#ae2f0ce08b26fce9b9edc2c501b2a4635">stage_cis</a></td></tr>
-<tr class="separator:ae2f0ce08b26fce9b9edc2c501b2a4635"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa64807750de187bad1662731c63cfe9d"><td class="memItemLeft" align="right" valign="top">std::queue&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#aa64807750de187bad1662731c63cfe9d">entrypoint_keepalives</a></td></tr>
-<tr class="separator:aa64807750de187bad1662731c63cfe9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27733f20ae1a53ad2c065e4d8aec5577"><td class="memItemLeft" align="right" valign="top">std::vector&lt;::vk::CommandBuffer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a27733f20ae1a53ad2c065e4d8aec5577">cmd_bufs</a></td></tr>
-<tr class="separator:a27733f20ae1a53ad2c065e4d8aec5577"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6e2e898e7986bf8df4d77a08a9ad357"><td class="memItemLeft" align="right" valign="top">::vk::PipelineLayout&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#ad6e2e898e7986bf8df4d77a08a9ad357">pipeline_layout</a></td></tr>
-<tr class="separator:ad6e2e898e7986bf8df4d77a08a9ad357"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3b515a74acf2b403709e530670bcfe8"><td class="memItemLeft" align="right" valign="top">::vk::Pipeline&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#af3b515a74acf2b403709e530670bcfe8">pipeline</a></td></tr>
-<tr class="separator:af3b515a74acf2b403709e530670bcfe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa123d92f53f9d54afbe0196e9f67463"><td class="memItemLeft" align="right" valign="top">std::queue&lt;::vk::ShaderModule &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#afa123d92f53f9d54afbe0196e9f67463">mods</a></td></tr>
-<tr class="separator:afa123d92f53f9d54afbe0196e9f67463"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e58c7d8f5447c788d8021e5855a0e12"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a4e58c7d8f5447c788d8021e5855a0e12">fp</a></td></tr>
-<tr class="separator:a4e58c7d8f5447c788d8021e5855a0e12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a898291199fedabc1de83d2c07d733372"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a898291199fedabc1de83d2c07d733372">metapath</a> {}</td></tr>
-<tr class="separator:a898291199fedabc1de83d2c07d733372"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -138,51 +104,13 @@ Friends</h2></td></tr>
 <tr class="separator:a24944b751d50250443715cc45d0eb5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00086">86</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="textblock"><p>An abstraction of graphics pipelines (aka <code>vk::Pipeline</code> objects). See <a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a5ca9e8ae513e459b6fb0b6111b35624f" title="Construct and retrieve a new hp::vk::shader_program">hp::vk::window::new_shader_program</a>. </p>
+<p>The <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> that is bound at the time of construction is used by <a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a>. If no <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> is bound, the default layout is used. (If the default layout has not yet been constructed, it would automatically be built with <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b" title="Build the default layout, accessible via get_default(). See hp::vk::vertex">hp::vk::buffer_layout::build_default_layout()</a></code>). The <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> used by a <a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a> can be changed, but requires the pipeline to be rebuilt (There is no dynamic state for vertex input states present in Vulkan). To change the layout used by a shader program, simply <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af3b64a4a0c7ed0a96907d3c9962f1925" title="Set the buffer_layout as the active or bound layout to use when constructing shader_programs.">hp::vk::buffer_layout::bind()</a></code> the new <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> and call <code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a801d5d749762b5309eb620bc8692d07b">rebuild_pipeline()</a></code>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a5ca9e8ae513e459b6fb0b6111b35624f" title="Construct and retrieve a new hp::vk::shader_program">hp::vk::window::new_shader_program</a> </dd>
+<dd>
+<a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">hp::vk::buffer_layout</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00328">328</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a475b340f2bd4409a2108388316d61e33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a475b340f2bd4409a2108388316d61e33">&#9670;&nbsp;</a></span>shader_program() <span class="overload">[1/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">hp::vk::shader_program::shader_program </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>basicString</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>string</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">::<a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html">hp::vk::window</a> *&#160;</td>
-          <td class="paramname"><em>pWindow</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a9e31302bccfd662711a51cc5a0ec20eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9e31302bccfd662711a51cc5a0ec20eb">&#9670;&nbsp;</a></span>~shader_program()</h2>
 
@@ -209,7 +137,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a4b6a0a5f8cd0f3e1f5b3f602a17ee081"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b6a0a5f8cd0f3e1f5b3f602a17ee081">&#9670;&nbsp;</a></span>shader_program() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b6a0a5f8cd0f3e1f5b3f602a17ee081">&#9670;&nbsp;</a></span>shader_program() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,7 +162,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="af61a9f8dcabf42634ca66f8f51aed907"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af61a9f8dcabf42634ca66f8f51aed907">&#9670;&nbsp;</a></span>shader_program() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af61a9f8dcabf42634ca66f8f51aed907">&#9670;&nbsp;</a></span>shader_program() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,7 +188,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="add5ba06ca5224a19ae2ac5d5b2347efc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add5ba06ca5224a19ae2ac5d5b2347efc">&#9670;&nbsp;</a></span>shader_program() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#add5ba06ca5224a19ae2ac5d5b2347efc">&#9670;&nbsp;</a></span>shader_program() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,54 +214,6 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="acafc98556ca6558bd5856bbf56062ea8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acafc98556ca6558bd5856bbf56062ea8">&#9670;&nbsp;</a></span>get_cmd_bufs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;::vk::CommandBuffer&gt; hp::vk::shader_program::get_cmd_bufs </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt;::vk::Framebuffer &gt; *&#160;</td>
-          <td class="paramname"><em>frame_bufs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">::vk::RenderPass *&#160;</td>
-          <td class="paramname"><em>rend_pass</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">::vk::Extent2D *&#160;</td>
-          <td class="paramname"><em>extent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">::vk::CommandPool *&#160;</td>
-          <td class="paramname"><em>cmd_pool</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a16a0ec2f32345eff6dea289b99014d3c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a16a0ec2f32345eff6dea289b99014d3c">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
@@ -386,39 +266,11 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a0f766235d258635371bd8570204143ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f766235d258635371bd8570204143ac">&#9670;&nbsp;</a></span>rebuild_cmd_bufs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hp::vk::shader_program::rebuild_cmd_bufs </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a801d5d749762b5309eb620bc8692d07b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a801d5d749762b5309eb620bc8692d07b">&#9670;&nbsp;</a></span>rebuild_pipeline()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void hp::vk::shader_program::rebuild_pipeline </td>
@@ -427,11 +279,6 @@ Friends</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -474,224 +321,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00102">102</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Field Documentation</h2>
-<a id="a27733f20ae1a53ad2c065e4d8aec5577"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27733f20ae1a53ad2c065e4d8aec5577">&#9670;&nbsp;</a></span>cmd_bufs</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;::vk::CommandBuffer&gt; hp::vk::shader_program::cmd_bufs</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00093">93</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aa64807750de187bad1662731c63cfe9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa64807750de187bad1662731c63cfe9d">&#9670;&nbsp;</a></span>entrypoint_keepalives</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::queue&lt;const char *&gt; hp::vk::shader_program::entrypoint_keepalives</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00092">92</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a4e58c7d8f5447c788d8021e5855a0e12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e58c7d8f5447c788d8021e5855a0e12">&#9670;&nbsp;</a></span>fp</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hp::vk::shader_program::fp</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00099">99</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a898291199fedabc1de83d2c07d733372"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a898291199fedabc1de83d2c07d733372">&#9670;&nbsp;</a></span>metapath</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const char* hp::vk::shader_program::metapath {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00100">100</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="afa123d92f53f9d54afbe0196e9f67463"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa123d92f53f9d54afbe0196e9f67463">&#9670;&nbsp;</a></span>mods</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::queue&lt;::vk::ShaderModule&gt; hp::vk::shader_program::mods</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00097">97</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a3362c058fc25ec04f1ad96e9faf0d87b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3362c058fc25ec04f1ad96e9faf0d87b">&#9670;&nbsp;</a></span>parent</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">::<a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html">hp::vk::window</a>* hp::vk::shader_program::parent {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00088">88</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="af3b515a74acf2b403709e530670bcfe8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3b515a74acf2b403709e530670bcfe8">&#9670;&nbsp;</a></span>pipeline</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">::vk::Pipeline hp::vk::shader_program::pipeline</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00096">96</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ad6e2e898e7986bf8df4d77a08a9ad357"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6e2e898e7986bf8df4d77a08a9ad357">&#9670;&nbsp;</a></span>pipeline_layout</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">::vk::PipelineLayout hp::vk::shader_program::pipeline_layout</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00095">95</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ae2f0ce08b26fce9b9edc2c501b2a4635"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2f0ce08b26fce9b9edc2c501b2a4635">&#9670;&nbsp;</a></span>stage_cis</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;::vk::PipelineShaderStageCreateInfo&gt; hp::vk::shader_program::stage_cis</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00089">89</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00348">348</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -701,7 +331,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 27 2019 10:55:49 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Nov 29 2019 10:19:02 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
