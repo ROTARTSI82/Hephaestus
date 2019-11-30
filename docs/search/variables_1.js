@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['capabilities_214',['capabilities',['../d2/dda/structhp_1_1vk_1_1swap__chain__support.html#a6a6cde626ab779f836d02e17d34307bc',1,'hp::vk::swap_chain_support']]],
-  ['color_215',['color',['../d5/dee/structhp_1_1vk_1_1vertex.html#a7cb314721cd833d2a4cd6465e86bb50e',1,'hp::vk::vertex']]]
+  ['bound_5flyos_225',['bound_lyos',['../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#aaaea5b0ed3e3b5f54912fc3fe9237f0a',1,'hp::vk::buffer_layout']]]
 ];

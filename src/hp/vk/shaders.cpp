@@ -215,17 +215,26 @@ namespace hp::vk {
     void shader_program::rebuild_pipeline() {
         parent->log_dev.destroyPipeline(pipeline, nullptr);
 
-        if (buffer_layout::get_bound() == nullptr) {
-            HP_WARN("No bound buffer layout found! Binding the default one.");
+        if (buffer_layout::bound_lyos.empty()) {
+            HP_WARN("There are no active buffer layouts! Adding the default one!");
             buffer_layout::build_default_layout();
-            buffer_layout::get_default()->bind();
+            buffer_layout::bound_lyos.emplace_back(buffer_layout::get_default());
+            buffer_layout::rebuild_bound_info();
+        } else if (buffer_layout::global_attribs.empty() || buffer_layout::global_bindings.empty()) {
+            HP_WARN("Built layout info doesn't match bound buffer! Did you forget to call `hp::vk::buffer_layout::rebuild_bound_info()`?");
+            buffer_layout::rebuild_bound_info();
         }
 
-        auto current_bindings = buffer_layout::get_bound()->binding;
-        auto current_attribs = buffer_layout::get_bound()->attribs;
-        ::vk::PipelineVertexInputStateCreateInfo vert_in_ci(::vk::PipelineVertexInputStateCreateFlags(), 1,
-                                                            &current_bindings,
-                                                            current_attribs.size(), current_attribs.data());
+        if (buffer_layout::bound_lyos.size() != buffer_layout::global_bindings.size()) {
+            HP_WARN("Built layout info doesn't match bound buffer! Did you forget to call `hp::vk::buffer_layout::rebuild_bound_info()`?");
+            buffer_layout::rebuild_bound_info();
+        }
+
+        ::vk::PipelineVertexInputStateCreateInfo vert_in_ci(::vk::PipelineVertexInputStateCreateFlags(),
+                                                            buffer_layout::global_bindings.size(),
+                                                            buffer_layout::global_bindings.data(),
+                                                            buffer_layout::global_attribs.size(),
+                                                            buffer_layout::global_attribs.data());
 
         ::vk::PipelineInputAssemblyStateCreateInfo in_ci(::vk::PipelineInputAssemblyStateCreateFlags(),
                                                          ::vk::PrimitiveTopology::eTriangleList,
@@ -239,7 +248,7 @@ namespace hp::vk {
                                                              ::vk::Bool32(VK_FALSE),
                                                              ::vk::Bool32(VK_FALSE), ::vk::PolygonMode::eFill,
                                                              ::vk::CullModeFlagBits::eBack,
-                                                             ::vk::FrontFace::eClockwise,  // Typically counter clockwise
+                                                             ::vk::FrontFace::eCounterClockwise,  // Typically counter clockwise
                                                              ::vk::Bool32(VK_FALSE), 0.0f, 0.0f, 0.0f, 1.0f);
 
         ::vk::PipelineMultisampleStateCreateInfo multisample_ci(::vk::PipelineMultisampleStateCreateFlags(),

@@ -85,16 +85,10 @@ namespace hp::vk {
         *this = std::move(rhs);
     }
 
-    const buffer_layout *buffer_layout::active_lyo = nullptr;
     buffer_layout buffer_layout::default_lyo = buffer_layout();
-
-    buffer_layout::~buffer_layout() {
-        if (active_lyo == this) {
-            active_lyo = nullptr;
-            HP_WARN("Bound buffer layout was destroyed! Unbinding it!");
-            HP_WARN("This may not be intended behaviour and may lead to segfaults; did a copy of the bound layout go out of scope?");
-        }
-    }
+    std::vector<buffer_layout *> buffer_layout::bound_lyos = std::vector<buffer_layout *>();
+    std::vector<::vk::VertexInputAttributeDescription> buffer_layout::global_attribs = std::vector<::vk::VertexInputAttributeDescription>();
+    std::vector<::vk::VertexInputBindingDescription> buffer_layout::global_bindings = std::vector<::vk::VertexInputBindingDescription>();
 
     void buffer_layout::build_default_layout() {
         if (default_lyo.complete) { // Quietly ignore this case.
@@ -105,10 +99,24 @@ namespace hp::vk {
         default_lyo.finalize();
     }
 
-    staging_buffer::staging_buffer(size_t size, unsigned num_verts, window *parent) :
+    void buffer_layout::rebuild_bound_info() {
+        global_attribs.clear();
+        global_bindings.clear();
+
+        for (size_t i = 0; i < bound_lyos.size(); i++) {
+            for (auto &attr : bound_lyos[i]->attribs) {
+                attr.binding = i;
+                global_attribs.emplace_back(attr);
+            }
+
+            bound_lyos[i]->binding.binding = i;
+            global_bindings.emplace_back(bound_lyos[i]->binding);
+        }
+    }
+
+    staging_buffer::staging_buffer(size_t size, window *parent) :
             generic_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                           VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, parent),
-            vertex_count(num_verts) {}
+                           VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, parent) {}
 
     void staging_buffer::write(const void *data) {
         void *dat;
@@ -117,12 +125,10 @@ namespace hp::vk {
         vmaUnmapMemory(parent->allocator, allocation);
     }
 
-    vertex_buffer::vertex_buffer(size_t size, unsigned num_verts, window *parent) : vertex_count(num_verts),
-                                                                                    generic_buffer(size,
-                                                                                                   VK_BUFFER_USAGE_TRANSFER_DST_BIT |
-                                                                                                   VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                                                                                                   VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-                                                                                                   parent) {}
+    vertex_buffer::vertex_buffer(size_t size, unsigned num_verts, unsigned lyo_indx, window *parent)
+            : vertex_count(num_verts), layout_index(lyo_indx),
+              generic_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                             VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, parent) {}
 
     std::pair<::vk::Fence *, ::vk::CommandBuffer> vertex_buffer::write(staging_buffer *staging_buf, bool wait) {
         return parent->copy_buffer(staging_buf, this, wait);
@@ -146,11 +152,23 @@ namespace hp::vk {
         alloc_ci.requiredFlags = flags;
 
         auto vanilla_buf = static_cast<VkBuffer>(buf);
-        vmaCreateBuffer(parent->allocator, &buffer_ci, &alloc_ci, &vanilla_buf, &allocation, nullptr);
+        handle_res(::vk::Result(
+                vmaCreateBuffer(parent->allocator, &buffer_ci, &alloc_ci, &vanilla_buf, &allocation, nullptr)),
+                   HP_GET_CODE_LOC);
         buf = ::vk::Buffer(vanilla_buf);
     }
 
     generic_buffer::~generic_buffer() {
         vmaDestroyBuffer(parent->allocator, static_cast<VkBuffer>(buf), allocation);
+    }
+
+    index_buffer::index_buffer(size_t size, bool is32bit, window *parent) : generic_buffer(size,
+                                                                                           VK_BUFFER_USAGE_TRANSFER_DST_BIT |
+                                                                                           VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                                                                                           VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+                                                                                           parent), is32bit(is32bit) {}
+
+    std::pair<::vk::Fence *, ::vk::CommandBuffer> index_buffer::write(staging_buffer *staging_buf, bool wait) {
+        return parent->copy_buffer(staging_buf, this, wait);
     }
 }

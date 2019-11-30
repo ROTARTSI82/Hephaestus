@@ -89,17 +89,16 @@ namespace hp::vk {
     /**
      * @class buffer_layout
      * @brief Describes the expected layout of the data of a `hp::vk::vertex_buffer`.
-     * @details `shader_program`s use the buffer_layout that is bound at the time of construction. If no buffer_layout is bound,
+     * @details `shader_program`s use the `buffer_layout`s that are bound at the time of construction. If no buffer_layout is bound,
      *          the default layout is used. (If the default layout has not yet been constructed, it would automatically be built with `build_default_layout()`).
      *          The buffer_layout used by a shader_program can be changed, but requires the pipeline to be rebuilt
      *          (There is no dynamic state for vertex input states present in Vulkan).
-     *          To change the layout used by a shader program, simply `bind()` the new buffer_layout and call `hp::vk::shader_program::rebuild_pipeline()`.
+     *          To change the layout used by a shader program, simply the modify `buffer_layout::bound_lyos`, call `buffer_layout::rebuild_bound_info()`, and call `hp::vk::shader_program::rebuild_pipeline()`.
      * @see hp::vk::shader_program
      */
     class buffer_layout {
     private:
         static buffer_layout default_lyo;  ///< @private
-        static const buffer_layout *active_lyo; ///< @private
         std::vector<::vk::VertexInputAttributeDescription> attribs; ///< @private
         ::vk::VertexInputBindingDescription binding; ///< @private
         size_t stride = 0; ///< @private
@@ -107,7 +106,29 @@ namespace hp::vk {
 
         friend class shader_program;
 
+        static std::vector<::vk::VertexInputAttributeDescription> global_attribs;
+        static std::vector<::vk::VertexInputBindingDescription> global_bindings;
+
     public:
+
+        /**
+         * @var static std::vector<buffer_layout *> bound_lyos
+         * @brief List of `buffer_layouts`s `shader_program`s should support.
+         * @warning If you modify this list, `buffer_layout::rebuild_bound_info()` *MUST* be called, and the
+         *          graphics pipeline *MUST* be rebuilt with `shader_program::rebuild_pipeline()`!
+         */
+        static std::vector<buffer_layout *> bound_lyos;
+
+
+        /**
+         * @fn static void rebuild_bound_info()
+         * @brief "Compiles" `buffer_layout::bound_lyos` into a format usable by the graphics pipeline.
+         * @warning This function *MUST* be called after modifications to `bound_lyos`, and the pipeline *MUST* be rebuilt
+         *       with `shader_program::rebuild_pipeline()`.
+         */
+        static void rebuild_bound_info();
+
+
         /**
          * @fn buffer_layout() = default
          * @brief Standard default constructor.
@@ -116,13 +137,9 @@ namespace hp::vk {
 
         /**
          * @fn virtual ~buffer_layout()
-         * @brief Destructor for `buffer_layout`s
-         * @warning If the bound `buffer_layout`'s destructor is called, then it would automatically be unbound.
-         *          This could happen unintentionally (When a copy of the bound layout goes out of scope)
-         *          and lead to segfaults! A warning message would be logged whenever a layout is unbound due to
-         *          the destructor being called. See source on GitHub for more details.
+         * @brief Default virtual destructor for `buffer_layout`s.
          */
-        virtual ~buffer_layout();
+        virtual ~buffer_layout() = default;
 
         /**
          * @fn void push_floats(int num_floats)
@@ -138,19 +155,6 @@ namespace hp::vk {
          * @details Any call to `push_floats()` after this is ignored.
          */
         void finalize();
-
-        /**
-         * @fn inline void bind() const
-         * @brief Set the buffer_layout as the active or bound layout to use when constructing `shader_program`s.
-         * @details `shader_program`s use the buffer_layout that is bound at the time of construction. If no buffer_layout is bound,
-         *          the default layout is used. (If the default layout has not yet been constructed, it would automatically be built with `build_default_layout()`).
-         *          The buffer_layout used by a shader_program can be changed, but requires the pipeline to be rebuilt
-         *          (There is no dynamic state for vertex input states present in Vulkan).
-         *          To change the layout used by a shader program, simply `bind()` the new buffer_layout and call `hp::vk::shader_program::rebuild_pipeline()`.
-         */
-        inline void bind() const {
-            active_lyo = this;
-        }
 
         /**
          * @fn static void build_default_layout()
@@ -201,25 +205,15 @@ namespace hp::vk {
         }
 
         /**
-         * @fn static inline const buffer_layout *get_default()
+         * @fn static inline buffer_layout *get_default()
          * @see build_default_layout()
          * @see hp::vk::vertex
          * @details Returns the default buffer_layout. See `hp::vk::vertex` for details.
          * @return Returns pointer to the default layout.
-         * @warning This function could return `nullptr` if `build_default_layout()` has not yet been called!
+         * @warning This function could return and undefined value if `build_default_layout()` has not yet been called!
          */
-        static inline const buffer_layout *get_default() {
+        static inline buffer_layout *get_default() {
             return &default_lyo;  // Return ptr bc otherwise it gets unbound due to it going out of scope.
-        }
-
-        /**
-         * @fn static inline const buffer_layout *get_bound()
-         * @brief Retrieve a pointer to the current active/bound buffer_layout. See `bind()`
-         * @see hp::vk::buffer_layout::bind()
-         * @return Pointer to the bound layout.
-         */
-        static inline const buffer_layout *get_bound() {
-            return active_lyo;
         }
     };
 
@@ -256,7 +250,6 @@ namespace hp::vk {
 
     class window;
 
-//    class staging_buffer;
     class generic_buffer {
     protected:
         size_t capacity = 0; ///< @private
@@ -285,15 +278,13 @@ namespace hp::vk {
     class staging_buffer : public generic_buffer {
     private:
 
-        staging_buffer(size_t size, unsigned num_verts, window *parent); ///< @private
+        staging_buffer(size_t size, window *parent); ///< @private
 
         friend class vertex_buffer;
 
         friend class window;
 
     public:
-        unsigned vertex_count = 0;
-
         staging_buffer() = default;
 
         void write(const void *data);
@@ -303,27 +294,47 @@ namespace hp::vk {
     private:
         friend class window;
 
-        friend class shader_program;
-
-        vertex_buffer(size_t size, unsigned num_verts, window *parent); ///< @private
+        vertex_buffer(size_t size, unsigned num_verts, unsigned lyo_indx, window *parent); ///< @private
 
     public:
         unsigned vertex_count = 0;
+        unsigned layout_index = 0;
 
         vertex_buffer() = default;
 
         std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
     };
 
+    class index_buffer : public generic_buffer {
+    private:
+        friend class window;
+
+        bool is32bit{};
+
+        index_buffer(size_t size, bool is32bit, window *parent); ///< @private
+
+    public:
+        index_buffer() = default;
+
+        std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
+
+        [[nodiscard]] inline unsigned get_num_indices() {
+            if (is32bit) {
+                return capacity / sizeof(uint32_t);
+            } else {
+                return capacity / sizeof(uint16_t);
+            }
+        }
+    };
 
     /**
      * @class shader_program
      * @brief An abstraction of graphics pipelines (aka `vk::Pipeline` objects). See hp::vk::window::new_shader_program
-     * @details The buffer_layout that is bound at the time of construction is used by shader_program. If no buffer_layout is bound,
-     *          the default layout is used. (If the default layout has not yet been constructed, it would automatically be built with `hp::vk::buffer_layout::build_default_layout()`).
+     * @details `shader_program`s use the `buffer_layout`s that are bound at the time of construction. If no buffer_layout is bound,
+     *          the default layout is used. (If the default layout has not yet been constructed, it would automatically be built with `build_default_layout()`).
      *          The buffer_layout used by a shader_program can be changed, but requires the pipeline to be rebuilt
      *          (There is no dynamic state for vertex input states present in Vulkan).
-     *          To change the layout used by a shader program, simply `hp::vk::buffer_layout::bind()` the new buffer_layout and call `rebuild_pipeline()`.
+     *          To change the layout used by a shader program, simply the modify `buffer_layout::bound_lyos`, call `buffer_layout::rebuild_bound_info()`, and call `hp::vk::shader_program::rebuild_pipeline()`.
      * @see hp::vk::window::new_shader_program
      * @see hp::vk::buffer_layout
      */
@@ -526,6 +537,10 @@ namespace hp::vk {
 
         void rec_bind_vbo(vertex_buffer *vbo);
 
+        void rec_bind_index_buffer(index_buffer *ibo);
+
+        void rec_draw_indexed(uint32_t num_indices);
+
         void rec_draw(unsigned num_verts);
 
         /**
@@ -570,10 +585,11 @@ namespace hp::vk {
          * @warning DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
          * @param size The size in bytes of the VBO to construct.
          * @param vert_count The number of vertices the VBO is intended to hold.
+         * @param lyo_indx The index of the buffer_layout in `buffer_layout::bound_lyos` that describes this buffer.
          * @return Returns a pointer to the newly constructed `vertex_buffer`
          */
-        inline vertex_buffer *new_vbo(size_t size, unsigned vert_count) {
-            auto vbo = new vertex_buffer(size, vert_count, this);
+        inline vertex_buffer *new_vbo(size_t size, unsigned vert_count, unsigned lyo_indx) {
+            auto vbo = new vertex_buffer(size, vert_count, lyo_indx, this);
             child_bufs.emplace_back(vbo);
             return vbo;
         }
@@ -586,10 +602,24 @@ namespace hp::vk {
          * @param vert_count The number of vertices the staging buffer is intended to hold.
          * @return Returns a pointer to the newly constructed `staging_buffer`
          */
-        inline staging_buffer *new_staging_buf(size_t size, unsigned vert_count) {
-            auto sbo = new staging_buffer(size, vert_count, this);
+        inline staging_buffer *new_staging_buffer(size_t size) {
+            auto sbo = new staging_buffer(size, this);
             child_bufs.emplace_back(sbo);
             return sbo;
+        }
+
+        /**
+         * @fn inline index_buffer *new_index_buffer(size_t size, bool is32bit)
+         * @brief Construct and retrieve a new `hp::vk::index_buffer`
+         * @warning DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
+         * @param size The size in bytes of the buffer to construct
+         * @param is32bit If true, the index buffer is expected to be filled with `uint32_t`, otherwise, it's expected to be filled with `uint16_t`
+         * @return Returns a pointer to the newly constructed `index_buffer`.
+         */
+        inline index_buffer *new_index_buffer(size_t size, bool is32bit) {
+            auto ibo = new index_buffer(size, is32bit, this);
+            child_bufs.emplace_back(ibo);
+            return ibo;
         }
 
         inline void delete_buffer(generic_buffer *buf) {

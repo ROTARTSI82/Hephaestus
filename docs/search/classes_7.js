@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['vertex_134',['vertex',['../d5/dee/structhp_1_1vk_1_1vertex.html',1,'hp::vk']]],
-  ['vertex_5fbuffer_135',['vertex_buffer',['../dc/d08/classhp_1_1vk_1_1vertex__buffer.html',1,'hp::vk']]]
+  ['shader_5fprogram_138',['shader_program',['../d0/d92/classhp_1_1vk_1_1shader__program.html',1,'hp::vk']]],
+  ['staging_5fbuffer_139',['staging_buffer',['../d0/dbc/classhp_1_1vk_1_1staging__buffer.html',1,'hp::vk']]],
+  ['swap_5fchain_5fsupport_140',['swap_chain_support',['../d2/dda/structhp_1_1vk_1_1swap__chain__support.html',1,'hp::vk']]]
 ];

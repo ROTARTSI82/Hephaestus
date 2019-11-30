@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['line_226',['line',['../df/d37/structhp_1_1code__location.html#a56988fba3ef3886bbf7b85593172567f',1,'hp::code_location']]],
-  ['logging_5fenabled_227',['logging_enabled',['../d6/d7a/namespacehp.html#a2800114c14296c79f91dc7b7eb06cc11',1,'hp']]]
+  ['io_5fservice_236',['io_service',['../d6/d7a/namespacehp.html#a6105175335860b1320e079515a0c7ed6',1,'hp']]],
+  ['io_5fwork_237',['io_work',['../d6/d7a/namespacehp.html#a513cde99cb322134d0883a743b9a1bd9',1,'hp']]]
 ];

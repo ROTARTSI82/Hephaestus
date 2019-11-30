@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['io_5fservice_224',['io_service',['../d6/d7a/namespacehp.html#a6105175335860b1320e079515a0c7ed6',1,'hp']]],
-  ['io_5fwork_225',['io_work',['../d6/d7a/namespacehp.html#a513cde99cb322134d0883a743b9a1bd9',1,'hp']]]
+  ['graphics_5ffam_235',['graphics_fam',['../df/d1c/structhp_1_1vk_1_1queue__family__indices.html#a103ea4db6610fc46fcf1745c4bbe382a',1,'hp::vk::queue_family_indices']]]
 ];

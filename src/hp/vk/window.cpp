@@ -2,44 +2,11 @@
 // Created by 25granty on 11/18/19.
 //
 
-#include "hp/vk/window.hpp"
+#include "window_accessories.cpp"
 #include "boost/bind.hpp"
 #include "vk_mem_alloc.h"
 
 namespace hp::vk {
-    static void on_resize_event(GLFWwindow *win, int width, int height) {
-        auto app = reinterpret_cast<window *>(glfwGetWindowUserPointer(win));
-        app->swapchain_recreate_event = true;
-    }
-
-    static void on_iconify_event(GLFWwindow *win, int state) {
-        if (state == GLFW_TRUE) {
-            auto app = reinterpret_cast<window *>(glfwGetWindowUserPointer(win));
-            app->swapchain_recreate_event = true;
-        }
-    }
-
-    static void bind_vbo_helper(::vk::Buffer *vbo, ::vk::CommandBuffer cmd, window *win) {
-        ::vk::DeviceSize offset = 0;
-        cmd.bindVertexBuffers(0, 1, vbo, &offset);
-    }
-
-    static void bind_shader_helper(::vk::Pipeline pipeline, ::vk::CommandBuffer cmd, window *win) {
-        cmd.bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
-    }
-
-    static void draw_cmd_helper(unsigned num_verts, ::vk::CommandBuffer cmd, window *win) {
-        cmd.draw(num_verts, 1, 0, 0);
-    }
-
-    static void set_viewport_helper(::vk::Viewport vp, ::vk::CommandBuffer cmd, window *win) {
-        cmd.setViewport(0, 1, &vp);
-    }
-
-    static void set_scissor_helper(::vk::Rect2D sc, ::vk::CommandBuffer cmd, window *win) {
-        cmd.setScissor(0, 1, &sc);
-    }
-
     hp::vk::window::window(int width, int height, const char *app_name, uint32_t version) {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  // Don't automatically create an OpenGL context
 
@@ -153,11 +120,6 @@ namespace hp::vk {
         HP_DEBUG("Successfully created vulkan window!");
 
         if (uses_validation_layers) {
-//        ::vk::DebugUtilsMessengerCreateInfoEXT createInfo(::vk::DebugUtilsMessengerCreateFlagsEXT(),
-//                static_cast<::vk::DebugUtilsMessageSeverityFlagsEXT>(VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT),
-//                static_cast<::vk::DebugUtilsMessageTypeFlagsEXT>(VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT),
-//                debugCallback);
-
             VkDebugUtilsMessengerCreateInfoEXT createInfo = {};
             createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
             createInfo.messageSeverity =
@@ -361,37 +323,6 @@ namespace hp::vk {
         HP_DEBUG("Constructed full vkInstance (use_validation_layers={})", uses_validation_layers);
     }
 
-
-    hp::vk::queue_family_indices build_queue_fam_indices(::vk::PhysicalDevice *dev, ::vk::SurfaceKHR surf) {
-        std::vector<::vk::QueueFamilyProperties> queue_fams = dev->getQueueFamilyProperties();
-        queue_family_indices ret = {};
-        for (size_t i = 0; i < queue_fams.size(); i++) {
-            if (queue_fams.at(i).queueFlags & ::vk::QueueFlagBits::eGraphics) {
-                ret.graphics_fam = i;
-            }
-
-            if (dev->getSurfaceSupportKHR(i, surf)) {
-                ret.present_fam = i;
-            }
-
-            if (ret.is_complete()) {
-                break;
-            }
-        }
-
-        return ret;
-    }
-
-    hp::vk::swap_chain_support get_swap_chain_support(::vk::PhysicalDevice *dev, ::vk::SurfaceKHR surf) {
-        hp::vk::swap_chain_support supp{};
-
-        supp.capabilities = dev->getSurfaceCapabilitiesKHR(surf);
-        supp.formats = dev->getSurfaceFormatsKHR(surf);
-        supp.present_modes = dev->getSurfacePresentModesKHR(surf);
-
-        return supp;
-    }
-
     hp::vk::window::~window() {
         log_dev.waitIdle(); // Wait for operations to finish
 
@@ -440,84 +371,6 @@ namespace hp::vk {
         glfwDestroyWindow(win);
     }
 
-    hp::vk::window::window(hp::vk::window &&other) noexcept {
-        *this = std::move(other);
-    }
-
-    hp::vk::window &hp::vk::window::operator=(hp::vk::window &&other) noexcept {
-        if (&other == this) { // Self-assignment; do nothing
-            return *this;
-        }
-
-        this->~window();
-
-        phys_dev = other.phys_dev;
-        phys_dev_ext = std::move(other.phys_dev_ext);
-        queue_fam_indices = std::move(other.queue_fam_indices);
-        devices = std::move(other.devices);
-        log_dev = other.log_dev;
-        inst = other.inst;
-        supported_ext = std::move(other.supported_ext);
-        uses_validation_layers = other.uses_validation_layers;
-        supported_lay = std::move(other.supported_lay);
-        debug_msgr = other.debug_msgr;
-        win = other.win;
-        surf = other.surf;
-        graphics_queue = other.graphics_queue;
-        present_queue = other.present_queue;
-        swap_chain = other.swap_chain;
-        swap_extent = other.swap_extent;
-        swap_fmt = other.swap_fmt;
-        swap_imgs = std::move(other.swap_imgs);
-        child_shaders = std::move(other.child_shaders);
-        render_pass = other.render_pass;
-        framebuffers = std::move(other.framebuffers);
-        cmd_pool = other.cmd_pool;
-        img_avail_sms = std::move(other.img_avail_sms);
-        rend_fin_sms = std::move(other.rend_fin_sms);
-        current_frame = other.current_frame;
-        flight_fences = std::move(other.flight_fences);
-        img_fences = std::move(other.img_fences);
-        swapchain_recreate_event = other.swapchain_recreate_event;
-        mem_props = other.mem_props;
-        child_bufs = std::move(other.child_bufs);
-        record_buffer = std::move(other.record_buffer);
-        cmd_bufs = std::move(other.cmd_bufs);
-        swap_recreate_callback = other.swap_recreate_callback;
-        allocator = std::move(other.allocator);
-        child_bufs = std::move(other.child_bufs);
-        child_fences = std::move(other.child_fences);
-//        render_mtx = std::move(other.render_mtx);
-        return *this;
-    }
-
-    ::vk::Result hp::vk::window::createDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
-                                                              const VkAllocationCallbacks *pAllocator,
-                                                              VkDebugUtilsMessengerEXT *pDebugMessenger) {
-        auto func = (PFN_vkCreateDebugUtilsMessengerEXT) inst.getProcAddr("vkCreateDebugUtilsMessengerEXT");
-        if (func != nullptr) {
-            return handle_res(::vk::Result(func(inst, pCreateInfo, pAllocator, pDebugMessenger)), HP_GET_CODE_LOC);
-        } else {
-            return ::vk::Result::eErrorExtensionNotPresent;
-        }
-    }
-
-    ::vk::Bool32 hp::vk::window::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-                                               VkDebugUtilsMessageTypeFlagsEXT messageType,
-                                               const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
-                                               void *pUserData) {
-        HP_FATAL("[** VULKAN ERROR **]: {}", pCallbackData->pMessage);
-        return VK_FALSE;
-    }
-
-    void hp::vk::window::destroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT debugMessenger,
-                                                       const VkAllocationCallbacks *pAllocator) {
-        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) inst.getProcAddr("vkDestroyDebugUtilsMessengerEXT");
-        if (func != nullptr) {
-            func(inst, debugMessenger, pAllocator);
-        }
-    }
-
     void window::create_swapchain(bool do_destroy) {
         auto swap_deets = get_swap_chain_support(phys_dev, surf);
 
@@ -528,7 +381,6 @@ namespace hp::vk {
         ::vk::SurfaceFormatKHR new_fmt;
         ::vk::RenderPass new_pass;
         std::vector<::vk::Framebuffer> new_bufs = std::vector<::vk::Framebuffer>();
-//        ::vk::CommandPool new_pool;
 
         if (swap_deets.capabilities.currentExtent.width != UINT32_MAX) {
             new_extent = swap_deets.capabilities.currentExtent;
@@ -700,7 +552,6 @@ namespace hp::vk {
             for (auto buf : cmd_bufs) {
                 log_dev.freeCommandBuffers(cmd_pool, 1, &buf);
             }
-//            log_dev.destroyCommandPool(cmd_pool, nullptr);
 
             for (auto fb : framebuffers) {
                 log_dev.destroyFramebuffer(fb, nullptr);
@@ -721,7 +572,6 @@ namespace hp::vk {
         swap_views = std::move(new_views);
         render_pass = new_pass;
         framebuffers = std::move(new_bufs);
-//        cmd_pool = new_pool;
         swap_fmt = new_fmt.format;
         render_pass = new_pass;
 
@@ -809,10 +659,6 @@ namespace hp::vk {
 
             ret[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
 
-//            ret[i].bindPipeline(::vk::PipelineBindPoint::eGraphics, pipeline);
-//            ret[i].setViewport(0, 1, &viewport);
-//            ret[i].setScissor(0, 1, &scissor);
-
             for (const auto &fn : record_buffer) {
                 fn(ret[i], this);
             }
@@ -842,20 +688,7 @@ namespace hp::vk {
         create_swapchain(true);
     }
 
-    void window::clear_recording() {
-        record_buffer.clear();
-    }
-
     void window::save_recording() {
-//        ::vk::CommandPool new_cmd_pool;
-//
-//        ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
-//        if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &new_cmd_pool), HP_GET_CODE_LOC) !=
-//            ::vk::Result::eSuccess) {
-//            HP_FATAL("Failed to create command pool!");
-//            std::terminate();
-//        }
-
         auto new_cmd_buf = get_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &cmd_pool);
 
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
@@ -864,40 +697,7 @@ namespace hp::vk {
         for (auto buf : cmd_bufs) {
             log_dev.freeCommandBuffers(cmd_pool, 1, &buf);
         }
-//        log_dev.destroyCommandPool(cmd_pool, nullptr);
-//        cmd_pool = new_cmd_pool;
         cmd_bufs = std::move(new_cmd_buf);
-    }
-
-    void window::rec_bind_vbo(vertex_buffer *vbo) {
-        record_buffer.emplace_back(boost::bind(bind_vbo_helper, &vbo->buf, _1, _2));
-    }
-
-    void window::rec_draw(unsigned num_verts) {
-        record_buffer.emplace_back(boost::bind(draw_cmd_helper, num_verts, _1, _2));
-    }
-
-    void window::rec_bind_shader(shader_program *shader) {
-        record_buffer.emplace_back(boost::bind(bind_shader_helper, shader->pipeline, _1, _2));
-    }
-
-    void window::rec_set_viewport(::vk::Viewport viewport) {
-        record_buffer.emplace_back(boost::bind(set_viewport_helper, viewport, _1, _2));
-    }
-
-    void window::rec_set_scissor(::vk::Rect2D scissor) {
-        record_buffer.emplace_back(boost::bind(set_scissor_helper, scissor, _1, _2));
-    }
-
-    void window::rec_set_default_viewport() {
-        ::vk::Viewport viewport(0.0f, 0.0f, (float) swap_extent.width, (float) swap_extent.height, 0.0f,
-                                1.0f);
-        record_buffer.emplace_back(boost::bind(set_viewport_helper, viewport, _1, _2));
-    }
-
-    void window::rec_set_default_scissor() {
-        ::vk::Rect2D scissor(::vk::Offset2D(0, 0), swap_extent);
-        record_buffer.emplace_back(boost::bind(set_scissor_helper, scissor, _1, _2));
     }
 
     std::pair<::vk::Fence *, ::vk::CommandBuffer> window::copy_buffer(generic_buffer *source, generic_buffer *dest,
@@ -939,40 +739,5 @@ namespace hp::vk {
         } else {
             return {ret, cmd_buf};
         }
-    }
-
-    hp::vk::__hp_vk_is_in_layer_prop_list::__hp_vk_is_in_layer_prop_list(const char *lay) : lay(lay) {}
-
-    hp::vk::__hp_vk_is_in_extension_prop_list::__hp_vk_is_in_extension_prop_list(const char *ext) : ext(ext) {}
-
-    bool hp::vk::queue_family_indices::is_complete() {
-        return graphics_fam.has_value() && present_fam.has_value();
-    }
-
-    hp::vk::queue_family_indices::queue_family_indices(const hp::vk::queue_family_indices &rhs) {
-        *this = rhs;
-    }
-
-    hp::vk::queue_family_indices &hp::vk::queue_family_indices::operator=(const hp::vk::queue_family_indices &rhs) {
-        if (this == &rhs) {
-            return *this;
-        }
-        graphics_fam = rhs.graphics_fam;
-        present_fam = rhs.present_fam;
-
-        return *this;
-    }
-
-    hp::vk::queue_family_indices::queue_family_indices(hp::vk::queue_family_indices &&rhs) noexcept {
-        *this = std::move(rhs);
-    }
-
-    hp::vk::queue_family_indices &hp::vk::queue_family_indices::operator=(hp::vk::queue_family_indices &&rhs) noexcept {
-        if (this == &rhs) {
-            return *this;
-        }
-        graphics_fam = rhs.graphics_fam;
-        present_fam = rhs.present_fam;
-        return *this;
     }
 }
