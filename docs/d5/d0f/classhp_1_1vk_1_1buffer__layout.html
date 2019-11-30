@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hephaestus
-   &#160;<span id="projectnumber">0.0.2</span>
+   &#160;<span id="projectnumber">0.0.3</span>
    </div>
   </td>
  </tr>
@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Describes the expected layout of the data of a <code><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code>.  
+<p>Describes the expected layout of the data of a <code><a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code>.  
  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>&gt;</code></p>
@@ -143,7 +143,7 @@ Friends</h2></td></tr>
 <tr class="separator:a305cb8478e7b7488a0d45898e8cdb0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Describes the expected layout of the data of a <code><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code>. </p>
+<div class="textblock"><p>Describes the expected layout of the data of a <code><a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code>. </p>
 <p><code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a></code>s use the <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a></code>s that are bound at the time of construction. If no <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> is bound, the default layout is used. (If the default layout has not yet been constructed, it would automatically be built with <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b" title="Build the default layout, accessible via get_default(). See hp::vk::vertex">build_default_layout()</a></code>). The <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> used by a <a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a> can be changed, but requires the pipeline to be rebuilt (There is no dynamic state for vertex input states present in Vulkan). To change the layout used by a shader program, simply the modify <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#aaaea5b0ed3e3b5f54912fc3fe9237f0a" title="List of buffer_layoutss shader_programs should support.">buffer_layout::bound_lyos</a></code>, call <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae99a0d0827511abf0b0c372304adeaaf" title="&quot;Compiles&quot; buffer_layout::bound_lyos into a format usable by the graphics pipeline.">buffer_layout::rebuild_bound_info()</a></code>, and call <code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a801d5d749762b5309eb620bc8692d07b">hp::vk::shader_program::rebuild_pipeline()</a></code>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">hp::vk::shader_program</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00099">99</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
@@ -557,7 +557,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 29 2019 17:28:19 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 30 2019 10:30:23 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

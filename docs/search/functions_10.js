@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['window_216',['window',['../dd/d17/classhp_1_1vk_1_1window.html#a2644434374ae6f8b89831c7580e84485',1,'hp::vk::window::window()=default'],['../dd/d17/classhp_1_1vk_1_1window.html#a66f843075e00dd94c871a7123e8832ec',1,'hp::vk::window::window(int width, int height, const char *app_name, uint32_t version)'],['../dd/d17/classhp_1_1vk_1_1window.html#a662c8ef349c9a583355590e2d217238a',1,'hp::vk::window::window(const window &amp;other)=delete'],['../dd/d17/classhp_1_1vk_1_1window.html#ae33053d857eb24d1752ba5d53c4e7d79',1,'hp::vk::window::window(window &amp;&amp;other) noexcept']]],
-  ['write_217',['write',['../d0/dbc/classhp_1_1vk_1_1staging__buffer.html#a4d3e457aeb3a2e7cf4e4b7466a7bb4c1',1,'hp::vk::staging_buffer::write()'],['../dc/d08/classhp_1_1vk_1_1vertex__buffer.html#a174b016cc8a1746d0d959f8adbb09feb',1,'hp::vk::vertex_buffer::write()'],['../d7/d8e/classhp_1_1vk_1_1index__buffer.html#ac5ebe6b61e8f62251735af8c3a2e730a',1,'hp::vk::index_buffer::write()']]]
+  ['_7ebuffer_5flayout_226',['~buffer_layout',['../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae4ed7720d4b8286045710b5d5f4cb3a4',1,'hp::vk::buffer_layout']]],
+  ['_7egeneric_5fbuffer_227',['~generic_buffer',['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#ab4937a1d8f059f38f2b2d740ed0c8920',1,'hp::vk::generic_buffer']]],
+  ['_7eprofiler_228',['~profiler',['../d0/d1b/classhp_1_1profiler.html#aacee8cd5f68ecf60363c5cf4aa34186e',1,'hp::profiler']]],
+  ['_7eprofiler_5fsession_229',['~profiler_session',['../d8/d84/classhp_1_1profiler__session.html#a6ac428a03994e1bedc49277cf95a72c6',1,'hp::profiler_session']]],
+  ['_7eshader_5fprogram_230',['~shader_program',['../d0/d92/classhp_1_1vk_1_1shader__program.html#a9e31302bccfd662711a51cc5a0ec20eb',1,'hp::vk::shader_program']]],
+  ['_7ewindow_231',['~window',['../dd/d17/classhp_1_1vk_1_1window.html#a2f8db0640065b4d24ca69ead9f862f32',1,'hp::vk::window']]]
 ];

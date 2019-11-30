@@ -257,12 +257,14 @@ namespace hp::vk {
         window *parent{}; ///< @private
         VmaAllocation allocation{}; ///< @private
 
-        generic_buffer(size_t size, VkBufferUsageFlags usage, VkMemoryPropertyFlags flags,
+        generic_buffer(size_t size, const ::vk::BufferUsageFlags &usage, const ::vk::MemoryPropertyFlags &flags,
                        window *parent); ///< @private
 
         friend class window;
 
         friend class shader_program;
+
+        friend struct index_buffer;
 
     public:
         generic_buffer() = default;
@@ -274,58 +276,91 @@ namespace hp::vk {
         }
     };
 
+    extern ::vk::MemoryPropertyFlags memory_local;
+    extern ::vk::MemoryPropertyFlags memory_host;
 
-    class staging_buffer : public generic_buffer {
-    private:
+    extern ::vk::BufferUsageFlags vertex_usage;
+    extern ::vk::BufferUsageFlags index_usage;
+    extern ::vk::BufferUsageFlags vertex_direct_usage;
+    extern ::vk::BufferUsageFlags index_direct_usage;
 
-        staging_buffer(size_t size, window *parent); ///< @private
+    extern ::vk::BufferUsageFlags staging_usage;
+    extern ::vk::BufferUsageFlags vertex_and_index_usage;
+    extern ::vk::BufferUsageFlags vertex_and_index_direct_usage;
 
-        friend class vertex_buffer;
 
-        friend class window;
-
-    public:
-        staging_buffer() = default;
-
-        void write(const void *data);
-    };
-
-    class vertex_buffer : public generic_buffer {
-    private:
-        friend class window;
-
-        vertex_buffer(size_t size, unsigned num_verts, unsigned lyo_indx, window *parent); ///< @private
-
-    public:
+    struct vertex_buffer {
+        generic_buffer *buf{};
+        unsigned layout_indx = 0;
         unsigned vertex_count = 0;
-        unsigned layout_index = 0;
-
-        vertex_buffer() = default;
-
-        std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
+        ::vk::DeviceSize offset = 0;
     };
 
-    class index_buffer : public generic_buffer {
-    private:
-        friend class window;
-
+    struct index_buffer {
+        generic_buffer *buf{};
         bool is32bit{};
-
-        index_buffer(size_t size, bool is32bit, window *parent); ///< @private
-
-    public:
-        index_buffer() = default;
-
-        std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
+        ::vk::DeviceSize offset = 0;
 
         [[nodiscard]] inline unsigned get_num_indices() {
             if (is32bit) {
-                return capacity / sizeof(uint32_t);
+                return (buf->capacity - offset) / sizeof(uint32_t);
             } else {
-                return capacity / sizeof(uint16_t);
+                return (buf->capacity - offset) / sizeof(uint16_t);
             }
         }
     };
+
+//    class staging_buffer : public generic_buffer {
+//    private:
+//
+//        staging_buffer(size_t size, window *parent); ///< @private
+//
+//        friend class vertex_buffer;
+//
+//        friend class window;
+//
+//    public:
+//        staging_buffer() = default;
+//
+//        void write(const void *data);
+//    };
+//
+//    class vertex_buffer : public generic_buffer {
+//    private:
+//        friend class window;
+//
+//        vertex_buffer(size_t size, unsigned num_verts, unsigned lyo_indx, window *parent); ///< @private
+//
+//    public:
+//        unsigned vertex_count = 0;
+//        unsigned layout_index = 0;
+//
+//        vertex_buffer() = default;
+//
+//        std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
+//    };
+//
+//    class index_buffer : public generic_buffer {
+//    private:
+//        friend class window;
+//
+//        bool is32bit{};
+//
+//        index_buffer(size_t size, bool is32bit, window *parent); ///< @private
+//
+//    public:
+//        index_buffer() = default;
+//
+//        std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
+//
+//        [[nodiscard]] inline unsigned get_num_indices() {
+//            if (is32bit) {
+//                return capacity / sizeof(uint32_t);
+//            } else {
+//                return capacity / sizeof(uint16_t);
+//            }
+//        }
+//    };
 
     /**
      * @class shader_program
@@ -509,6 +544,14 @@ namespace hp::vk {
                                                                   bool wait = true, size_t src_offset = 0,
                                                                   size_t dest_offset = 0, size_t size = 0);
 
+        void write_buffer(generic_buffer *buf, const void *data, size_t offset = 0, size_t size = 0);
+
+        uint8_t *start_write(generic_buffer *buf);
+
+        void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0);
+
+        void stop_write(generic_buffer *buf);
+
         /**
          * @fn inline void set_swap_recreate_callback(void(*)(::vk::Extent2D))
          * @brief Set the callback that is called whenever the swapchain needs to be recreated.
@@ -535,9 +578,9 @@ namespace hp::vk {
 
         void rec_set_default_scissor();
 
-        void rec_bind_vbo(vertex_buffer *vbo);
+        void rec_bind_vbo(vertex_buffer vbo);
 
-        void rec_bind_index_buffer(index_buffer *ibo);
+        void rec_bind_index_buffer(index_buffer ibo);
 
         void rec_draw_indexed(uint32_t num_indices);
 
@@ -579,47 +622,11 @@ namespace hp::vk {
             log_dev.destroyFence(*fence, nullptr);
         }
 
-        /**
-         * @fn inline vertex_buffer *new_vbo(size_t, unsigned)
-         * @brief Construct and retrieve a new `hp::vk::vertex_buffer`
-         * @warning DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
-         * @param size The size in bytes of the VBO to construct.
-         * @param vert_count The number of vertices the VBO is intended to hold.
-         * @param lyo_indx The index of the buffer_layout in `buffer_layout::bound_lyos` that describes this buffer.
-         * @return Returns a pointer to the newly constructed `vertex_buffer`
-         */
-        inline vertex_buffer *new_vbo(size_t size, unsigned vert_count, unsigned lyo_indx) {
-            auto vbo = new vertex_buffer(size, vert_count, lyo_indx, this);
-            child_bufs.emplace_back(vbo);
-            return vbo;
-        }
-
-        /**
-         * @fn inline staging_buffer *new_staging_buf(size_t, unsigned)
-         * @brief Construct and retrieve a new `hp::vk::vertex_buffer`
-         * @warning DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
-         * @param size The size in bytes of the buffer to construct.
-         * @param vert_count The number of vertices the staging buffer is intended to hold.
-         * @return Returns a pointer to the newly constructed `staging_buffer`
-         */
-        inline staging_buffer *new_staging_buffer(size_t size) {
-            auto sbo = new staging_buffer(size, this);
-            child_bufs.emplace_back(sbo);
-            return sbo;
-        }
-
-        /**
-         * @fn inline index_buffer *new_index_buffer(size_t size, bool is32bit)
-         * @brief Construct and retrieve a new `hp::vk::index_buffer`
-         * @warning DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
-         * @param size The size in bytes of the buffer to construct
-         * @param is32bit If true, the index buffer is expected to be filled with `uint32_t`, otherwise, it's expected to be filled with `uint16_t`
-         * @return Returns a pointer to the newly constructed `index_buffer`.
-         */
-        inline index_buffer *new_index_buffer(size_t size, bool is32bit) {
-            auto ibo = new index_buffer(size, is32bit, this);
-            child_bufs.emplace_back(ibo);
-            return ibo;
+        inline generic_buffer *
+        new_buffer(size_t size, const ::vk::BufferUsageFlags &usage, const ::vk::MemoryPropertyFlags &flags) {
+            auto buf = new generic_buffer(size, usage, flags, this);
+            child_bufs.emplace_back(buf);
+            return buf;
         }
 
         inline void delete_buffer(generic_buffer *buf) {

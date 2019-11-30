@@ -16,15 +16,15 @@
 /**
  * @def HP_VERSION_STRING
  * @brief A macro set to Hephaestus's current version as a string.
- * @details Currently set to `"d2019.11.25"` in this specific version.
+ * @details Currently set to `"d2019.11.30"` in this specific version.
  */
-#define HP_VERSION_STRING "d2019.11.25"
+#define HP_VERSION_STRING "d2019.11.30"
 
 /**
  * @def HP_VK_VERSION_INT
  * @brief A macro set the Hephaestus's internal version as an integer.
- * @details Currently set to `2`. This value is used by internal Vulkan code.
+ * @details Currently set to `3`. This value is used by internal Vulkan code.
  */
-#define HP_VK_VERSION_INT 2
+#define HP_VK_VERSION_INT 3
 
 #endif //__HEPHAESTUS_HP_HPP

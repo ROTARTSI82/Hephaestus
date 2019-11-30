@@ -700,6 +700,27 @@ namespace hp::vk {
         cmd_bufs = std::move(new_cmd_buf);
     }
 
+    void window::write_buffer(generic_buffer *buf, const void *data, size_t offset, size_t size) {
+        uint8_t *mapped_data;
+        vmaMapMemory(allocator, buf->allocation, reinterpret_cast<void **>(&mapped_data));
+        std::memcpy(mapped_data + offset, data, size == 0 ? buf->capacity : size);
+        vmaUnmapMemory(allocator, buf->allocation);
+    }
+
+    uint8_t *window::start_write(generic_buffer *buf) {
+        uint8_t *ret;
+        vmaMapMemory(allocator, buf->allocation, reinterpret_cast<void **>(&ret));
+        return ret;
+    }
+
+    void window::write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset, size_t size) {
+        std::memcpy(dest + offset, src, size == 0 ? buf->capacity : size);
+    }
+
+    void window::stop_write(generic_buffer *buf) {
+        vmaUnmapMemory(allocator, buf->allocation);
+    }
+
     std::pair<::vk::Fence *, ::vk::CommandBuffer> window::copy_buffer(generic_buffer *source, generic_buffer *dest,
                                                                       bool wait, size_t src_offset, size_t dest_offset,
                                                                       size_t size) {

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['shader_5fprogram_258',['shader_program',['../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a305cb8478e7b7488a0d45898e8cdb0a2',1,'hp::vk::buffer_layout::shader_program()'],['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a305cb8478e7b7488a0d45898e8cdb0a2',1,'hp::vk::generic_buffer::shader_program()'],['../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2',1,'hp::vk::window::shader_program()']]],
-  ['staging_5fbuffer_259',['staging_buffer',['../dd/d17/classhp_1_1vk_1_1window.html#a51d18ecba703a792316f06cf9e9b3983',1,'hp::vk::window']]]
+  ['profiler_277',['profiler',['../d8/d84/classhp_1_1profiler__session.html#a575061f0a9f8e1dda68ce9179c4525d1',1,'hp::profiler_session']]],
+  ['profiler_5fsession_278',['profiler_session',['../d0/d1b/classhp_1_1profiler.html#a0577305cc3aa23d0a269cc37fa1cfea8',1,'hp::profiler']]]
 ];

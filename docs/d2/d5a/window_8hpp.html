@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hephaestus
-   &#160;<span id="projectnumber">0.0.2</span>
+   &#160;<span id="projectnumber">0.0.3</span>
    </div>
   </td>
  </tr>
@@ -69,7 +69,8 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#define-members">Macros</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">window.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -131,7 +132,7 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains vertex data in default <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a></code> format.  <a href="../../d5/dee/structhp_1_1vk_1_1vertex.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html">hp::vk::buffer_layout</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the expected layout of the data of a <code><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code>.  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the expected layout of the data of a <code><a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code>.  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d1c/structhp_1_1vk_1_1queue__family__indices.html">hp::vk::queue_family_indices</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,11 +140,9 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">hp::vk::generic_buffer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbc/classhp_1_1vk_1_1staging__buffer.html">hp::vk::staging_buffer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">hp::vk::index_buffer</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d99/structhp_1_1vk_1_1index__buffer.html">hp::vk::index_buffer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html">hp::vk::shader_program</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An abstraction of graphics pipelines (aka <code>vk::Pipeline</code> objects). See <a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a5ca9e8ae513e459b6fb0b6111b35624f" title="Construct and retrieve a new hp::vk::shader_program">hp::vk::window::new_shader_program</a>.  <a href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#details">More...</a><br /></td></tr>
@@ -163,6 +162,27 @@ Macros</h2></td></tr>
 <tr class="memitem:a4d0ccdbd24678427c3c9e29fd1991900"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d5a/window_8hpp.html#a4d0ccdbd24678427c3c9e29fd1991900">__HEPHAESTUS_VK_WINDOW_HPP</a></td></tr>
 <tr class="memdesc:a4d0ccdbd24678427c3c9e29fd1991900"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro is defined if <code><a class="el" href="../../d2/d5a/window_8hpp.html" title="Provide basically all Vulkan functionality, including vertex buffers, shaders, &amp; windows.">window.hpp</a></code> has been included.  <a href="../../d2/d5a/window_8hpp.html#a4d0ccdbd24678427c3c9e29fd1991900">More...</a><br /></td></tr>
 <tr class="separator:a4d0ccdbd24678427c3c9e29fd1991900"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:abd3e8b93754f140eb447d39943df1f2b"><td class="memItemLeft" align="right" valign="top">extern ::vk::MemoryPropertyFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#abd3e8b93754f140eb447d39943df1f2b">hp::vk::memory_local</a></td></tr>
+<tr class="separator:abd3e8b93754f140eb447d39943df1f2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67de376f1daebb08c08701fbd97fc67c"><td class="memItemLeft" align="right" valign="top">extern ::vk::MemoryPropertyFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a67de376f1daebb08c08701fbd97fc67c">hp::vk::memory_host</a></td></tr>
+<tr class="separator:a67de376f1daebb08c08701fbd97fc67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14594ca6db5dfc8afaea050ebdad051d"><td class="memItemLeft" align="right" valign="top">extern ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a14594ca6db5dfc8afaea050ebdad051d">hp::vk::vertex_usage</a></td></tr>
+<tr class="separator:a14594ca6db5dfc8afaea050ebdad051d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9740e4c433a981472f9d86e1a737fc8a"><td class="memItemLeft" align="right" valign="top">extern ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a9740e4c433a981472f9d86e1a737fc8a">hp::vk::index_usage</a></td></tr>
+<tr class="separator:a9740e4c433a981472f9d86e1a737fc8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32f7998e79cedd5a21164149746317d5"><td class="memItemLeft" align="right" valign="top">extern ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a32f7998e79cedd5a21164149746317d5">hp::vk::vertex_direct_usage</a></td></tr>
+<tr class="separator:a32f7998e79cedd5a21164149746317d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0db4853cef45030d756b1fb75d7ad3b8"><td class="memItemLeft" align="right" valign="top">extern ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a0db4853cef45030d756b1fb75d7ad3b8">hp::vk::index_direct_usage</a></td></tr>
+<tr class="separator:a0db4853cef45030d756b1fb75d7ad3b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a671a8ec9891411ed3589370d7f4f41f2"><td class="memItemLeft" align="right" valign="top">extern ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a671a8ec9891411ed3589370d7f4f41f2">hp::vk::staging_usage</a></td></tr>
+<tr class="separator:a671a8ec9891411ed3589370d7f4f41f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84d0eecb6fe467c950d035db38311908"><td class="memItemLeft" align="right" valign="top">extern ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a84d0eecb6fe467c950d035db38311908">hp::vk::vertex_and_index_usage</a></td></tr>
+<tr class="separator:a84d0eecb6fe467c950d035db38311908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af015be0dc1fae74e19b6f28f1d65c3d0"><td class="memItemLeft" align="right" valign="top">extern ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#af015be0dc1fae74e19b6f28f1d65c3d0">hp::vk::vertex_and_index_direct_usage</a></td></tr>
+<tr class="separator:af015be0dc1fae74e19b6f28f1d65c3d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provide basically all Vulkan functionality, including vertex buffers, shaders, &amp; windows. </p>
@@ -190,7 +210,7 @@ Macros</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 29 2019 17:28:18 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 30 2019 10:30:23 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

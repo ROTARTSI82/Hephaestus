@@ -3,6 +3,25 @@
 #include "boost/bind.hpp"
 
 namespace hp::vk {
+
+    ::vk::MemoryPropertyFlags memory_local = ::vk::MemoryPropertyFlagBits::eDeviceLocal;
+    ::vk::MemoryPropertyFlags memory_host =
+            ::vk::MemoryPropertyFlagBits::eHostVisible | ::vk::MemoryPropertyFlagBits::eHostCoherent;
+
+    ::vk::BufferUsageFlags vertex_usage =
+            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eVertexBuffer;
+    ::vk::BufferUsageFlags index_usage =
+            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eIndexBuffer;
+    ::vk::BufferUsageFlags vertex_direct_usage = ::vk::BufferUsageFlagBits::eVertexBuffer;
+    ::vk::BufferUsageFlags index_direct_usage = ::vk::BufferUsageFlagBits::eIndexBuffer;
+
+    ::vk::BufferUsageFlags staging_usage = ::vk::BufferUsageFlagBits::eTransferSrc;
+    ::vk::BufferUsageFlags vertex_and_index_usage =
+            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eIndexBuffer |
+            ::vk::BufferUsageFlagBits::eVertexBuffer;
+    ::vk::BufferUsageFlags vertex_and_index_direct_usage =
+            ::vk::BufferUsageFlagBits::eIndexBuffer | ::vk::BufferUsageFlagBits::eVertexBuffer;
+
     hp::vk::__hp_vk_is_in_layer_prop_list::__hp_vk_is_in_layer_prop_list(const char *lay) : lay(lay) {}
 
     hp::vk::__hp_vk_is_in_extension_prop_list::__hp_vk_is_in_extension_prop_list(const char *ext) : ext(ext) {}
@@ -50,8 +69,8 @@ namespace hp::vk {
         }
     }
 
-    static void bind_vbo_helper(::vk::Buffer *vbo, unsigned lyo_indx, ::vk::CommandBuffer cmd, window *win) {
-        ::vk::DeviceSize offset = 0;
+    static void bind_vbo_helper(::vk::Buffer *vbo, unsigned lyo_indx, ::vk::DeviceSize offset, ::vk::CommandBuffer cmd,
+                                window *win) {
         cmd.bindVertexBuffers(lyo_indx, 1, vbo, &offset);
     }
 
@@ -71,8 +90,10 @@ namespace hp::vk {
         cmd.setScissor(0, 1, &sc);
     }
 
-    static void bind_ibo_helper(::vk::Buffer ibo, ::vk::IndexType type, ::vk::CommandBuffer cmd, window *win) {
-        cmd.bindIndexBuffer(ibo, 0, type);
+    static void
+    bind_ibo_helper(::vk::Buffer ibo, ::vk::IndexType type, ::vk::DeviceSize offset, ::vk::CommandBuffer cmd,
+                    window *win) {
+        cmd.bindIndexBuffer(ibo, offset, type);
     }
 
     static void draw_indexed_helper(uint32_t num_indices, ::vk::CommandBuffer cmd, window *win) {
@@ -187,8 +208,8 @@ namespace hp::vk {
         return *this;
     }
 
-    void window::rec_bind_vbo(vertex_buffer *vbo) {
-        record_buffer.emplace_back(boost::bind(bind_vbo_helper, &vbo->buf, vbo->layout_index, _1, _2));
+    void window::rec_bind_vbo(vertex_buffer vbo) {
+        record_buffer.emplace_back(boost::bind(bind_vbo_helper, &vbo.buf->buf, vbo.layout_indx, vbo.offset, _1, _2));
     }
 
     void window::rec_draw(unsigned num_verts) {
@@ -222,9 +243,10 @@ namespace hp::vk {
         record_buffer.clear();
     }
 
-    void window::rec_bind_index_buffer(index_buffer *ibo) {
-        record_buffer.emplace_back(boost::bind(bind_ibo_helper, ibo->buf,
-                                               ibo->is32bit ? ::vk::IndexType::eUint32 : ::vk::IndexType::eUint16, _1,
+    void window::rec_bind_index_buffer(index_buffer ibo) {
+        record_buffer.emplace_back(boost::bind(bind_ibo_helper, ibo.buf->buf,
+                                               ibo.is32bit ? ::vk::IndexType::eUint32 : ::vk::IndexType::eUint16,
+                                               ibo.offset, _1,
                                                _2));
     }
 

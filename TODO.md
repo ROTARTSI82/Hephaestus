@@ -1,9 +1,13 @@
 #GENERAL
 - [FUTURE PLAN?] Add support for Instancing
-- Add functionality for non-stage buffered VBOs and IBOs.
+- ============================
+- [DONE] Change vbos, ibos, and sbos to structs, containing a `generic_buffer` and data.
+- [DONE] Add support for aliasing
+- [DONE] Add functionality for non-stage buffered VBOs and IBOs.
 #DOCUMENTATION
-- [DONE] Update documentation for `buffer_layout` binding.
 - Finish rest of documentation
+- ============================
+- [DONE] Update documentation for `buffer_layout` binding.
 
 #PHYSICS ENGINE
 - Bullet Physics? Box2D? No clue.

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hephaestus
-   &#160;<span id="projectnumber">0.0.2</span>
+   &#160;<span id="projectnumber">0.0.3</span>
    </div>
   </td>
  </tr>
@@ -104,6 +104,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5e7ba663964eb83ef0c76d668a8b9a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7f1c43a402cb856ada4c30b0f8f506f"><td class="memItemLeft" align="right" valign="top">std::pair&lt;::vk::Fence *, ::vk::CommandBuffer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#ac7f1c43a402cb856ada4c30b0f8f506f">copy_buffer</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *source, <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *dest, bool wait=true, size_t src_offset=0, size_t dest_offset=0, size_t size=0)</td></tr>
 <tr class="separator:ac7f1c43a402cb856ada4c30b0f8f506f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17536da75810d265a3f480d2ad37a2b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a17536da75810d265a3f480d2ad37a2b1">write_buffer</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf, const void *data, size_t offset=0, size_t size=0)</td></tr>
+<tr class="separator:a17536da75810d265a3f480d2ad37a2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae788e13973e418e20403e60f142157d3"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#ae788e13973e418e20403e60f142157d3">start_write</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf)</td></tr>
+<tr class="separator:ae788e13973e418e20403e60f142157d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f4a25b2c0e0d68389d8d286404fbebc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a3f4a25b2c0e0d68389d8d286404fbebc">write_buffer</a> (uint8_t *dest, <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf, const void *src, size_t offset=0, size_t size=0)</td></tr>
+<tr class="separator:a3f4a25b2c0e0d68389d8d286404fbebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a650ae8a55d1b43a4e948217c38abd388"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a650ae8a55d1b43a4e948217c38abd388">stop_write</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf)</td></tr>
+<tr class="separator:a650ae8a55d1b43a4e948217c38abd388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a887c3c901c8e64840d36b65ceb989de4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a887c3c901c8e64840d36b65ceb989de4">set_swap_recreate_callback</a> (void(*new_callback)(::vk::Extent2D))</td></tr>
 <tr class="memdesc:a887c3c901c8e64840d36b65ceb989de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the callback that is called whenever the swapchain needs to be recreated.  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#a887c3c901c8e64840d36b65ceb989de4">More...</a><br /></td></tr>
 <tr class="separator:a887c3c901c8e64840d36b65ceb989de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,10 +129,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6ffec5451f68d4a2eaa973310743717d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a904e80624e2028229a320a674626abb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a904e80624e2028229a320a674626abb5">rec_set_default_scissor</a> ()</td></tr>
 <tr class="separator:a904e80624e2028229a320a674626abb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca94c67a79b450fc2006748de71a1ea5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#aca94c67a79b450fc2006748de71a1ea5">rec_bind_vbo</a> (<a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a> *vbo)</td></tr>
-<tr class="separator:aca94c67a79b450fc2006748de71a1ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a030426687844b9349341a0acd31c42a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a030426687844b9349341a0acd31c42a8">rec_bind_index_buffer</a> (<a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">index_buffer</a> *ibo)</td></tr>
-<tr class="separator:a030426687844b9349341a0acd31c42a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1673d156a395348eb49f8ffb3af56bfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a1673d156a395348eb49f8ffb3af56bfe">rec_bind_vbo</a> (<a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a> vbo)</td></tr>
+<tr class="separator:a1673d156a395348eb49f8ffb3af56bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00141a7a44204dddc48ef529f41a0459"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a00141a7a44204dddc48ef529f41a0459">rec_bind_index_buffer</a> (<a class="el" href="../../d2/d99/structhp_1_1vk_1_1index__buffer.html">index_buffer</a> ibo)</td></tr>
+<tr class="separator:a00141a7a44204dddc48ef529f41a0459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38bdd83da7bcc03e0337505f0a2a8829"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a38bdd83da7bcc03e0337505f0a2a8829">rec_draw_indexed</a> (uint32_t num_indices)</td></tr>
 <tr class="separator:a38bdd83da7bcc03e0337505f0a2a8829"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f7cf0a4354f54666976981b179b4294"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a6f7cf0a4354f54666976981b179b4294">rec_draw</a> (unsigned num_verts)</td></tr>
@@ -138,14 +146,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab224173b5e3a5c5edd2cb2dce4195b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a980d2dd9c9b95281488e5b2de6d5dc3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a980d2dd9c9b95281488e5b2de6d5dc3a">delete_fence</a> (::vk::Fence *fence)</td></tr>
 <tr class="separator:a980d2dd9c9b95281488e5b2de6d5dc3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab46303415ffe564cf2861fa34d6a56cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#ab46303415ffe564cf2861fa34d6a56cb">new_vbo</a> (size_t size, unsigned vert_count, unsigned lyo_indx)</td></tr>
-<tr class="memdesc:ab46303415ffe564cf2861fa34d6a56cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct and retrieve a new <code><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code>  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#ab46303415ffe564cf2861fa34d6a56cb">More...</a><br /></td></tr>
-<tr class="separator:ab46303415ffe564cf2861fa34d6a56cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55feeb6bef89430f8390d6a42a66e038"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dbc/classhp_1_1vk_1_1staging__buffer.html">staging_buffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a55feeb6bef89430f8390d6a42a66e038">new_staging_buffer</a> (size_t size)</td></tr>
-<tr class="separator:a55feeb6bef89430f8390d6a42a66e038"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a308a80ca874699955a8df57bcdc7a252"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">index_buffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a308a80ca874699955a8df57bcdc7a252">new_index_buffer</a> (size_t size, bool is32bit)</td></tr>
-<tr class="memdesc:a308a80ca874699955a8df57bcdc7a252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct and retrieve a new <code><a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">hp::vk::index_buffer</a></code>  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#a308a80ca874699955a8df57bcdc7a252">More...</a><br /></td></tr>
-<tr class="separator:a308a80ca874699955a8df57bcdc7a252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2ab40df34d78fa50d88458cb60e72b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#ae2ab40df34d78fa50d88458cb60e72b7">new_buffer</a> (size_t size, const ::vk::BufferUsageFlags &amp;usage, const ::vk::MemoryPropertyFlags &amp;flags)</td></tr>
+<tr class="separator:ae2ab40df34d78fa50d88458cb60e72b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d650c3959dc947637110f2ebb5b2689"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a9d650c3959dc947637110f2ebb5b2689">delete_buffer</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf)</td></tr>
 <tr class="separator:a9d650c3959dc947637110f2ebb5b2689"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2776b0cbd1678b9a395b28724501ee27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a2776b0cbd1678b9a395b28724501ee27">draw_frame</a> ()</td></tr>
@@ -168,7 +170,7 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00387">387</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00422">422</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2644434374ae6f8b89831c7580e84485"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2644434374ae6f8b89831c7580e84485">&#9670;&nbsp;</a></span>window() <span class="overload">[1/4]</span></h2>
@@ -406,11 +408,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00625">625</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                                                       {</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;            boost::remove_erase(child_bufs, buf);</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;            <span class="keyword">delete</span> buf;</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00629">629</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                                                       {</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;            boost::remove_erase(child_bufs, buf);</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;            <span class="keyword">delete</span> buf;</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -438,11 +440,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00577">577</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                                                 {</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;            boost::remove_erase(child_fences, *fence);</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;            log_dev.destroyFence(*fence, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00618">618</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                                                 {</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;            boost::remove_erase(child_fences, *fence);</div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;            log_dev.destroyFence(*fence, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -470,11 +472,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00567">567</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                                                              {</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;            boost::remove_erase(child_shaders, sh);</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;            <span class="keyword">delete</span> sh;</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00608">608</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;                                                              {</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;            boost::remove_erase(child_shaders, sh);</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;            <span class="keyword">delete</span> sh;</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -502,10 +504,10 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00492">492</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                                                       {</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;            <span class="keywordflow">return</span> std::any_of(phys_dev_ext.begin(), phys_dev_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00527">527</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;                                                       {</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;            <span class="keywordflow">return</span> std::any_of(phys_dev_ext.begin(), phys_dev_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -550,10 +552,10 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00488">488</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                                                   {</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00523">523</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;                                                   {</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -580,10 +582,10 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00504">504</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                                     {</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;            <span class="keywordflow">return</span> swap_extent;</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00539">539</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;                                     {</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;            <span class="keywordflow">return</span> swap_extent;</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -611,11 +613,62 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00496">496</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;                                                     {</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_lay.begin(), supported_lay.end(), __hp_vk_is_in_layer_prop_list(lay));</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00531">531</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                                                     {</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_lay.begin(), supported_lay.end(), __hp_vk_is_in_layer_prop_list(lay));</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        };</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="ae2ab40df34d78fa50d88458cb60e72b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2ab40df34d78fa50d88458cb60e72b7">&#9670;&nbsp;</a></span>new_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a>* hp::vk::window::new_buffer </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ::vk::BufferUsageFlags &amp;&#160;</td>
+          <td class="paramname"><em>usage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ::vk::MemoryPropertyFlags &amp;&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00623">623</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;                                                                                                                            {</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;            <span class="keyword">auto</span> buf = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a83fc33f12135a37af6a6a5bd964bf294">generic_buffer</a>(size, usage, flags, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;            child_bufs.emplace_back(buf);</div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;            <span class="keywordflow">return</span> buf;</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00498">generic_buffer</a>.</p>
+
 </div>
 </div>
 <a id="ab224173b5e3a5c5edd2cb2dce4195b65"></a>
@@ -641,65 +694,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00572">572</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                                    {</div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;            child_fences.emplace_back(::vk::Fence());</div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;            <span class="keywordflow">return</span> &amp;child_fences.at(child_fences.size() - 1);</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;        }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a308a80ca874699955a8df57bcdc7a252"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a308a80ca874699955a8df57bcdc7a252">&#9670;&nbsp;</a></span>new_index_buffer()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">index_buffer</a> * hp::vk::window::new_index_buffer </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>is32bit</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Construct and retrieve a new <code><a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">hp::vk::index_buffer</a></code> </p>
-<dl class="section warning"><dt>Warning</dt><dd>DO NOT attempt to call <code>delete</code> on pointer returned by this function! They are cleaned up when window is destroyed! </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>The size in bytes of the buffer to construct </td></tr>
-    <tr><td class="paramname">is32bit</td><td>If true, the index buffer is expected to be filled with <code>uint32_t</code>, otherwise, it's expected to be filled with <code>uint16_t</code> </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a pointer to the newly constructed <code><a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">index_buffer</a></code>. </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00619">619</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                                                                         {</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;            <span class="keyword">auto</span> ibo = <span class="keyword">new</span> index_buffer(size, is32bit, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;            child_bufs.emplace_back(ibo);</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;            <span class="keywordflow">return</span> ibo;</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00613">613</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                                    {</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;            child_fences.emplace_back(::vk::Fence());</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;            <span class="keywordflow">return</span> &amp;child_fences.at(child_fences.size() - 1);</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -749,112 +748,14 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the newly constructed <code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a></code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00561">561</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;                                                                                                                     {</div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;            <span class="keyword">auto</span> new_prog = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">shader_program</a>(fp, metapath, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;            child_shaders.emplace_back(new_prog);</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;            <span class="keywordflow">return</span> new_prog;</div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00602">602</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                                                                                                                     {</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;            <span class="keyword">auto</span> new_prog = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">shader_program</a>(fp, metapath, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;            child_shaders.emplace_back(new_prog);</div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;            <span class="keywordflow">return</span> new_prog;</div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;        };</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00461">shader_program</a>.</p>
-
-</div>
-</div>
-<a id="a55feeb6bef89430f8390d6a42a66e038"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55feeb6bef89430f8390d6a42a66e038">&#9670;&nbsp;</a></span>new_staging_buffer()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/dbc/classhp_1_1vk_1_1staging__buffer.html">staging_buffer</a>* hp::vk::window::new_staging_buffer </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00605">605</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;                                                               {</div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;            <span class="keyword">auto</span> sbo = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a51d18ecba703a792316f06cf9e9b3983">staging_buffer</a>(size, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;            child_bufs.emplace_back(sbo);</div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;            <span class="keywordflow">return</span> sbo;</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;        }</div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00467">staging_buffer</a>.</p>
-
-</div>
-</div>
-<a id="ab46303415ffe564cf2861fa34d6a56cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab46303415ffe564cf2861fa34d6a56cb">&#9670;&nbsp;</a></span>new_vbo()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a> * hp::vk::window::new_vbo </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>vert_count</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned&#160;</td>
-          <td class="paramname"><em>lyo_indx</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Construct and retrieve a new <code><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">hp::vk::vertex_buffer</a></code> </p>
-<dl class="section warning"><dt>Warning</dt><dd>DO NOT attempt to call <code>delete</code> on pointer returned by this function! They are cleaned up when window is destroyed! </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>The size in bytes of the VBO to construct. </td></tr>
-    <tr><td class="paramname">vert_count</td><td>The number of vertices the VBO is intended to hold. </td></tr>
-    <tr><td class="paramname">lyo_indx</td><td>The index of the <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> in <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#aaaea5b0ed3e3b5f54912fc3fe9237f0a" title="List of buffer_layoutss shader_programs should support.">buffer_layout::bound_lyos</a></code> that describes this buffer. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a pointer to the newly constructed <code><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a></code> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00591">591</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                                                                                           {</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;            <span class="keyword">auto</span> vbo = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a80c036901d113d3fa4314fcc7317646c">vertex_buffer</a>(size, vert_count, lyo_indx, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;            child_bufs.emplace_back(vbo);</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;            <span class="keywordflow">return</span> vbo;</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;        }</div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00465">vertex_buffer</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00496">shader_program</a>.</p>
 
 </div>
 </div>
@@ -910,8 +811,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a030426687844b9349341a0acd31c42a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a030426687844b9349341a0acd31c42a8">&#9670;&nbsp;</a></span>rec_bind_index_buffer()</h2>
+<a id="a00141a7a44204dddc48ef529f41a0459"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00141a7a44204dddc48ef529f41a0459">&#9670;&nbsp;</a></span>rec_bind_index_buffer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -919,7 +820,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">void hp::vk::window::rec_bind_index_buffer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/d8e/classhp_1_1vk_1_1index__buffer.html">index_buffer</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d2/d99/structhp_1_1vk_1_1index__buffer.html">index_buffer</a>&#160;</td>
           <td class="paramname"><em>ibo</em></td><td>)</td>
           <td></td>
         </tr>
@@ -946,8 +847,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="aca94c67a79b450fc2006748de71a1ea5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca94c67a79b450fc2006748de71a1ea5">&#9670;&nbsp;</a></span>rec_bind_vbo()</h2>
+<a id="a1673d156a395348eb49f8ffb3af56bfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1673d156a395348eb49f8ffb3af56bfe">&#9670;&nbsp;</a></span>rec_bind_vbo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -955,7 +856,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">void hp::vk::window::rec_bind_vbo </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a>&#160;</td>
           <td class="paramname"><em>vbo</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1120,10 +1021,10 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>DO NOT CALL <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#accf9acdf9dca93ec205add02b07debbe">save_recording()</a></code> IN THE CALLBACK! SWAP CHAIN RECREATION ALREADY IMPLICITLY CALLS IT! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00520">520</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;                                                                                {</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;            swap_recreate_callback = new_callback;</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00561">561</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;                                                                                {</div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;            swap_recreate_callback = new_callback;</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1150,11 +1051,133 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00500">500</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;                                   {</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;            <span class="keywordflow">return</span> glfwWindowShouldClose(win);</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00535">535</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;                                   {</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            <span class="keywordflow">return</span> glfwWindowShouldClose(win);</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;        };</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="ae788e13973e418e20403e60f142157d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae788e13973e418e20403e60f142157d3">&#9670;&nbsp;</a></span>start_write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t* hp::vk::window::start_write </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
+          <td class="paramname"><em>buf</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a650ae8a55d1b43a4e948217c38abd388"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a650ae8a55d1b43a4e948217c38abd388">&#9670;&nbsp;</a></span>stop_write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::window::stop_write </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
+          <td class="paramname"><em>buf</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a17536da75810d265a3f480d2ad37a2b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17536da75810d265a3f480d2ad37a2b1">&#9670;&nbsp;</a></span>write_buffer() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::window::write_buffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3f4a25b2c0e0d68389d8d286404fbebc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f4a25b2c0e0d68389d8d286404fbebc">&#9670;&nbsp;</a></span>write_buffer() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::window::write_buffer </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -1178,7 +1201,9 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00463">463</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00498">498</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00623">new_buffer()</a>.</p>
 
 </div>
 </div>
@@ -1280,9 +1305,9 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00461">461</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00496">496</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00561">new_shader_program()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00602">new_shader_program()</a>.</p>
 
 </div>
 </div>
@@ -1296,7 +1321,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">friend class <a class="el" href="../../d0/dbc/classhp_1_1vk_1_1staging__buffer.html">staging_buffer</a></td>
+          <td class="memname">friend class staging_buffer</td>
         </tr>
       </table>
   </td>
@@ -1306,9 +1331,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00467">467</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00605">new_staging_buffer()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00502">502</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -1322,7 +1345,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">friend class <a class="el" href="../../dc/d08/classhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a></td>
+          <td class="memname">friend class <a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a></td>
         </tr>
       </table>
   </td>
@@ -1332,9 +1355,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00465">465</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00591">new_vbo()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00500">500</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -1342,12 +1363,11 @@ Friends</h2></td></tr>
 <li>include/hp/vk/<a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a></li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a305cb8478e7b7488a0d45898e8cdb0a2"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">hp::vk::window::shader_program</a></div><div class="ttdeci">friend class shader_program</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00461">window.hpp:461</a></div></div>
-<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a51d18ecba703a792316f06cf9e9b3983"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a51d18ecba703a792316f06cf9e9b3983">hp::vk::window::staging_buffer</a></div><div class="ttdeci">friend class staging_buffer</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00467">window.hpp:467</a></div></div>
-<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a80c036901d113d3fa4314fcc7317646c"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a80c036901d113d3fa4314fcc7317646c">hp::vk::window::vertex_buffer</a></div><div class="ttdeci">friend class vertex_buffer</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00465">window.hpp:465</a></div></div>
+<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a305cb8478e7b7488a0d45898e8cdb0a2"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">hp::vk::window::shader_program</a></div><div class="ttdeci">friend class shader_program</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00496">window.hpp:496</a></div></div>
+<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a83fc33f12135a37af6a6a5bd964bf294"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a83fc33f12135a37af6a6a5bd964bf294">hp::vk::window::generic_buffer</a></div><div class="ttdeci">friend class generic_buffer</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00498">window.hpp:498</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 29 2019 17:28:19 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 30 2019 10:30:24 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

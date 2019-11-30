@@ -1,4 +1,4 @@
-echo "[run.sh@Hephaestus]: Building and running Hephaestus with run.sh (Version d2019.11.17)"
+echo "[run.sh@Hephaestus]: Building and running Hephaestus with run.sh (Version d2019.11.30)"
 
 export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/icd.d/MoltenVK_icd.json"
 export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/explicit_layer.d"
@@ -47,7 +47,7 @@ cp sandbox/HephaestusSandbox ../run-env/HephaestusSandbox
 for ARG in "$@"
 do
   if [ "$ARG" == "-nr" ] || [ "$ARG" == "--no-run" ]; then
-      echo "[run.sh@Hephaestus]: --no-run option is active; \`sudo chown\`ing and exiting!"
+      echo "[run.sh@Hephaestus]: --no-run option is active; Exiting!"
       exit
   fi
 done

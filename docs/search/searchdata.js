@@ -4,9 +4,9 @@ var indexSectionsWithContent =
   1: "_bcgipqsvw",
   2: "h",
   3: "chlmpvw",
-  4: "bcdefghilnopqrsvw~",
-  5: "abcdefgilmnpstv",
-  6: ":gopsvw",
+  4: "bcdefghilnopqrsw~",
+  5: "abcdefgilmnopstv",
+  6: ":giopsvw",
   7: "_h",
   8: "h"
 };
