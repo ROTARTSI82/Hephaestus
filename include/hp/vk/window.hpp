@@ -31,6 +31,7 @@ namespace hp::vk {
     /**
      * @struct __hp_vk_is_in_extension_prop_list
      * @private
+     * @brief This is an implementation detail and you should NEVER touch this.
      */
     struct __hp_vk_is_in_extension_prop_list { ///< @private
         const char *ext; ///< @private
@@ -49,6 +50,7 @@ namespace hp::vk {
     /**
      * @struct __hp_vk_is_in_layer_prop_list
      * @private
+     * @brief This is an implementation detail and you should NEVER touch this.
      */
     struct __hp_vk_is_in_layer_prop_list { ///< @private
         const char *lay; ///< @private
@@ -167,18 +169,19 @@ namespace hp::vk {
 
         /**
          * @fn buffer_layout &operator=(const buffer_layout &)
-         * @brief Standard copy assignment operator.
-         * @param rhs Right hand side of the assignment operation
-         * @return Forwards the `rhs` parameter.
+         * @brief Deleted copy assignment operator. Use the move assignment operator instead.
+         * @note The standard copy assignment operator has been deleted. You *MUST* use the `buffer_layout &operator=(buffer_layout &&rhs) noexcept`
+         *       move assignment operator instead.
          */
-        buffer_layout &operator=(const buffer_layout &rhs);
+        buffer_layout &operator=(const buffer_layout &rhs) = delete;
 
         /**
          * @fn buffer_layout(const buffer_layout &)
-         * @brief Standard copy constructor.
-         * @param rhs Right hande side of the copy construction
+         * @brief Deleted copy constructor. Use the move constructor instead.
+         * @note The standard copy constructor has been deleted. You *MUST* use the `buffer_layout(buffer_layout &&rhs) noexcept`
+         *       move constructor instead.
          */
-        buffer_layout(const buffer_layout &rhs);
+        buffer_layout(const buffer_layout &rhs) = delete;
 
         /**
          * @fn buffer_layout &operator=(buffer_layout &&) noexcept
@@ -217,29 +220,39 @@ namespace hp::vk {
         }
     };
 
-    struct queue_family_indices {
+    /**
+     * @struct queue_family_indices
+     * @private
+     * @brief This is an implementation detail and you should NEVER touch this.
+     */
+    struct queue_family_indices { ///< @private
     public:
-        queue_family_indices() = default;
+        queue_family_indices() = default; ///< @private
 
-        std::optional<uint32_t> graphics_fam;
+        std::optional<uint32_t> graphics_fam; ///< @private
 
-        std::optional<uint32_t> present_fam;
+        std::optional<uint32_t> present_fam; ///< @private
 
-        inline bool is_complete();
+        inline bool is_complete(); ///< @private
 
-        queue_family_indices(const queue_family_indices &rhs);
+        queue_family_indices(const queue_family_indices &rhs); ///< @private
 
-        queue_family_indices &operator=(const queue_family_indices &rhs);
+        queue_family_indices &operator=(const queue_family_indices &rhs); ///< @private
 
-        queue_family_indices(queue_family_indices &&rhs) noexcept;
+        queue_family_indices(queue_family_indices &&rhs) noexcept; ///< @private
 
-        queue_family_indices &operator=(queue_family_indices &&rhs) noexcept;
+        queue_family_indices &operator=(queue_family_indices &&rhs) noexcept; ///< @private
     };
 
-    struct swap_chain_support {
-        ::vk::SurfaceCapabilitiesKHR capabilities;
-        std::vector<::vk::SurfaceFormatKHR> formats;
-        std::vector<::vk::PresentModeKHR> present_modes;
+    /**
+     * @struct swap_chain_support
+     * @private
+     * @brief This is an implementation detail and you should NEVER touch this.
+     */
+    struct swap_chain_support { ///< @private
+        ::vk::SurfaceCapabilitiesKHR capabilities; ///< @private
+        std::vector<::vk::SurfaceFormatKHR> formats; ///< @private
+        std::vector<::vk::PresentModeKHR> present_modes; ///< @private
     };
 
     static queue_family_indices
@@ -250,6 +263,10 @@ namespace hp::vk {
 
     class window;
 
+    /**
+     * @class generic_buffer
+     * @brief Offers nice wrapper around functionality of vk::Buffer (See Vulkan documentation)
+     */
     class generic_buffer {
     protected:
         size_t capacity = 0; ///< @private
@@ -267,40 +284,117 @@ namespace hp::vk {
         friend struct index_buffer;
 
     public:
+        /**
+         * @fn generic_buffer() = default
+         * @brief Standard default constructor
+         */
         generic_buffer() = default;
 
+        /**
+         * @fn virtual ~generic_buffer()
+         * @brief Standard virtual destructor
+         */
         virtual ~generic_buffer();
 
+        /**
+         * @fn generic_buffer(const generic_buffer &cpy) = delete
+         * @brief Deleted copy constructor. Use the move constructor instead.
+         * @note The standard copy constructor has been deleted. You *MUST* use the `generic_buffer(generic_buffer &&rhs) noexcept`
+         *       standard move constructor instead.
+         */
+        generic_buffer(const generic_buffer &cpy) = delete;
+
+        /**
+         * @fn generic_buffer &operator=(const generic_buffer &cpy) = delete
+         * @brief Deleted copy assignment operator. Use the move assignment operator instead.
+         * @note The standard copy assignment operator has been deleted. You *MUST* use the `generic_buffer &operator=(generic_buffer &&rhs) noexcept`
+         *       standard move assignment operator instead.
+         */
+        generic_buffer &operator=(const generic_buffer &cpy) = delete;
+
+        /**
+         * @fn generic_buffer(generic_buffer &&rhs) noexcept
+         * @brief Standard move constructor
+         * @param rhs Right hand side of the copy construction
+         */
+        generic_buffer(generic_buffer &&rhs) noexcept;
+
+        /**
+         * @fn generic_buffer &operator=(generic_buffer &&rhs) noexcept
+         * @brief Standard move assignment operator.
+         * @param rhs Right hand side of the move assignment operation
+         * @return Forwards the `rhs` parameter.
+         */
+        generic_buffer &operator=(generic_buffer &&rhs) noexcept;
+
+        /**
+         * @fn [[nodiscard]] inline size_t get_size() const
+         * @brief Query the capacity of the generic_buffer in bytes.
+         * @return The size of the buffer in bytes.
+         */
         [[nodiscard]] inline size_t get_size() const {
             return capacity;
         }
     };
 
-    extern ::vk::MemoryPropertyFlags memory_local;
-    extern ::vk::MemoryPropertyFlags memory_host;
-
-    extern ::vk::BufferUsageFlags vertex_usage;
-    extern ::vk::BufferUsageFlags index_usage;
-    extern ::vk::BufferUsageFlags vertex_direct_usage;
-    extern ::vk::BufferUsageFlags index_direct_usage;
-
-    extern ::vk::BufferUsageFlags staging_usage;
-    extern ::vk::BufferUsageFlags vertex_and_index_usage;
-    extern ::vk::BufferUsageFlags vertex_and_index_direct_usage;
-
-
+    /**
+     * @struct vertex_buffer
+     * @brief Provide metadata necessary to bind and draw a VBO
+     */
     struct vertex_buffer {
+        /**
+         * @var generic_buffer *buf
+         * @brief The underlying `generic_buffer` that this metadata describes (and is to be used as a VBO)
+         */
         generic_buffer *buf{};
+
+        /**
+         * @var unsigned layout_indx
+         * @brief The index of the buffer_layout that describes this VBO. See `buffer_layout::bound_lyos`
+         * @see hp::vk::buffer_layout
+         */
         unsigned layout_indx = 0;
+
+        /**
+         * @var unsigned vertex_count
+         * @brief The number of vertices to draw
+         */
         unsigned vertex_count = 0;
+
+        /**
+         * @var ::vk::DeviceSize offset
+         * @brief The index at which to start drawing vertices (in bytes)
+         */
         ::vk::DeviceSize offset = 0;
     };
 
+    /**
+     * @struct index_buffer
+     * @brief Provide the metadata necessary to bind and draw an IBO
+     */
     struct index_buffer {
+        /**
+         * @var generic_buffer *buf{}
+         * @brief The underlying `generic_buffer` that this metadata describes (and is to be used as a IBO)
+         */
         generic_buffer *buf{};
+
+        /**
+         * @var bool is32bit
+         * @brief True if each index entry in the buffer is 32 bits. (ie `uint32_t`). False if they are 16 bits (ie `uint16_t`)
+         */
         bool is32bit{};
+
+        /**
+         * @var ::vk::DeviceSize offset
+         * @brief The index at which to start drawing indices (in bytes)
+         */
         ::vk::DeviceSize offset = 0;
 
+        /**
+         * @fn [[nodiscard]] inline unsigned get_num_indices()
+         * @brief Get the number of indices this IBO is supposed to hold.
+         */
         [[nodiscard]] inline unsigned get_num_indices() {
             if (is32bit) {
                 return (buf->capacity - offset) / sizeof(uint32_t);
@@ -309,58 +403,6 @@ namespace hp::vk {
             }
         }
     };
-
-//    class staging_buffer : public generic_buffer {
-//    private:
-//
-//        staging_buffer(size_t size, window *parent); ///< @private
-//
-//        friend class vertex_buffer;
-//
-//        friend class window;
-//
-//    public:
-//        staging_buffer() = default;
-//
-//        void write(const void *data);
-//    };
-//
-//    class vertex_buffer : public generic_buffer {
-//    private:
-//        friend class window;
-//
-//        vertex_buffer(size_t size, unsigned num_verts, unsigned lyo_indx, window *parent); ///< @private
-//
-//    public:
-//        unsigned vertex_count = 0;
-//        unsigned layout_index = 0;
-//
-//        vertex_buffer() = default;
-//
-//        std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
-//    };
-//
-//    class index_buffer : public generic_buffer {
-//    private:
-//        friend class window;
-//
-//        bool is32bit{};
-//
-//        index_buffer(size_t size, bool is32bit, window *parent); ///< @private
-//
-//    public:
-//        index_buffer() = default;
-//
-//        std::pair<::vk::Fence *, ::vk::CommandBuffer> write(staging_buffer *staging_buf, bool wait = true);
-//
-//        [[nodiscard]] inline unsigned get_num_indices() {
-//            if (is32bit) {
-//                return capacity / sizeof(uint32_t);
-//            } else {
-//                return capacity / sizeof(uint16_t);
-//            }
-//        }
-//    };
 
     /**
      * @class shader_program
@@ -398,20 +440,60 @@ namespace hp::vk {
         shader_program(const std::string &basicString, const char *string, ::hp::vk::window *pWindow); ///< @private
 
     public:
+        /**
+         * @fn virtual ~shader_program()
+         * @brief Standard virtual destructor.
+         */
         virtual ~shader_program();
 
+        /**
+         * @fn shader_program() = default
+         * @brief Standard default constructor.
+         */
         shader_program() = default;
 
+        /**
+         * @fn shader_program &operator=(const shader_program &) = delete
+         * @brief Deleted copy assignment operator. Use the move assignment operator instead.
+         * @note The standard copy assignment operator has been deleted. You *MUST* use the `shader_program &operator=(shader_program &&rhs) noexcept`
+         *       move assignment operator instead.
+         */
         shader_program &operator=(const shader_program &rhs) = delete;
 
+        /**
+         * @fn shader_program(const shader_program &rhs) = delete
+         * @brief Deleted copy constructor. Use the move constructor instead.
+         * @note The standard copy constructor has been deleted. You *MUST* use the `shader_program(shader_program &&rhs) noexcept`
+         *       move constructor instead.
+         */
         shader_program(const shader_program &rhs) = delete;
 
+        /**
+         * @fn shader_program &operator=(shader_program &&rhs) noexcept
+         * @brief Standard move assignment operator
+         * @param rhs Right hand side of the move assignment
+         * @return Forwards the `rhs` parameter.
+         */
         shader_program &operator=(shader_program &&rhs) noexcept;
 
+        /**
+         * @fn shader_program(shader_program &&rhs) noexcept
+         * @brief Standard move constructor
+         * @param rhs Right hand side of the move construction
+         */
         shader_program(shader_program &&rhs) noexcept;
 
+        /**
+         * @fn void reload_from_file()
+         * @brief Fully reload the `shader_program`, including re-reading the file. See `rebuild_pipeline()`.
+         * @note This function implicitly calls `rebuild_pipeline()` so there is no need to explicitly call it.
+         */
         void reload_from_file();
 
+        /**
+         * @fn void rebuild_pipeline()
+         * @brief Rebuild the graphics pipeline, does *NOT* re-read the file. See `reload_from_file()`.
+         */
         void rebuild_pipeline();
     };
 
@@ -419,6 +501,10 @@ namespace hp::vk {
 
     static void on_iconify_event(GLFWwindow *win, int state); ///< @private
 
+    /**
+     * @class window
+     * @brief Describes a vulkan window. Is used as a base for all operations.
+     */
     class window {
     private:
         GLFWwindow *win{}; ///< @private
@@ -506,50 +592,172 @@ namespace hp::vk {
         friend void on_iconify_event(GLFWwindow *win, int state); ///< @private
 
     public:
+        /**
+         * @fn window() = default
+         * @brief Standard default constructor.
+         */
         window() = default;
 
+        /**
+         * @fn window(int width, int height, const char *app_name, uint32_t version)
+         * @brief Window constructor.
+         * @param width Width of the window in pixels
+         * @param height Height of the window in pixels
+         * @param app_name The name of you application
+         * @param version Version of you application, should be a return value of `VK_MAKE_VERSION()`. See vulkan documentation for more details.
+         */
         window(int width, int height, const char *app_name, uint32_t version);
 
+        /**
+         * @fn virtual ~window()
+         * @brief Standard virtual destructor.
+         */
         virtual ~window();
 
+        /**
+         * @fn window(const window &other) = delete
+         * @brief Deleted copy constructor. Use the move constructor instead.
+         * @note The standard copy constructor is deleted. You *MUST* use the `window(window &&other) noexcept` move
+         *        constructor instead!
+         */
         window(const window &other) = delete;
 
+        /**
+         * @fn window &operator=(const window &rhs) = delete
+         * @brief Deleted copy assignment operator. Use the move assignment operator instead.
+         * @note The standard copy assignment operator is deleted. You *MUST* use the `window &operator=(window &&other) noexcept`
+         *       move assignment operator instead.
+         */
         window &operator=(const window &rhs) = delete;
 
+        /**
+         * @fn window(window &&other) noexcept
+         * @brief Standard copy constructor
+         * @param other Right hand side of the copy construction
+         */
         window(window &&other) noexcept;
 
+        /**
+         * @fn window &operator=(window &&other) noexcept
+         * @brief Standard move assignment operator
+         * @param other Right hand side of the move assignment operation.
+         * @return Forwards the `other` parameter.
+         */
         window &operator=(window &&other) noexcept;
 
+        /**
+         * @fn inline bool ext_supported(const char *ext)
+         * @brief Query if an extension is supported by the current instance.
+         * @param ext Name of the extension to check.
+         * @return True if extension is supported, otherwise false.
+         */
         inline bool ext_supported(const char *ext) {
             return std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));
         };
 
+        /**
+         * @fn inline bool dev_ext_supported(const char *ext)
+         * @brief Query if an extension is supported by the current physical device.
+         * @param ext Name of the extension to check.
+         * @return True if the extension is supported, otherwise false.
+         */
         inline bool dev_ext_supported(const char *ext) {
             return std::any_of(phys_dev_ext.begin(), phys_dev_ext.end(), __hp_vk_is_in_extension_prop_list(ext));
         };
 
+        /**
+         * @fn inline bool layer_supported(const char *lay)
+         * @brief Check if a validation layer is supported by the current instance.
+         * @note Disabling validation layers *WILL NOT* affect the behavior of this function.
+         * @param lay The name of the validation layer to check.
+         * @return True if the validation layer is supported, otherwise false.
+         */
         inline bool layer_supported(const char *lay) {
             return std::any_of(supported_lay.begin(), supported_lay.end(), __hp_vk_is_in_layer_prop_list(lay));
         };
 
+        /**
+         * @fn inline bool should_close()
+         * @brief Poll if this window should be closed (ie. The user closed it)
+         * @return True if the window should close (ie. You should terminate the program, or other appropriate behavior)
+         */
         inline bool should_close() {
             return glfwWindowShouldClose(win);
         };
 
+        /**
+         * @fn inline ::vk::Extent2D get_dims()
+         * @brief Get the current size of the window (in pixels).
+         * @return The vulkan `Extent2D` assiciated with this window.
+         */
         inline ::vk::Extent2D get_dims() {
             return swap_extent;
         }
 
-        std::pair<::vk::Fence *, ::vk::CommandBuffer> copy_buffer(generic_buffer *source, generic_buffer *dest,
-                                                                  bool wait = true, size_t src_offset = 0,
-                                                                  size_t dest_offset = 0, size_t size = 0);
+        /**
+         * @fn std::pair<::vk::Fence, ::vk::CommandBuffer> copy_buffer(generic_buffer *source, generic_buffer *dest,
+         *                                                        bool wait = true, size_t src_offset = 0,
+         *                                                        size_t dest_offset = 0, size_t size = 0)
+         * @brief Copy data from one buffer to another
+         * @see window::delete_fence  window::delete_cmd_buffers  window::wait_fences
+         * @param source The source buffer of the copy operation
+         * @param dest The destination buffer of the copy operation
+         * @param wait Whether or not to wait for the copy operation to finish. See the return values for the function.
+         * @param src_offset Index (in bytes) in the source at which to start copying data.
+         * @param dest_offset Index (in bytes) in the destination at which to start writing data.
+         * @param size The size (in bytes) of the data that should be copied. If set to 0, the entire sizes of the
+         *              buffers are automatically copied (ie. size is set to the size of the buffers, so the sizes *MUST* be equal)
+         * @return Returns a vk::Fence and vk::CommandBuffer if the `wait` parameter is set to `false`.
+         *          These objects *MUST* be *EXPLICITLY DESTROYED!* If `wait` is `false` or the sizes of the buffers are mismatched
+         *         while `size` is 0, then this function would return `VK_NULL_HANDLE`s.
+         * @warning It is possible that the fence would never be signaled if the operation fails, so waiting for
+         *          them may cause infinite blocking. Therefore, it is recommended that you set a timeout for fence waits.
+         */
+        std::pair<::vk::Fence, ::vk::CommandBuffer> copy_buffer(generic_buffer *source, generic_buffer *dest,
+                                                                bool wait = true, size_t src_offset = 0,
+                                                                size_t dest_offset = 0, size_t size = 0);
 
+        /**
+         * @fn void write_buffer(generic_buffer *buf, const void *data, size_t offset = 0, size_t size = 0)
+         * @brief Write data to a buffer with `eHostCoherent` and `eHostVisible`.
+         * @details This function maps and unmaps the buffer. See `void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)`,
+         *          `window::start_write()`, and `window::stop_write()` for explicit mapping/unmapping.
+         * @note The supplied buffer *MUST* have the memory property `eHostVisible` and `eHostCoherent`! Consult vulkan docs.
+         * @param buf The buffer to write to.
+         * @param data The data to write
+         * @param offset The index (in bytes) of the buffer at which to start writing.
+         * @param size The size of the data to write.
+         */
         void write_buffer(generic_buffer *buf, const void *data, size_t offset = 0, size_t size = 0);
 
+        /**
+         * @fn uint8_t *start_write(generic_buffer *buf)
+         * @brief Map a buffer so it is ready for writing.
+         * @warning Mapped memory *IS NOT* automatically unmapped! Any call to `start_write()` *MUST* be accompanied
+         *          by a call to `stop_write()`
+         * @param buf Buffer to map
+         * @return Pointer to the mapped region
+         */
         uint8_t *start_write(generic_buffer *buf);
 
+        /**
+         * @fn void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)
+         * @brief Write data to a buffer with `eHostCoherent` and `eHostVisible`.
+         * @details This function *DOES NOT* map and unmap memory! Memory must be explicitly mapped/unmapped using
+         *          `start_write()` and `stop_write()`.
+         * @param dest The data to write to. Should be the value returned from `hp::vk::window::start_write()`
+         * @param buf The buffer to write to.
+         * @param src The data to write.
+         * @param offset The index (in bytes) at which to start writing.
+         * @param size Size of the data to write.
+         */
         void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0);
 
+        /**
+         * @fn void stop_write(generic_buffer *buf)
+         * @brief Unmap a buffer so it is ready for reading and use.
+         * @param buf Buffer to unmap
+         */
         void stop_write(generic_buffer *buf);
 
         /**
@@ -564,26 +772,79 @@ namespace hp::vk {
             swap_recreate_callback = new_callback;
         }
 
+        /**
+         * @fn void clear_recording()
+         * @brief Clear the recording buffer.
+         */
         void clear_recording();
 
+        /**
+         * @fn void save_recording()
+         * @brief Create new command buffers according to the contents of the recording buffer.
+         */
         void save_recording();
 
+        /**
+         * @fn void rec_bind_shader(shader_program *shader)
+         * @brief Add a pipeline binding operation to the recording buffer.
+         * @details Call this function before setting viewports, scissors, and other dynamic states.
+         *          A pipeline must be bound for *ANY* draw operation.
+         * @param shader Shader to bind.
+         */
         void rec_bind_shader(shader_program *shader);
 
+        /**
+         * @fn void rec_set_viewport(::vk::Viewport viewport)
+         * @brief Record setting the viewport. Consult vulkan docs.
+         * @param viewport New viewport
+         */
         void rec_set_viewport(::vk::Viewport viewport);
 
+        /**
+         * @fn void rec_set_scissor(::vk::Rect2D scissor)
+         * @brief Record setting the scissor. Consult vulkan docs.
+         * @param scissor New scissor
+         */
         void rec_set_scissor(::vk::Rect2D scissor);
 
+        /**
+         * @fn void rec_set_default_viewport()
+         * @brief Record setting the default viewport, which covers the entire screen.
+         */
         void rec_set_default_viewport();
 
+        /**
+         * @fn void rec_set_default_scissor()
+         * @brief Record setting the default scissor, which covers the entire screen.
+         */
         void rec_set_default_scissor();
 
+        /**
+         * @fn void rec_bind_vbo(vertex_buffer vbo)
+         * @brief Record binding a vertex buffer.
+         * @param vbo VBO to bind.
+         */
         void rec_bind_vbo(vertex_buffer vbo);
 
+        /**
+         * @fn void rec_bind_index_buffer(index_buffer ibo)
+         * @brief Record binding an index buffer
+         * @param ibo Index buffer to bind.
+         */
         void rec_bind_index_buffer(index_buffer ibo);
 
+        /**
+         * @fn void rec_draw_indexed(uint32_t num_indices)
+         * @brief Record issuing a draw command using the index buffer.
+         * @param num_indices Number of indices from the index buffer to draw.
+         */
         void rec_draw_indexed(uint32_t num_indices);
 
+        /**
+         * @fn void rec_draw(unsigned num_verts)
+         * @brief Record issuing a standard draw command.
+         * @param num_verts Number of vertices to draw.
+         */
         void rec_draw(unsigned num_verts);
 
         /**
@@ -596,7 +857,8 @@ namespace hp::vk {
          *          The line `"fragment-shader;main: frag.spv  # <some comment>"` would be invalid.
          *          Further examples are available under the "Examples" tag of the documentation.
          *
-         * @warning DO NOT attempt to call `delete` on pointer returned by this function! They are cleaned up when window is destroyed!
+         * @warning DO NOT attempt to call `delete` on pointer returned by this function! Use `window::delete_shader_program()` instead!
+         *          It is also *NOT* necessary to call `delete_shader_program`; the shaders are automatically cleaned up when window is destroyed!
          * @param fp The path to load the shader program from. *DO NOT* INCLUDE A TRAILING SLASH OR THE LOADING OPERATION *WILL* FAIL
          * @param metapath The path to the file containing the metadata for the shader. A LEADING SLASH *MUST* BE INCLUDED OR THE LOADING OPERATION *WILL* FAIL.
          * @return A pointer to the newly constructed `shader_program`.
@@ -607,21 +869,86 @@ namespace hp::vk {
             return new_prog;
         };
 
+        /**
+         * @fn inline void delete_shader_program(shader_program *sh)
+         * @brief Destroy a shader_program associated with this window
+         * @note The supplied shader_program *DOES NOT* have to be associate with this window, and it *DOES NOT* have to be
+         *       created by `window::new_shader_program`.
+         * @param sh Pointer to the shader program to destroy
+         */
         inline void delete_shader_program(shader_program *sh) {
             boost::remove_erase(child_shaders, sh);
             delete sh;
         }
 
-        inline ::vk::Fence *new_fence() {
-            child_fences.emplace_back(::vk::Fence());
-            return &child_fences.at(child_fences.size() - 1);
+        /**
+         * @fn inline void delete_cmd_buffers(::vk::CommandBuffer *bufs, uint32_t num = 1)
+         * @brief Destroy any command buffer associated with this window allocated to the current `cmd_pool`
+         * @note The command buffers supplied to this function *MUST* be associated with the current window
+         *       and command pool! As of right now, the command pool is *NEVER* recreated.
+         * @param bufs Pointer to a list of command buffers to destroy
+         * @param num Number of command buffers the list contains
+         */
+        inline void delete_cmd_buffers(::vk::CommandBuffer *bufs, uint32_t num = 1) {
+            log_dev.freeCommandBuffers(cmd_pool, num, bufs);
         }
 
-        inline void delete_fence(::vk::Fence *fence) {
-            boost::remove_erase(child_fences, *fence);
-            log_dev.destroyFence(*fence, nullptr);
+        /**
+         * @fn inline void wait_fences(::vk::Fence *fences, uint32_t num = 1, uint64_t timeout = UINT64_MAX)
+         * @brief Block until the fences provided are signaled
+         * @note The fence provided *MUST* be associated with this window!
+         * @param fences Pointer to a list of fences
+         * @param num The number of fences that list contains (default to 1 for waiting on a single fence)
+         * @param timeout The maximum amount of time (in nanoseconds) this would block before aborting.
+         *                By default there is no timeout (Signified by the value `UINT64_MAX`).
+         * @warning If no timeout is set, this function would block forever if the fence is never signaled,
+         *          which *CAN* happen! Therefore, it is recommended to define a timeout. Do not set it too low,
+         *          or the operation wouldn't have a change to complete. Don't set it too high, or
+         *          the application would be forced to wait that number of nanoseconds if the fence is never signaled.
+         */
+        inline void wait_fences(::vk::Fence *fences, uint32_t num = 1, uint64_t timeout = UINT64_MAX) {
+            log_dev.waitForFences(num, fences, ::vk::Bool32(VK_TRUE), timeout);
         }
 
+        /**
+         * @fn inline ::vk::Fence new_fence()
+         * @brief Construct and retrieve a new vk::Fence. See vulkan documentation for more details.
+         * @warning DO NOT attempt to call `delete` on pointer returned by this function! Use `window::delete_fence()` instead!
+         *          It is also *NOT* necessary to call `delete_fence`; the fences are automatically cleaned up when window is destroyed!
+         * @return The newly constructed vk::Fence
+         */
+        inline ::vk::Fence new_fence() {
+            ::vk::Fence ret = ::vk::Fence();
+            ::vk::FenceCreateInfo fence_ci((::vk::FenceCreateFlags()));
+            if (handle_res(log_dev.createFence(&fence_ci, nullptr, &ret), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to create fences!");
+            }
+            child_fences.emplace_back(ret);
+            return ret;
+        }
+
+        /**
+         * @fn inline void delete_fence(::vk::Fence fence)
+         * @brief Destroy a fence associated with this window
+         * @note The fence provided *MUST* be associated with this window, but it *DOES NOT* have to be created
+         *       with `window::new_fence()`.
+         * @param fence Fence to destroy
+         */
+        inline void delete_fence(::vk::Fence fence) {
+            log_dev.destroyFence(fence, nullptr);
+            boost::remove_erase(child_fences, fence);
+        }
+
+        /**
+         * @fn inline generic_buffer *new_buffer(size_t size, const ::vk::BufferUsageFlags &usage, const ::vk::MemoryPropertyFlags &flags)
+         * @brief Construct and retrieve a new generic_buffer
+         * @warning DO NOT attempt to call `delete` on pointer returned by this function! Use `window::delete_buffer()` instead!
+         *          It is also *NOT* necessary to call `delete_buffer`; the buffers are automatically cleaned up when window is destroyed!
+         * @param size The size (in bytes) of the buffer to create.
+         * @param usage See `hp::vk::vertex_usage`, `hp::vk::index_usage`, etc. Consult Vulkan docs for vk::BufferUsageFlags.
+         * @param flags See `hp::vk::memory_local` and `hp::vk::memory_host`. Consult Vulkan docs for vk::MemoryPropertyFlags.
+         * @return Pointer to the newly constructed buffer.
+         */
         inline generic_buffer *
         new_buffer(size_t size, const ::vk::BufferUsageFlags &usage, const ::vk::MemoryPropertyFlags &flags) {
             auto buf = new generic_buffer(size, usage, flags, this);
@@ -629,11 +956,24 @@ namespace hp::vk {
             return buf;
         }
 
+        /**
+         * @fn inline void delete_buffer(generic_buffer *buf)
+         * @brief Destroy a generic_buffer associated with this window.
+         * @note The supplied generic_buffer *DOES NOT* have to be associate with this window, and it *DOES NOT* have to be
+         *       created by `window::new_buffer`.
+         * @param buf The buffer to destroy
+         */
         inline void delete_buffer(generic_buffer *buf) {
             boost::remove_erase(child_bufs, buf);
             delete buf;
         }
 
+        /**
+         * @fn void draw_frame()
+         * @brief Draw the next frame to the screen.
+         * @note This function blocks until the frame is acquired, but *DOES NOT* block until it is presented.
+         *        This function is also thread safe! :)
+         */
         void draw_frame();
     };
 }

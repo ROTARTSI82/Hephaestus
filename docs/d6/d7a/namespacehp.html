@@ -124,12 +124,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a6105175335860b1320e079515a0c7ed6"><td class="memItemLeft" align="right" valign="top">boost::asio::io_service *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d7a/namespacehp.html#a6105175335860b1320e079515a0c7ed6">io_service</a></td></tr>
 <tr class="memdesc:a6105175335860b1320e079515a0c7ed6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for submitting asynchronous tasks.  <a href="../../d6/d7a/namespacehp.html#a6105175335860b1320e079515a0c7ed6">More...</a><br /></td></tr>
 <tr class="separator:a6105175335860b1320e079515a0c7ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86e442ea65987157ec1f8e7f3683d5b1"><td class="memItemLeft" align="right" valign="top">boost::thread_group *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d7a/namespacehp.html#a86e442ea65987157ec1f8e7f3683d5b1">default_threadpool</a></td></tr>
-<tr class="memdesc:a86e442ea65987157ec1f8e7f3683d5b1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><em>IMPLEMENTATION DETAIL</em> The actual thread pool object. For internal use.  <a href="../../d6/d7a/namespacehp.html#a86e442ea65987157ec1f8e7f3683d5b1">More...</a><br /></td></tr>
-<tr class="separator:a86e442ea65987157ec1f8e7f3683d5b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a513cde99cb322134d0883a743b9a1bd9"><td class="memItemLeft" align="right" valign="top">boost::asio::io_service::work *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d7a/namespacehp.html#a513cde99cb322134d0883a743b9a1bd9">io_work</a></td></tr>
-<tr class="memdesc:a513cde99cb322134d0883a743b9a1bd9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><em>IMPLEMENTATION DETAIL</em> The controller object for <code>io_service</code>. For internal use.  <a href="../../d6/d7a/namespacehp.html#a513cde99cb322134d0883a743b9a1bd9">More...</a><br /></td></tr>
-<tr class="separator:a513cde99cb322134d0883a743b9a1bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a2b53ecb5238f0067a6f884cde6026c8f"></a>
@@ -273,23 +267,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a86e442ea65987157ec1f8e7f3683d5b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86e442ea65987157ec1f8e7f3683d5b1">&#9670;&nbsp;</a></span>default_threadpool</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">boost::thread_group * hp::default_threadpool</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><em>IMPLEMENTATION DETAIL</em> The actual thread pool object. For internal use. </p>
-<dl class="section warning"><dt>Warning</dt><dd>DO NOT MODIFY OR USE THIS OBJECT! THIS IS PURELY FOR THE IMPLEMENTATION! </dd></dl>
-
-</div>
-</div>
 <a id="a6105175335860b1320e079515a0c7ed6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6105175335860b1320e079515a0c7ed6">&#9670;&nbsp;</a></span>io_service</h2>
 
@@ -304,23 +281,6 @@ Variables</h2></td></tr>
 
 <p>Interface for submitting asynchronous tasks. </p>
 <p>Once the default thread pool has been constructed, you can submit a task using <code>"io_service-&gt;post"</code>. For example, <code>"io_service-&gt;post(boost::bind(printf, "Test"));"</code> would queue <code>"printf("Test")"</code> to be called by the threadpool. See boost documentation for more details. </p>
-
-</div>
-</div>
-<a id="a513cde99cb322134d0883a743b9a1bd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a513cde99cb322134d0883a743b9a1bd9">&#9670;&nbsp;</a></span>io_work</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">boost::asio::io_service::work * hp::io_work</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><em>IMPLEMENTATION DETAIL</em> The controller object for <code>io_service</code>. For internal use. </p>
-<dl class="section warning"><dt>Warning</dt><dd>DO NOT MODIFY OR USE THIS OBJECT! THIS IS PURELY FOR THE IMPLEMENTATION! </dd></dl>
 
 </div>
 </div>
@@ -363,7 +323,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2019 10:30:23 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 30 2019 19:33:25 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

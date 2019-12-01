@@ -4,24 +4,6 @@
 
 namespace hp::vk {
 
-    ::vk::MemoryPropertyFlags memory_local = ::vk::MemoryPropertyFlagBits::eDeviceLocal;
-    ::vk::MemoryPropertyFlags memory_host =
-            ::vk::MemoryPropertyFlagBits::eHostVisible | ::vk::MemoryPropertyFlagBits::eHostCoherent;
-
-    ::vk::BufferUsageFlags vertex_usage =
-            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eVertexBuffer;
-    ::vk::BufferUsageFlags index_usage =
-            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eIndexBuffer;
-    ::vk::BufferUsageFlags vertex_direct_usage = ::vk::BufferUsageFlagBits::eVertexBuffer;
-    ::vk::BufferUsageFlags index_direct_usage = ::vk::BufferUsageFlagBits::eIndexBuffer;
-
-    ::vk::BufferUsageFlags staging_usage = ::vk::BufferUsageFlagBits::eTransferSrc;
-    ::vk::BufferUsageFlags vertex_and_index_usage =
-            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eIndexBuffer |
-            ::vk::BufferUsageFlagBits::eVertexBuffer;
-    ::vk::BufferUsageFlags vertex_and_index_direct_usage =
-            ::vk::BufferUsageFlagBits::eIndexBuffer | ::vk::BufferUsageFlagBits::eVertexBuffer;
-
     hp::vk::__hp_vk_is_in_layer_prop_list::__hp_vk_is_in_layer_prop_list(const char *lay) : lay(lay) {}
 
     hp::vk::__hp_vk_is_in_extension_prop_list::__hp_vk_is_in_extension_prop_list(const char *ext) : ext(ext) {}

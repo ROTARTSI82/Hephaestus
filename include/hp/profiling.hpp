@@ -88,6 +88,7 @@ namespace hp {
 
         /**
          * @fn profiler(const profiler &other) = delete
+         * @brief Deleted copy constructor. Use the move constructor instead.
          * @note The copy constructor is deleted. You *MUST* use the `profiler(profiler &&) noexcept` move
          *       constructor instead.
          */
@@ -95,6 +96,7 @@ namespace hp {
 
         /**
          * @fn profiler &operator=(const profiler &other) = delete
+         * @brief Deleted copy assignment operator. Use the move assignment operator instead.
          * @note The copy assignment operator is deleted. You *MUST* use the `profiler &operator=(profiler &&) noexcept`
          *       move assignment operator instead.
          */
@@ -173,7 +175,8 @@ namespace hp {
         virtual ~profiler_session();
 
         /**
-         * @fn profiler_session &operator=(const profiler_session &eq) = delete;
+         * @fn profiler_session &operator=(const profiler_session &eq) = delete
+         * @brief Deleted copy assignment operator. Use the move assignment operator instead.
          * @note The standard copy assignment operator is deleted. You *MUST* use the
          *       `profiler_session &operator=(profiler_session &&) noexcept` move assignment operator.
          */
@@ -181,6 +184,7 @@ namespace hp {
 
         /**
          * @fn profiler_session(const profiler_session &cpy) = delete
+         * @brief Deleted copy constructor. Use the move constructor instead.
          * @note The standard copy constructor is deleted. You *MUST* use the
          *       `profiler_session(profiler_session &&) noexcept` standard move constructor.
          */

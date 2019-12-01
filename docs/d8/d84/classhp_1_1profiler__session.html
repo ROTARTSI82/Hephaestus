@@ -97,8 +97,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a6ac428a03994e1bedc49277cf95a72c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of profiler session, writes and closes the report.  <a href="../../d8/d84/classhp_1_1profiler__session.html#a6ac428a03994e1bedc49277cf95a72c6">More...</a><br /></td></tr>
 <tr class="separator:a6ac428a03994e1bedc49277cf95a72c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a41d78aec4c8f2cc04cb6d9f14dcb4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d84/classhp_1_1profiler__session.html">profiler_session</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d84/classhp_1_1profiler__session.html#a0a41d78aec4c8f2cc04cb6d9f14dcb4d">operator=</a> (const <a class="el" href="../../d8/d84/classhp_1_1profiler__session.html">profiler_session</a> &amp;eq)=delete</td></tr>
+<tr class="memdesc:a0a41d78aec4c8f2cc04cb6d9f14dcb4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted copy assignment operator. Use the move assignment operator instead.  <a href="../../d8/d84/classhp_1_1profiler__session.html#a0a41d78aec4c8f2cc04cb6d9f14dcb4d">More...</a><br /></td></tr>
 <tr class="separator:a0a41d78aec4c8f2cc04cb6d9f14dcb4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e141631c5cf2ea0c835fe30245a5b9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d84/classhp_1_1profiler__session.html#a6e141631c5cf2ea0c835fe30245a5b9c">profiler_session</a> (const <a class="el" href="../../d8/d84/classhp_1_1profiler__session.html">profiler_session</a> &amp;cpy)=delete</td></tr>
+<tr class="memdesc:a6e141631c5cf2ea0c835fe30245a5b9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleted copy constructor. Use the move constructor instead.  <a href="../../d8/d84/classhp_1_1profiler__session.html#a6e141631c5cf2ea0c835fe30245a5b9c">More...</a><br /></td></tr>
 <tr class="separator:a6e141631c5cf2ea0c835fe30245a5b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6beb630086ad55d6fa6a44826d0a0424"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d84/classhp_1_1profiler__session.html#a6beb630086ad55d6fa6a44826d0a0424">profiler_session</a> ()</td></tr>
 <tr class="memdesc:a6beb630086ad55d6fa6a44826d0a0424"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard default constructor. Initializes with dummy values.  <a href="../../d8/d84/classhp_1_1profiler__session.html#a6beb630086ad55d6fa6a44826d0a0424">More...</a><br /></td></tr>
@@ -140,7 +142,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p>Profiler sessions represent files that reports are written to. </p>
 <p>You can utilize discrete profiler sessions to output different profiles to different files. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00150">150</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00152">152</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a030ac9d141a167a29edc30420e32177e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a030ac9d141a167a29edc30420e32177e">&#9670;&nbsp;</a></span>profiler_session() <span class="overload">[1/4]</span></h2>
@@ -238,6 +240,8 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Deleted copy constructor. Use the move constructor instead. </p>
 <dl class="section note"><dt>Note</dt><dd>The standard copy constructor is deleted. You <em>MUST</em> use the <code><a class="el" href="../../d8/d84/classhp_1_1profiler__session.html#a48c3bc03f9aa3f75eed9458f2edae193" title="Standard move constructor.">profiler_session(profiler_session &amp;&amp;)</a> noexcept</code> standard move constructor. </dd></dl>
 
 </div>
@@ -433,6 +437,8 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Deleted copy assignment operator. Use the move assignment operator instead. </p>
 <dl class="section note"><dt>Note</dt><dd>The standard copy assignment operator is deleted. You <em>MUST</em> use the <code><a class="el" href="../../d8/d84/classhp_1_1profiler__session.html" title="Profiler sessions represent files that reports are written to.">profiler_session</a> &amp;<a class="el" href="../../d8/d84/classhp_1_1profiler__session.html#ab35b469b1261e7226bc126b461f0f60a" title="Standard move assignment operator.">operator=(profiler_session &amp;&amp;)</a> noexcept</code> move assignment operator. </dd></dl>
 
 </div>
@@ -493,7 +499,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00250">250</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00254">254</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 
 </div>
 </div>
@@ -521,7 +527,7 @@ Friends</h2></td></tr>
 <p>A user-defined pointer to the session to be used by <code>HP_START_PROFILER</code> </p>
 <p>The user should assign this variable before using <code>HP_START_PROFILER</code>. Example Usage: <code><a class="el" href="../../d8/d84/classhp_1_1profiler__session.html#ab91f26219be958e91c5252b71facccdc" title="A user-defined pointer to the session to be used by HP_START_PROFILER">hp::profiler_session::default_session</a> = new <a class="el" href="../../d8/d84/classhp_1_1profiler__session.html" title="Profiler sessions represent files that reports are written to.">profiler_session</a>("Profiling Session");</code> would set the default profiler session for use in <code>HP_START_PROFILER</code> </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00158">158</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de4/profiling_8hpp_source.html#l00160">160</a> of file <a class="el" href="../../d2/de4/profiling_8hpp_source.html">profiling.hpp</a>.</p>
 
 </div>
 </div>
@@ -531,7 +537,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2019 10:30:23 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 30 2019 19:33:25 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

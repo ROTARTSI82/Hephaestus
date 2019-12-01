@@ -1,21 +1,20 @@
-#GENERAL
+Inspiration: https://github.com/EQMG/Acid
+
+# GENERAL
+
 - [FUTURE PLAN?] Add support for Instancing
-- ============================
-- [DONE] Change vbos, ibos, and sbos to structs, containing a `generic_buffer` and data.
-- [DONE] Add support for aliasing
-- [DONE] Add functionality for non-stage buffered VBOs and IBOs.
-#DOCUMENTATION
+- Make buffers explicitly flushed instead of coherent
+# DOCUMENTATION
 - Finish rest of documentation
-- ============================
-- [DONE] Update documentation for `buffer_layout` binding.
 
-#PHYSICS ENGINE
+# PHYSICS ENGINE
 - Bullet Physics? Box2D? No clue.
-#NETWORKING
+- https://github.com/bulletphysics/bullet3
+# NETWORKING
 - Raknet?
-#OPENAL
+# OPENAL
 
-#FREETYPE
+# FREETYPE
 
-#MODLE LOADER
+# MODLE LOADER
 - Decide between `assimp` (more beefy, meant for opengl) and `tinygltf` (Vulkan tutorial uses it).

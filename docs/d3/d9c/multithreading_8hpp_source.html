@@ -84,26 +84,20 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d6/d7a/namespacehp.html">hp</a> {</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">extern</span> <a class="code" href="../../d6/d7a/namespacehp.html#a6105175335860b1320e079515a0c7ed6">boost::asio::io_service</a> *<a class="code" href="../../d6/d7a/namespacehp.html#a6105175335860b1320e079515a0c7ed6">io_service</a>;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">extern</span> boost::thread_group *<a class="code" href="../../d6/d7a/namespacehp.html#a86e442ea65987157ec1f8e7f3683d5b1">default_threadpool</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">extern</span> boost::asio::io_service::work *<a class="code" href="../../d6/d7a/namespacehp.html#a513cde99cb322134d0883a743b9a1bd9">io_work</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d7a/namespacehp.html#a2a33d881f807875b1b518e9c3c6ce8c2">init_threads</a>(<span class="keywordtype">unsigned</span> num_threads = 0);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d7a/namespacehp.html#ae75fce22d952c73e260752268d61587a">quit_threads</a>();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif //__HEPHAESTUS_MULTITHREADING_HPP</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d7a/namespacehp.html#a2a33d881f807875b1b518e9c3c6ce8c2">init_threads</a>(<span class="keywordtype">unsigned</span> num_threads = 0);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d6/d7a/namespacehp.html#ae75fce22d952c73e260752268d61587a">quit_threads</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif //__HEPHAESTUS_MULTITHREADING_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespacehp_html_a2a33d881f807875b1b518e9c3c6ce8c2"><div class="ttname"><a href="../../d6/d7a/namespacehp.html#a2a33d881f807875b1b518e9c3c6ce8c2">hp::init_threads</a></div><div class="ttdeci">void init_threads(unsigned num_threads=0)</div><div class="ttdoc">Initialize/Construct the default thread pool.</div></div>
-<div class="ttc" id="anamespacehp_html_a86e442ea65987157ec1f8e7f3683d5b1"><div class="ttname"><a href="../../d6/d7a/namespacehp.html#a86e442ea65987157ec1f8e7f3683d5b1">hp::default_threadpool</a></div><div class="ttdeci">boost::thread_group * default_threadpool</div><div class="ttdoc">IMPLEMENTATION DETAIL The actual thread pool object. For internal use.</div></div>
-<div class="ttc" id="anamespacehp_html_a513cde99cb322134d0883a743b9a1bd9"><div class="ttname"><a href="../../d6/d7a/namespacehp.html#a513cde99cb322134d0883a743b9a1bd9">hp::io_work</a></div><div class="ttdeci">boost::asio::io_service::work * io_work</div><div class="ttdoc">IMPLEMENTATION DETAIL The controller object for io_service. For internal use.</div></div>
 <div class="ttc" id="anamespacehp_html_ae75fce22d952c73e260752268d61587a"><div class="ttname"><a href="../../d6/d7a/namespacehp.html#ae75fce22d952c73e260752268d61587a">hp::quit_threads</a></div><div class="ttdeci">void quit_threads()</div><div class="ttdoc">Stops the default thread pool, joining all threads.</div></div>
 <div class="ttc" id="anamespacehp_html_a6105175335860b1320e079515a0c7ed6"><div class="ttname"><a href="../../d6/d7a/namespacehp.html#a6105175335860b1320e079515a0c7ed6">hp::io_service</a></div><div class="ttdeci">boost::asio::io_service * io_service</div><div class="ttdoc">Interface for submitting asynchronous tasks.</div></div>
 <div class="ttc" id="anamespacehp_html"><div class="ttname"><a href="../../d6/d7a/namespacehp.html">hp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dfd/config_8hpp_source.html#l00124">config.hpp:124</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2019 10:30:23 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 30 2019 19:33:25 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

@@ -287,6 +287,7 @@ namespace hp::vk {
 
         VmaAllocatorCreateInfo allocator_ci = {};
         allocator_ci.pVulkanFunctions = &vk_func_ptrs;
+        allocator_ci.frameInUseCount = max_frames_in_flight - 1;
         allocator_ci.physicalDevice = *phys_dev;
         allocator_ci.device = log_dev;
         allocator_ci.instance = inst;
@@ -721,13 +722,13 @@ namespace hp::vk {
         vmaUnmapMemory(allocator, buf->allocation);
     }
 
-    std::pair<::vk::Fence *, ::vk::CommandBuffer> window::copy_buffer(generic_buffer *source, generic_buffer *dest,
-                                                                      bool wait, size_t src_offset, size_t dest_offset,
-                                                                      size_t size) {
+    std::pair<::vk::Fence, ::vk::CommandBuffer> window::copy_buffer(generic_buffer *source, generic_buffer *dest,
+                                                                    bool wait, size_t src_offset, size_t dest_offset,
+                                                                    size_t size) {
         if (source->capacity != dest->capacity && size == 0) {
             HP_FATAL("copy_buffer() called with auto size and mismatched source & dest buffer sizes!");
             HP_FATAL("Source buffer was {} bytes, but dest buffer was {} bytes!", source->capacity, dest->capacity);
-            return {nullptr, ::vk::CommandBuffer()};
+            return {::vk::Fence(), ::vk::CommandBuffer()};
         }
         ::vk::CommandBufferAllocateInfo cmd_ai(cmd_pool, ::vk::CommandBufferLevel::ePrimary, 1);
 
@@ -743,20 +744,15 @@ namespace hp::vk {
 
         ::vk::SubmitInfo submit_inf(0, nullptr, nullptr, 1, &cmd_buf, 0, nullptr);
 
-        ::vk::Fence *ret = new_fence();
+        ::vk::Fence ret = new_fence();
 
-        ::vk::FenceCreateInfo fence_ci((::vk::FenceCreateFlags()));
-        if (handle_res(log_dev.createFence(&fence_ci, nullptr, ret), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to create fences!");
-        }
-
-        graphics_queue.submit(1, &submit_inf, *ret);
+        graphics_queue.submit(1, &submit_inf, ret);
 
         if (wait) {
-            log_dev.waitForFences(1, ret, ::vk::Bool32(VK_TRUE), UINT64_MAX);
+            log_dev.waitForFences(1, &ret, ::vk::Bool32(VK_TRUE), UINT64_MAX);
             delete_fence(ret);
             log_dev.freeCommandBuffers(cmd_pool, 1, &cmd_buf);
-            return {nullptr, ::vk::CommandBuffer()};;
+            return {::vk::Fence(), ::vk::CommandBuffer()};
         } else {
             return {ret, cmd_buf};
         }

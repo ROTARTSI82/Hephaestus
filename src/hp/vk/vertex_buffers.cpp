@@ -51,23 +51,6 @@ namespace hp::vk {
         complete = true;
     }
 
-    buffer_layout &buffer_layout::operator=(const buffer_layout &rhs) {
-        if (&rhs == this) {
-            return *this;
-        }
-
-        binding = rhs.binding;
-        stride = rhs.stride;
-        attribs = rhs.attribs;
-        complete = rhs.complete;
-
-        return *this;
-    }
-
-    buffer_layout::buffer_layout(const buffer_layout &rhs) {
-        *this = rhs;
-    }
-
     buffer_layout &buffer_layout::operator=(buffer_layout &&rhs) noexcept {
         if (&rhs == this) {
             return *this;
@@ -114,26 +97,6 @@ namespace hp::vk {
         }
     }
 
-//    staging_buffer::staging_buffer(size_t size, window *parent) :
-//            generic_buffer(size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-//                           VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, parent) {}
-//
-//    void staging_buffer::write(const void *data) {
-//        void *dat;
-//        vmaMapMemory(parent->allocator, allocation, &dat);
-//        std::memcpy(dat, data, capacity);
-//        vmaUnmapMemory(parent->allocator, allocation);
-//    }
-//
-//    vertex_buffer::vertex_buffer(size_t size, unsigned num_verts, unsigned lyo_indx, window *parent)
-//            : vertex_count(num_verts), layout_index(lyo_indx),
-//              generic_buffer(size, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-//                             VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, parent) {}
-//
-//    std::pair<::vk::Fence *, ::vk::CommandBuffer> vertex_buffer::write(staging_buffer *staging_buf, bool wait) {
-//        return parent->copy_buffer(staging_buf, this, wait);
-//    }
-
     generic_buffer::generic_buffer(size_t size, const ::vk::BufferUsageFlags &usage,
                                    const ::vk::MemoryPropertyFlags &flags, window *parent) {
         capacity = size;
@@ -149,7 +112,7 @@ namespace hp::vk {
         buffer_ci.pQueueFamilyIndices = nullptr;
 
         VmaAllocationCreateInfo alloc_ci = {};
-        alloc_ci.usage = VMA_MEMORY_USAGE_GPU_ONLY; // VMA_MEMORY_USAGE_CPU_TO_GPU;
+        alloc_ci.usage = VMA_MEMORY_USAGE_UNKNOWN; // VMA_MEMORY_USAGE_CPU_TO_GPU;
         alloc_ci.requiredFlags = static_cast<VkMemoryPropertyFlags>(flags);
 
         auto vanilla_buf = static_cast<VkBuffer>(buf);
@@ -163,13 +126,18 @@ namespace hp::vk {
         vmaDestroyBuffer(parent->allocator, static_cast<VkBuffer>(buf), allocation);
     }
 
-//    index_buffer::index_buffer(size_t size, bool is32bit, window *parent) : generic_buffer(size,
-//                                                                                           VK_BUFFER_USAGE_TRANSFER_DST_BIT |
-//                                                                                           VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-//                                                                                           VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-//                                                                                           parent), is32bit(is32bit) {}
-//
-//    std::pair<::vk::Fence *, ::vk::CommandBuffer> index_buffer::write(staging_buffer *staging_buf, bool wait) {
-//        return parent->copy_buffer(staging_buf, this, wait);
-//    }
+    generic_buffer::generic_buffer(generic_buffer &&rhs) noexcept {
+        *this = std::move(rhs);
+    }
+
+    generic_buffer &generic_buffer::operator=(generic_buffer &&rhs) noexcept {
+        if (this == &rhs) {
+            return *this;
+        }
+        capacity = rhs.capacity;
+        buf = rhs.buf;
+        parent = rhs.parent;
+        allocation = rhs.allocation;
+        return *this;
+    }
 }

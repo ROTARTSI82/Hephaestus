@@ -59,6 +59,24 @@ namespace hp::vk {
         }
     }
 
+    const ::vk::MemoryPropertyFlags memory_local = ::vk::MemoryPropertyFlagBits::eDeviceLocal;
+    const ::vk::MemoryPropertyFlags memory_host =
+            ::vk::MemoryPropertyFlagBits::eHostVisible | ::vk::MemoryPropertyFlagBits::eHostCoherent;
+
+    const ::vk::BufferUsageFlags vertex_usage =
+            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eVertexBuffer;
+    const ::vk::BufferUsageFlags index_usage =
+            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eIndexBuffer;
+    const ::vk::BufferUsageFlags vertex_direct_usage = ::vk::BufferUsageFlagBits::eVertexBuffer;
+    const ::vk::BufferUsageFlags index_direct_usage = ::vk::BufferUsageFlagBits::eIndexBuffer;
+
+    const ::vk::BufferUsageFlags staging_usage = ::vk::BufferUsageFlagBits::eTransferSrc;
+    const ::vk::BufferUsageFlags vertex_and_index_usage =
+            ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eIndexBuffer |
+            ::vk::BufferUsageFlagBits::eVertexBuffer;
+    const ::vk::BufferUsageFlags vertex_and_index_direct_usage =
+            ::vk::BufferUsageFlagBits::eIndexBuffer | ::vk::BufferUsageFlagBits::eVertexBuffer;
+
     void init_vk() {
         glfwInit();
     }

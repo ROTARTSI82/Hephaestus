@@ -69,7 +69,8 @@ $(function() {
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">vk.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -144,6 +145,36 @@ Functions</h2></td></tr>
 <tr class="memitem:a9254c4f381798c610c4c9bf015c2e9a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a9254c4f381798c610c4c9bf015c2e9a3">hp::vk::quit_vk</a> ()</td></tr>
 <tr class="memdesc:a9254c4f381798c610c4c9bf015c2e9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy allocated objects by vulkan.  <a href="../../da/d74/namespacehp_1_1vk.html#a9254c4f381798c610c4c9bf015c2e9a3">More...</a><br /></td></tr>
 <tr class="separator:a9254c4f381798c610c4c9bf015c2e9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a0ed92317b324570e8260cc42c93ddc80"><td class="memItemLeft" align="right" valign="top">const ::vk::MemoryPropertyFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a0ed92317b324570e8260cc42c93ddc80">hp::vk::memory_local</a></td></tr>
+<tr class="memdesc:a0ed92317b324570e8260cc42c93ddc80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan memory property flag specifying that memory should be allocated in a place quickly accessible by GPU.  <a href="../../da/d74/namespacehp_1_1vk.html#a0ed92317b324570e8260cc42c93ddc80">More...</a><br /></td></tr>
+<tr class="separator:a0ed92317b324570e8260cc42c93ddc80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c3b08561cbe2378f706461045728ffa"><td class="memItemLeft" align="right" valign="top">const ::vk::MemoryPropertyFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a1c3b08561cbe2378f706461045728ffa">hp::vk::memory_host</a></td></tr>
+<tr class="memdesc:a1c3b08561cbe2378f706461045728ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan memory property flag specifying that memory should be allocated in a place that is synchronized and writable by CPU.  <a href="../../da/d74/namespacehp_1_1vk.html#a1c3b08561cbe2378f706461045728ffa">More...</a><br /></td></tr>
+<tr class="separator:a1c3b08561cbe2378f706461045728ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64cad9193e2851bb7e28a7cc88e18f62"><td class="memItemLeft" align="right" valign="top">const ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a64cad9193e2851bb7e28a7cc88e18f62">hp::vk::vertex_usage</a></td></tr>
+<tr class="memdesc:a64cad9193e2851bb7e28a7cc88e18f62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan buffer usage flag specifying the buffer for usage as a <a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html" title="Provide metadata necessary to bind and draw a VBO.">vertex_buffer</a> (VBO) written to using a staging buffer.  <a href="../../da/d74/namespacehp_1_1vk.html#a64cad9193e2851bb7e28a7cc88e18f62">More...</a><br /></td></tr>
+<tr class="separator:a64cad9193e2851bb7e28a7cc88e18f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a783fbe005f3fb9a5d505f21a6de04f14"><td class="memItemLeft" align="right" valign="top">const ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a783fbe005f3fb9a5d505f21a6de04f14">hp::vk::index_usage</a></td></tr>
+<tr class="memdesc:a783fbe005f3fb9a5d505f21a6de04f14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan buffer usage flag specifying the buffer for usage as a index buffer (IBO) written to using a staging buffer.  <a href="../../da/d74/namespacehp_1_1vk.html#a783fbe005f3fb9a5d505f21a6de04f14">More...</a><br /></td></tr>
+<tr class="separator:a783fbe005f3fb9a5d505f21a6de04f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b9df2ea7ba3f4126d10e6765a9399a5"><td class="memItemLeft" align="right" valign="top">const ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a7b9df2ea7ba3f4126d10e6765a9399a5">hp::vk::vertex_direct_usage</a></td></tr>
+<tr class="memdesc:a7b9df2ea7ba3f4126d10e6765a9399a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan buffer usage flag specifying the buffer for usage as a vertex buffer (VBO) written to directly from CPU.  <a href="../../da/d74/namespacehp_1_1vk.html#a7b9df2ea7ba3f4126d10e6765a9399a5">More...</a><br /></td></tr>
+<tr class="separator:a7b9df2ea7ba3f4126d10e6765a9399a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dd9a9aaefd82e332db8df758a1ab67c"><td class="memItemLeft" align="right" valign="top">const ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a9dd9a9aaefd82e332db8df758a1ab67c">hp::vk::index_direct_usage</a></td></tr>
+<tr class="memdesc:a9dd9a9aaefd82e332db8df758a1ab67c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan buffer usage flag specifying the buffer for usage as a index buffer (IBO) written to directly from CPU.  <a href="../../da/d74/namespacehp_1_1vk.html#a9dd9a9aaefd82e332db8df758a1ab67c">More...</a><br /></td></tr>
+<tr class="separator:a9dd9a9aaefd82e332db8df758a1ab67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9d065427600600b1cb21496b05ccaa0"><td class="memItemLeft" align="right" valign="top">const ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#ac9d065427600600b1cb21496b05ccaa0">hp::vk::staging_usage</a></td></tr>
+<tr class="memdesc:ac9d065427600600b1cb21496b05ccaa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan buffer usage flag specifying the buffer for usage as a staging buffer written to directly from the CPU.  <a href="../../da/d74/namespacehp_1_1vk.html#ac9d065427600600b1cb21496b05ccaa0">More...</a><br /></td></tr>
+<tr class="separator:ac9d065427600600b1cb21496b05ccaa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d75d1752426aa658c85e493121d2440"><td class="memItemLeft" align="right" valign="top">const ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a3d75d1752426aa658c85e493121d2440">hp::vk::vertex_and_index_usage</a></td></tr>
+<tr class="memdesc:a3d75d1752426aa658c85e493121d2440"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan buffer usage flag specifying the buffer for usage as a vertex buffer (VBO) <em>OR</em> index buffer (IBO) written to using a staging buffer.  <a href="../../da/d74/namespacehp_1_1vk.html#a3d75d1752426aa658c85e493121d2440">More...</a><br /></td></tr>
+<tr class="separator:a3d75d1752426aa658c85e493121d2440"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f0011c07ac1c9d95ab6c02ad6afacd5"><td class="memItemLeft" align="right" valign="top">const ::vk::BufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a6f0011c07ac1c9d95ab6c02ad6afacd5">hp::vk::vertex_and_index_direct_usage</a></td></tr>
+<tr class="memdesc:a6f0011c07ac1c9d95ab6c02ad6afacd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vulkan buffer usage flag specifying the buffer for usage as a vertex buffer (VBO) <em>OR</em> index buffer (IBO) written to directly from the CPU.  <a href="../../da/d74/namespacehp_1_1vk.html#a6f0011c07ac1c9d95ab6c02ad6afacd5">More...</a><br /></td></tr>
+<tr class="separator:a6f0011c07ac1c9d95ab6c02ad6afacd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides basic functionality used across the vulkan core. </p>
@@ -171,7 +202,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2019 10:30:23 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 30 2019 19:33:25 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

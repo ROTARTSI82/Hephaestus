@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['layout_5findx_250',['layout_indx',['../df/d19/structhp_1_1vk_1_1vertex__buffer.html#a10999debd32c0d1b5a2b1db2ab6b0593',1,'hp::vk::vertex_buffer']]],
-  ['line_251',['line',['../df/d37/structhp_1_1code__location.html#a56988fba3ef3886bbf7b85593172567f',1,'hp::code_location']]],
-  ['logging_5fenabled_252',['logging_enabled',['../d6/d7a/namespacehp.html#a2800114c14296c79f91dc7b7eb06cc11',1,'hp']]]
+  ['max_5fframes_5fin_5fflight_244',['max_frames_in_flight',['../da/d74/namespacehp_1_1vk.html#a2591df577a95fc4edfd3fea625063b94',1,'hp::vk']]],
+  ['memory_5fhost_245',['memory_host',['../da/d74/namespacehp_1_1vk.html#a1c3b08561cbe2378f706461045728ffa',1,'hp::vk']]],
+  ['memory_5flocal_246',['memory_local',['../da/d74/namespacehp_1_1vk.html#a0ed92317b324570e8260cc42c93ddc80',1,'hp::vk']]]
 ];

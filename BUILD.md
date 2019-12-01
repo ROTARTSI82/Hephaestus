@@ -1,11 +1,11 @@
-#About  `run.sh`
+# About  `run.sh`
 ### Options for `run.sh`:
 1. `-d` Builds documentation. Requires `doxygen` and `grpahviz`
 2. `-nr` Skip running Hephaestus
 2. `-nb` Skip compiling/building Hephaestus
 3. `-c` Clean install. Removes all existing documentation and built binaries.
 
-#Building and Running Hephaestus
+# Building and Running Hephaestus
 
 ### Mac OSX
 1. Download LunarG's Vulkan SDK from https://vulkan.lunarg.com/ and place it at `vendor/lunarg-vulkan-sdk`
@@ -22,12 +22,12 @@ Modify `CMakeLists.txt` and `sandbox/CMakeLists.txt` accordingly.
 
 # Building Documentation
 
-##Mac OSX
+## Mac OSX
 1. Install doxygen with `brew install doxygen` (and upgrade it with `brew upgrade doxygen`).
     - *NOTE*: For some reason, doxygen's dependencies aren't installed by brew.
               If you want to build documentation with graphs, run `brew install graphviz`
 2. `cd` to the root of the project and run `doxygen`. (Or use `run.sh`)
 
-##Windows, Unix, etc
+## Windows, Unix, etc
 1. Install `doxygen` and `grpahviz`
 2. `cd` to the root of the project and run `doxygen`. (Or use `run.sh`)

@@ -1,10 +1,13 @@
 /*!
-@mainpage Hephaestus 0.0.2 Documentation
+@mainpage Hephaestus Documentation
 
 @section main_intro Introduction
 
 @author Grant Yang
 
 
-Hephaestus is a game engine written on top of vulkan. This is my first time writing vulkan code, so the code is terrible and should not be used.
+Hephaestus is an *OPEN SOURCE* game engine written on top of Vulkan. This is my first time writing Vulkan code,
+ so the code is terrible and should not be used (YET... The code could improve...).
+
+You can browse the source at https://www.github.com/RotartsiORG/Hephaestus
  */

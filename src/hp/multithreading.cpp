@@ -7,8 +7,8 @@
 
 namespace hp {
     boost::asio::io_service *io_service = nullptr;
-    boost::thread_group *default_threadpool = nullptr;
-    boost::asio::io_service::work *io_work = nullptr;
+    static boost::thread_group *default_threadpool = nullptr;
+    static boost::asio::io_service::work *io_work = nullptr;
 
     void init_threads(unsigned num_threads) {
         if (io_service != nullptr || default_threadpool != nullptr || io_work != nullptr) {

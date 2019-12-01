@@ -31,17 +31,19 @@ int main() {
     HP_FATAL("Test");
 
     {
-        inst = new hp::vk::window(640, 480, "Testing", 1);
+        inst = new hp::vk::window(640, 480, "Testing", 2);
         inst->set_swap_recreate_callback(&recreate_callback);
         shaders = inst->new_shader_program("shader_pack");
 
-        auto ibo_vbo_buf = inst->new_buffer((sizeof(float) * 3 + sizeof(float) * 2) * 4 + sizeof(uint16_t) * 6,
+        const size_t vbo_size = (sizeof(float) * 3 + sizeof(float) * 2) * 4;
+        const size_t ibo_size = sizeof(uint16_t) * 6;
+
+        auto ibo_vbo_buf = inst->new_buffer(vbo_size + ibo_size,
                                             hp::vk::vertex_and_index_usage, hp::vk::memory_local);
-        ibo = {ibo_vbo_buf, false, (sizeof(float) * 3 + sizeof(float) * 2) * 4};
+        ibo = {ibo_vbo_buf, false, vbo_size};
         vbo = {ibo_vbo_buf, 0, 4, 0};
 
-        sbo = inst->new_buffer((sizeof(float) * 3 + sizeof(float) * 2) * 4 + sizeof(uint16_t) * 6,
-                               hp::vk::staging_usage, hp::vk::memory_host);
+        sbo = inst->new_buffer(vbo_size + ibo_size, hp::vk::staging_usage, hp::vk::memory_host);
 
         const std::vector<hp::vk::vertex> vertices = {
                 {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
@@ -54,13 +56,23 @@ int main() {
                 2, 1, 0, 0, 3, 2
         };
 
-        inst->write_buffer(sbo, reinterpret_cast<const void *>(vertices.data()), 0,
-                           (sizeof(float) * 3 + sizeof(float) * 2) * 4);
-        inst->write_buffer(sbo, reinterpret_cast<const void *>(indices.data()),
-                           (sizeof(float) * 3 + sizeof(float) * 2) * 4, sizeof(uint16_t) * 6);
-        inst->copy_buffer(sbo, ibo_vbo_buf, true, 0, 0, (sizeof(float) * 3 + sizeof(float) * 2) * 4);
-        inst->copy_buffer(sbo, ibo_vbo_buf, true, (sizeof(float) * 3 + sizeof(float) * 2) * 4,
-                          (sizeof(float) * 3 + sizeof(float) * 2) * 4, sizeof(uint16_t) * 6);
+        auto write = inst->start_write(sbo);
+        inst->write_buffer(write, sbo, reinterpret_cast<const void *>(vertices.data()), 0, vbo_size);
+        inst->write_buffer(write, sbo, reinterpret_cast<const void *>(indices.data()), vbo_size, ibo_size);
+        inst->stop_write(sbo);
+
+        auto cpy1 = inst->copy_buffer(sbo, ibo_vbo_buf, false, 0, 0, vbo_size);
+        auto cpy2 = inst->copy_buffer(sbo, ibo_vbo_buf, false, vbo_size, vbo_size, ibo_size);
+        {
+            // This is safe because, if it fails, null handles are safe to pass to these funcs.
+            ::vk::Fence fences[] = {cpy1.first, cpy2.first};
+            ::vk::CommandBuffer bufs[] = {cpy1.second, cpy2.second};
+            inst->wait_fences(fences, 2);
+            inst->delete_fence(cpy1.first);
+            inst->delete_fence(cpy2.first);
+            inst->delete_cmd_buffers(bufs, 2);
+        }
+
         inst->delete_buffer(sbo);
 
         inst->clear_recording();
