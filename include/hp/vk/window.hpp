@@ -328,6 +328,68 @@ namespace hp::vk {
         generic_buffer &operator=(generic_buffer &&rhs) noexcept;
 
         /**
+         * @fn void flush(::vk::DeviceSize offset = 0, ::vk::DeviceSize size = VK_WHOLE_SIZE)
+         * @brief Flush memory so writes are visible to GPU. Writing *MUST* be active.
+         * @details Consult vulkan docs for `vkFlushMappedMemoryRanges`
+         * @see invalidate()  generic_buffer::start_write()  generic_buffer::stop_write()
+         * @param offset Offset (in bytes) of the range of memory to flush (0 by default)
+         * @param size Size (in bytes) of the region to flush (Uses entire allocation by default)
+         */
+        void flush(::vk::DeviceSize offset = 0, ::vk::DeviceSize size = VK_WHOLE_SIZE);
+
+        /**
+         * @fn void invalidate(::vk::DeviceSize offset = 0, ::vk::DeviceSize size = VK_WHOLE_SIZE)
+         * @brief Invalidate memory so GPU writes are visible to CPU. Writing *MUST* be active.
+         * @details Consult vulkan docs for `vkInvalidateMappedMemoryRanges`
+         * @see invalidate()  generic_buffer::start_write()  generic_buffer::stop_write()
+         * @param offset Offset (in bytes) of the range of memory to invalidate (0 by default)
+         * @param size Size (in bytes) of the region to invalidate (Uses entire allocation by default)
+         */
+        void invalidate(::vk::DeviceSize offset = 0, ::vk::DeviceSize size = VK_WHOLE_SIZE);
+
+        /**
+         * @fn void write_buffer(generic_buffer *buf, const void *data, size_t offset = 0, size_t size = 0)
+         * @brief Write data to a buffer that is `eHostVisible`.
+         * @details This function maps and unmaps the buffer. See `void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)`,
+         *          `generic_buffer::start_write()`, and `generic_buffer::stop_write()` for explicit mapping/unmapping.
+         * @note This buffer *MUST* have the memory property `eHostVisible`! Consult vulkan docs.
+         * @param data The data to write
+         * @param offset The index (in bytes) of the buffer at which to start writing.
+         * @param size The size of the data to write.
+         */
+        void write_buffer(const void *data, size_t offset = 0, size_t size = 0);
+
+        /**
+         * @fn uint8_t *start_write()
+         * @brief Map a buffer so it is ready for writing.
+         * @warning Mapped memory *IS NOT* automatically unmapped! Any call to `start_write()` *MUST* be accompanied
+         *          by a call to `stop_write()`
+         * @param buf Buffer to map
+         * @return Pointer to the mapped region
+         */
+        uint8_t *start_write();
+
+        /**
+         * @fn void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)
+         * @brief Write data to a buffer with `eHostCoherent` and `eHostVisible`.
+         * @details This function *DOES NOT* map and unmap memory! Memory must be explicitly mapped/unmapped using
+         *          `start_write()` and `stop_write()`.
+         * @param dest The data to write to. Should be the value returned from `hp::vk::generic_buffer::start_write()`
+         * @param src The data to write.
+         * @param offset The index (in bytes) at which to start writing.
+         * @param size Size of the data to write.
+         */
+        void write_buffer(uint8_t *dest, const void *src, size_t offset = 0, size_t size = 0);
+
+        /**
+         * @fn void stop_write()
+         * @brief Unmap a buffer so it is ready for reading and use.
+         * @param buf Buffer to unmap
+         */
+        void stop_write();
+
+
+        /**
          * @fn [[nodiscard]] inline size_t get_size() const
          * @brief Query the capacity of the generic_buffer in bytes.
          * @return The size of the buffer in bytes.
@@ -563,9 +625,9 @@ namespace hp::vk {
                                                                 const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
                                                                 void *pUserData); ///< @private
 
-        std::vector<::vk::CommandBuffer> get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
-                                                      ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
-                                                      ::vk::CommandPool *use_cmd_pool); ///< @private
+        void record_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
+                             ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
+                             ::vk::CommandPool *use_cmd_pool); ///< @private
 
         ::vk::Result createDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                                   const VkAllocationCallbacks *pAllocator,
@@ -716,49 +778,6 @@ namespace hp::vk {
         std::pair<::vk::Fence, ::vk::CommandBuffer> copy_buffer(generic_buffer *source, generic_buffer *dest,
                                                                 bool wait = true, size_t src_offset = 0,
                                                                 size_t dest_offset = 0, size_t size = 0);
-
-        /**
-         * @fn void write_buffer(generic_buffer *buf, const void *data, size_t offset = 0, size_t size = 0)
-         * @brief Write data to a buffer with `eHostCoherent` and `eHostVisible`.
-         * @details This function maps and unmaps the buffer. See `void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)`,
-         *          `window::start_write()`, and `window::stop_write()` for explicit mapping/unmapping.
-         * @note The supplied buffer *MUST* have the memory property `eHostVisible` and `eHostCoherent`! Consult vulkan docs.
-         * @param buf The buffer to write to.
-         * @param data The data to write
-         * @param offset The index (in bytes) of the buffer at which to start writing.
-         * @param size The size of the data to write.
-         */
-        void write_buffer(generic_buffer *buf, const void *data, size_t offset = 0, size_t size = 0);
-
-        /**
-         * @fn uint8_t *start_write(generic_buffer *buf)
-         * @brief Map a buffer so it is ready for writing.
-         * @warning Mapped memory *IS NOT* automatically unmapped! Any call to `start_write()` *MUST* be accompanied
-         *          by a call to `stop_write()`
-         * @param buf Buffer to map
-         * @return Pointer to the mapped region
-         */
-        uint8_t *start_write(generic_buffer *buf);
-
-        /**
-         * @fn void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)
-         * @brief Write data to a buffer with `eHostCoherent` and `eHostVisible`.
-         * @details This function *DOES NOT* map and unmap memory! Memory must be explicitly mapped/unmapped using
-         *          `start_write()` and `stop_write()`.
-         * @param dest The data to write to. Should be the value returned from `hp::vk::window::start_write()`
-         * @param buf The buffer to write to.
-         * @param src The data to write.
-         * @param offset The index (in bytes) at which to start writing.
-         * @param size Size of the data to write.
-         */
-        void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0);
-
-        /**
-         * @fn void stop_write(generic_buffer *buf)
-         * @brief Unmap a buffer so it is ready for reading and use.
-         * @param buf Buffer to unmap
-         */
-        void stop_write(generic_buffer *buf);
 
         /**
          * @fn inline void set_swap_recreate_callback(void(*)(::vk::Extent2D))

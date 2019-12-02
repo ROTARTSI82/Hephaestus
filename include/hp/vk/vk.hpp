@@ -57,7 +57,7 @@ namespace hp::vk {
      * @var extern const ::vk::MemoryPropertyFlags memory_host
      * @brief Vulkan memory property flag specifying that memory should be allocated in a place that is synchronized and writable by CPU.
      * @note This memory type could be written to directly from the CPU, but the GPU has a harder time reading it.
-     * @details Has value of `vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent`. Consult vulkan documentation for more details.
+     * @details Has value of `vk::MemoryPropertyFlagBits::eHostVisible`. Consult vulkan documentation for more details.
      *           Use this memory property flag with `hp::vk::vertex_direct_usage`, `hp::vk::index_direct_usage`, `hp::vk::staging_usage`, and `hp::vk::vertex_and_index_direct_usage`
      */
     extern const ::vk::MemoryPropertyFlags memory_host;

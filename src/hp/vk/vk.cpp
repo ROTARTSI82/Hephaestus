@@ -60,8 +60,7 @@ namespace hp::vk {
     }
 
     const ::vk::MemoryPropertyFlags memory_local = ::vk::MemoryPropertyFlagBits::eDeviceLocal;
-    const ::vk::MemoryPropertyFlags memory_host =
-            ::vk::MemoryPropertyFlagBits::eHostVisible | ::vk::MemoryPropertyFlagBits::eHostCoherent;
+    const ::vk::MemoryPropertyFlags memory_host = ::vk::MemoryPropertyFlagBits::eHostVisible;
 
     const ::vk::BufferUsageFlags vertex_usage =
             ::vk::BufferUsageFlagBits::eTransferDst | ::vk::BufferUsageFlagBits::eVertexBuffer;

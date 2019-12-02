@@ -1,0 +1,6 @@
+<map id="hp::vk::vertex_buffer" name="hp::vk::vertex_buffer">
+<area shape="rect" id="node1" title="Provide metadata necessary to bind and draw a VBO." alt="" coords="152,105,294,131"/>
+<area shape="rect" id="node2" href="$d6/d0a/classhp_1_1vk_1_1generic__buffer.html" title="Offers nice wrapper around functionality of vk::Buffer (See Vulkan documentation)" alt="" coords="5,5,155,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="179,5,267,31"/>
+<area shape="rect" id="node4" title=" " alt="" coords="290,5,366,31"/>
+</map>

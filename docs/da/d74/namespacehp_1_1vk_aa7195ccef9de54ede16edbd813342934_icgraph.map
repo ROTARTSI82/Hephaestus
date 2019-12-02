@@ -1,0 +1,4 @@
+<map id="hp::vk::handle_res" name="hp::vk::handle_res">
+<area shape="rect" id="node1" title="Handle the results returned by vulkan functions, and log it if an error had occurred." alt="" coords="194,12,324,37"/>
+<area shape="rect" id="node2" href="$dd/d17/classhp_1_1vk_1_1window.html#aea8e50ae3bd4eb6d91deb2bc9bb06fb3" title="Construct and retrieve a new vk::Fence. See vulkan documentation for more details." alt="" coords="5,5,146,44"/>
+</map>

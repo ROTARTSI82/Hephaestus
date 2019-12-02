@@ -56,10 +56,12 @@ int main() {
                 2, 1, 0, 0, 3, 2
         };
 
-        auto write = inst->start_write(sbo);
-        inst->write_buffer(write, sbo, reinterpret_cast<const void *>(vertices.data()), 0, vbo_size);
-        inst->write_buffer(write, sbo, reinterpret_cast<const void *>(indices.data()), vbo_size, ibo_size);
-        inst->stop_write(sbo);
+        auto write = sbo->start_write();
+        sbo->write_buffer(write, reinterpret_cast<const void *>(vertices.data()), 0, vbo_size);
+        sbo->write_buffer(write, reinterpret_cast<const void *>(indices.data()), vbo_size, ibo_size);
+        sbo->flush();
+        sbo->invalidate();
+        sbo->stop_write();
 
         auto cpy1 = inst->copy_buffer(sbo, ibo_vbo_buf, false, 0, 0, vbo_size);
         auto cpy2 = inst->copy_buffer(sbo, ibo_vbo_buf, false, vbo_size, vbo_size, ibo_size);

@@ -3,8 +3,9 @@
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
   <component name="CidrRootsConfiguration">
     <sourceRoots>
+      <file path="$PROJECT_DIR$/examples" />
+      <file path="$PROJECT_DIR$/examples/src" />
       <file path="$PROJECT_DIR$/include" />
-      <file path="$PROJECT_DIR$/sandbox/src" />
       <file path="$PROJECT_DIR$/src" />
     </sourceRoots>
     <excludeRoots>

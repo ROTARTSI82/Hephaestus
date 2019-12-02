@@ -1,0 +1,6 @@
+<map id="hp::vk::index_buffer" name="hp::vk::index_buffer">
+<area shape="rect" id="node1" title="Provide the metadata necessary to bind and draw an IBO." alt="" coords="154,92,291,117"/>
+<area shape="rect" id="node2" href="$d6/d0a/classhp_1_1vk_1_1generic__buffer.html" title="Offers nice wrapper around functionality of vk::Buffer (See Vulkan documentation)" alt="" coords="5,5,155,31"/>
+<area shape="rect" id="node3" title=" " alt="" coords="179,5,267,31"/>
+<area shape="rect" id="node4" title=" " alt="" coords="290,5,337,31"/>
+</map>

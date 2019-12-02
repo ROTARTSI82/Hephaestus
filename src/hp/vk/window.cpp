@@ -303,7 +303,6 @@ namespace hp::vk {
         img_avail_sms.resize(max_frames_in_flight);
         rend_fin_sms.resize(max_frames_in_flight);
         flight_fences.resize(max_frames_in_flight);
-        img_fences.resize(swap_imgs.size(), ::vk::Fence());
 
         for (size_t i = 0; i < max_frames_in_flight; i++) {
             if (handle_res(log_dev.createSemaphore(&sm_ci, nullptr, &img_avail_sms[i]), HP_GET_CODE_LOC) !=
@@ -526,7 +525,9 @@ namespace hp::vk {
 
         if (!do_destroy) {
             // Command pools and buffers
-            ::vk::CommandPoolCreateInfo pool_ci(::vk::CommandPoolCreateFlags(), queue_fam_indices.graphics_fam.value());
+            ::vk::CommandPoolCreateInfo pool_ci(
+                    ::vk::CommandPoolCreateFlagBits::eResetCommandBuffer | ::vk::CommandPoolCreateFlagBits::eTransient,
+                    queue_fam_indices.graphics_fam.value());
             if (handle_res(log_dev.createCommandPool(&pool_ci, nullptr, &cmd_pool), HP_GET_CODE_LOC) !=
                 ::vk::Result::eSuccess) {
                 HP_FATAL("Failed to create command pool!");
@@ -535,24 +536,37 @@ namespace hp::vk {
             HP_DEBUG("Command pool constructed successfully!");
         }
 
-        std::vector<::vk::CommandBuffer> ncmd_bufs = std::vector<::vk::CommandBuffer>();
         if (do_destroy) {
             if (swap_recreate_callback != nullptr) {
                 swap_recreate_callback(new_extent);
             } else {
                 HP_WARN("No swapchain recreation callback is set! Command buffers may become outdated!");
             }
-
-            ncmd_bufs = get_cmd_bufs(&new_bufs, &new_pass, &new_extent, &cmd_pool);
         }
 
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
         log_dev.waitIdle();
 
-        if (do_destroy) {
-            for (auto buf : cmd_bufs) {
-                log_dev.freeCommandBuffers(cmd_pool, 1, &buf);
+        if (!do_destroy || new_imgs.size() != swap_imgs.size()) {
+            img_fences.resize(new_imgs.size(), ::vk::Fence());
+
+            if (!cmd_bufs.empty()) {
+                log_dev.freeCommandBuffers(cmd_pool, cmd_bufs.size(), cmd_bufs.data());
             }
+
+            cmd_bufs.resize(new_bufs.size());
+            ::vk::CommandBufferAllocateInfo cmd_buf_ai(cmd_pool, ::vk::CommandBufferLevel::ePrimary,
+                                                       cmd_bufs.size());
+
+            if (handle_res(log_dev.allocateCommandBuffers(&cmd_buf_ai, cmd_bufs.data()), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to allocated command buffers!");
+                std::terminate();
+            }
+        }
+
+        if (do_destroy) {
+            record_cmd_bufs(&new_bufs, &new_pass, &new_extent, &cmd_pool);
 
             for (auto fb : framebuffers) {
                 log_dev.destroyFramebuffer(fb, nullptr);
@@ -575,10 +589,6 @@ namespace hp::vk {
         framebuffers = std::move(new_bufs);
         swap_fmt = new_fmt.format;
         render_pass = new_pass;
-
-        if (do_destroy) {
-            cmd_bufs = std::move(ncmd_bufs);
-        }
     }
 
     void window::draw_frame() {
@@ -631,23 +641,13 @@ namespace hp::vk {
     }
 
 
-    std::vector<::vk::CommandBuffer> window::get_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
-                                                          ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
-                                                          ::vk::CommandPool *use_cmd_pool) {
-        std::vector<::vk::CommandBuffer> ret(frame_bufs->size());
-        ::vk::CommandBufferAllocateInfo cmd_buf_ai(*use_cmd_pool, ::vk::CommandBufferLevel::ePrimary,
-                                                   ret.size());
-
-        if (handle_res(log_dev.allocateCommandBuffers(&cmd_buf_ai, ret.data()), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to allocated command buffers!");
-            std::terminate();
-        }
-
-        for (size_t i = 0; i < ret.size(); i++) {
+    void window::record_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
+                                 ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
+                                 ::vk::CommandPool *use_cmd_pool) {
+        for (size_t i = 0; i < cmd_bufs.size(); i++) {
             ::vk::CommandBufferBeginInfo cmd_buf_bi(::vk::CommandBufferUsageFlags(), nullptr);
 
-            if (handle_res(ret[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            if (handle_res(cmd_bufs[i].begin(&cmd_buf_bi), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
                 HP_FATAL("Failed to begin command buffer recording!");
                 std::terminate();
             }
@@ -658,24 +658,23 @@ namespace hp::vk {
                                                    ::vk::Rect2D(::vk::Offset2D(0, 0), *extent), 1,
                                                    &clear_col);
 
-            ret[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
+            cmd_bufs[i].beginRenderPass(&rend_pass_bi, ::vk::SubpassContents::eInline);
 
             for (const auto &fn : record_buffer) {
-                fn(ret[i], this);
+                fn(cmd_bufs[i], this);
             }
 
-            ret[i].endRenderPass();
+            cmd_bufs[i].endRenderPass();
 
 #ifdef VULKAN_HPP_DISABLE_ENHANCED_MODE
-            if (handle_res(ret[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
+            if (handle_res(cmd_bufs[i].end(), HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
                 HP_FATAL("Failed to end command buffer recording!");
                 std::terminate();
             }
 #else
-            ret[i].end();  // Enhanced mode does exception handling for us. :)
+            cmd_bufs[i].end();  // Enhanced mode does exception handling for us. :)
 #endif
         }
-        return ret;
     }
 
     void window::recreate_swapchain() {
@@ -690,36 +689,10 @@ namespace hp::vk {
     }
 
     void window::save_recording() {
-        auto new_cmd_buf = get_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &cmd_pool);
-
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
-
         log_dev.waitIdle();
-        for (auto buf : cmd_bufs) {
-            log_dev.freeCommandBuffers(cmd_pool, 1, &buf);
-        }
-        cmd_bufs = std::move(new_cmd_buf);
-    }
 
-    void window::write_buffer(generic_buffer *buf, const void *data, size_t offset, size_t size) {
-        uint8_t *mapped_data;
-        vmaMapMemory(allocator, buf->allocation, reinterpret_cast<void **>(&mapped_data));
-        std::memcpy(mapped_data + offset, data, size == 0 ? buf->capacity : size);
-        vmaUnmapMemory(allocator, buf->allocation);
-    }
-
-    uint8_t *window::start_write(generic_buffer *buf) {
-        uint8_t *ret;
-        vmaMapMemory(allocator, buf->allocation, reinterpret_cast<void **>(&ret));
-        return ret;
-    }
-
-    void window::write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset, size_t size) {
-        std::memcpy(dest + offset, src, size == 0 ? buf->capacity : size);
-    }
-
-    void window::stop_write(generic_buffer *buf) {
-        vmaUnmapMemory(allocator, buf->allocation);
+        record_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &cmd_pool);
     }
 
     std::pair<::vk::Fence, ::vk::CommandBuffer> window::copy_buffer(generic_buffer *source, generic_buffer *dest,

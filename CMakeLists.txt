@@ -34,5 +34,5 @@ target_link_libraries(HephaestusShared PUBLIC glfw)
 
 
 # ====== SANDBOX BUILDING ========
-add_subdirectory(sandbox)
+add_subdirectory(examples)
 

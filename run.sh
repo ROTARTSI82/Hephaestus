@@ -36,10 +36,10 @@ done
 
 if [ "$DO_BUILD" == "1" ] ; then
   cmake ..
-  make  # cannot use async make bc sandbox target depends on HP target being built.
+  make  # cannot use async make bc examples target depends on HP target being built.
 fi 
 
-cp sandbox/HephaestusSandbox ../run-env/HephaestusSandbox
+cp examples/HephaestusSandbox ../run-env/HephaestusSandbox
 #cp libHephaestusShared.dylib ../run-env/libHephaestusShared.dylib
 
 #sudo chown -R 25granty .

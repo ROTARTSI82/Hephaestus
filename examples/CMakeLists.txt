@@ -6,7 +6,7 @@ project(HephaestusSandbox VERSION 1.0.0 LANGUAGES CXX)
 set(ENV{VK_ICD_FILENAMES} "/Users/25granty/Desktop/CLion/Mason/Hephaestus/lib/MoltenVK_icd.json")
 set(ENV{VK_LAYER_PATH} "/Users/25granty/Desktop/CLion/Mason/Hephaestus/lib/explicit_layer.d")
 
-add_executable(HephaestusSandbox src/main.cpp)
+add_executable(HephaestusSandbox main.cpp)
 
 target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../cmake-build-debug/libHephaestusShared.dylib ${Boost_LIBRARIES})
 target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib glfw spdlog)

@@ -1,0 +1,4 @@
+<map id="hp::vk::window::new_fence" name="hp::vk::window::new_fence">
+<area shape="rect" id="node1" title="Construct and retrieve a new vk::Fence. See vulkan documentation for more details." alt="" coords="5,5,146,44"/>
+<area shape="rect" id="node2" href="$da/d74/namespacehp_1_1vk.html#aa7195ccef9de54ede16edbd813342934" title="Handle the results returned by vulkan functions, and log it if an error had occurred." alt="" coords="194,12,324,37"/>
+</map>

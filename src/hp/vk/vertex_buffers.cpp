@@ -114,6 +114,7 @@ namespace hp::vk {
         VmaAllocationCreateInfo alloc_ci = {};
         alloc_ci.usage = VMA_MEMORY_USAGE_UNKNOWN; // VMA_MEMORY_USAGE_CPU_TO_GPU;
         alloc_ci.requiredFlags = static_cast<VkMemoryPropertyFlags>(flags);
+        alloc_ci.preferredFlags = static_cast<VkMemoryPropertyFlags>(::vk::MemoryPropertyFlagBits::eHostCached);
 
         auto vanilla_buf = static_cast<VkBuffer>(buf);
         handle_res(::vk::Result(
@@ -139,5 +140,36 @@ namespace hp::vk {
         parent = rhs.parent;
         allocation = rhs.allocation;
         return *this;
+    }
+
+    void generic_buffer::flush(::vk::DeviceSize offset, ::vk::DeviceSize size) {
+        vmaFlushAllocation(parent->allocator, allocation, offset, size);
+    }
+
+    void generic_buffer::invalidate(::vk::DeviceSize offset, ::vk::DeviceSize size) {
+        vmaInvalidateAllocation(parent->allocator, allocation, offset, size);
+    }
+
+    void generic_buffer::write_buffer(const void *data, size_t offset, size_t size) {
+        uint8_t *mapped_data;
+        vmaMapMemory(parent->allocator, allocation, reinterpret_cast<void **>(&mapped_data));
+        std::memcpy(mapped_data + offset, data, size == 0 ? capacity : size);
+        vmaFlushAllocation(parent->allocator, allocation, 0, VK_WHOLE_SIZE);
+        vmaInvalidateAllocation(parent->allocator, allocation, 0, VK_WHOLE_SIZE);
+        vmaUnmapMemory(parent->allocator, allocation);
+    }
+
+    uint8_t *generic_buffer::start_write() {
+        uint8_t *ret;
+        vmaMapMemory(parent->allocator, allocation, reinterpret_cast<void **>(&ret));
+        return ret;
+    }
+
+    void generic_buffer::write_buffer(uint8_t *dest, const void *src, size_t offset, size_t size) {
+        std::memcpy(dest + offset, src, size == 0 ? capacity : size);
+    }
+
+    void generic_buffer::stop_write() {
+        vmaUnmapMemory(parent->allocator, allocation);
     }
 }
