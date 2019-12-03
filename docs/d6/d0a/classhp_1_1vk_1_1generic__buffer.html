@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hephaestus
-   &#160;<span id="projectnumber">0.0.3</span>
+   &#160;<span id="projectnumber">0.0.4</span>
    </div>
   </td>
  </tr>
@@ -99,6 +99,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a993443bb0b04a46ea8183d3bbe6f665f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a993443bb0b04a46ea8183d3bbe6f665f">operator=</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> &amp;&amp;rhs) noexcept</td></tr>
 <tr class="memdesc:a993443bb0b04a46ea8183d3bbe6f665f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard move assignment operator.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a993443bb0b04a46ea8183d3bbe6f665f">More...</a><br /></td></tr>
 <tr class="separator:a993443bb0b04a46ea8183d3bbe6f665f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa65f7373b55595e200d40da88012f73b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#aa65f7373b55595e200d40da88012f73b">flush</a> (::vk::DeviceSize offset=0, ::vk::DeviceSize size=VK_WHOLE_SIZE)</td></tr>
+<tr class="memdesc:aa65f7373b55595e200d40da88012f73b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush memory so writes are visible to GPU. Writing <em>MUST</em> be active.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#aa65f7373b55595e200d40da88012f73b">More...</a><br /></td></tr>
+<tr class="separator:aa65f7373b55595e200d40da88012f73b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fd818ae06102473e78392d0eb9fe458"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a6fd818ae06102473e78392d0eb9fe458">invalidate</a> (::vk::DeviceSize offset=0, ::vk::DeviceSize size=VK_WHOLE_SIZE)</td></tr>
+<tr class="memdesc:a6fd818ae06102473e78392d0eb9fe458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalidate memory so GPU writes are visible to CPU. Writing <em>MUST</em> be active.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a6fd818ae06102473e78392d0eb9fe458">More...</a><br /></td></tr>
+<tr class="separator:a6fd818ae06102473e78392d0eb9fe458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a750e5137cf4cdd801d30fc3216a99ad6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a750e5137cf4cdd801d30fc3216a99ad6">write_buffer</a> (const void *data, size_t offset=0, size_t size=0)</td></tr>
+<tr class="memdesc:a750e5137cf4cdd801d30fc3216a99ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to a buffer that is <code>eHostVisible</code>.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a750e5137cf4cdd801d30fc3216a99ad6">More...</a><br /></td></tr>
+<tr class="separator:a750e5137cf4cdd801d30fc3216a99ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a210dc48809c9b1076be6a43f8ea2189c"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c">start_write</a> ()</td></tr>
+<tr class="memdesc:a210dc48809c9b1076be6a43f8ea2189c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a buffer so it is ready for writing.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c">More...</a><br /></td></tr>
+<tr class="separator:a210dc48809c9b1076be6a43f8ea2189c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d24a2350b8f05d91cabdaee2de410c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a9d24a2350b8f05d91cabdaee2de410c9">write_buffer</a> (uint8_t *dest, const void *src, size_t offset=0, size_t size=0)</td></tr>
+<tr class="memdesc:a9d24a2350b8f05d91cabdaee2de410c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to a buffer with <code>eHostCoherent</code> and <code>eHostVisible</code>.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a9d24a2350b8f05d91cabdaee2de410c9">More...</a><br /></td></tr>
+<tr class="separator:a9d24a2350b8f05d91cabdaee2de410c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a55ab135f7d2995726f060b4a43806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806">stop_write</a> ()</td></tr>
+<tr class="memdesc:a14a55ab135f7d2995726f060b4a43806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmap a buffer so it is ready for reading and use.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806">More...</a><br /></td></tr>
+<tr class="separator:a14a55ab135f7d2995726f060b4a43806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5553d7a39233f981ccc5fa5a64c5ea1e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a5553d7a39233f981ccc5fa5a64c5ea1e">get_size</a> () const</td></tr>
 <tr class="memdesc:a5553d7a39233f981ccc5fa5a64c5ea1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the capacity of the <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html" title="Offers nice wrapper around functionality of vk::Buffer (See Vulkan documentation)">generic_buffer</a> in bytes.  <a href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a5553d7a39233f981ccc5fa5a64c5ea1e">More...</a><br /></td></tr>
 <tr class="separator:a5553d7a39233f981ccc5fa5a64c5ea1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -235,6 +253,44 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa65f7373b55595e200d40da88012f73b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa65f7373b55595e200d40da88012f73b">&#9670;&nbsp;</a></span>flush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::generic_buffer::flush </td>
+          <td>(</td>
+          <td class="paramtype">::vk::DeviceSize&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">::vk::DeviceSize&#160;</td>
+          <td class="paramname"><em>size</em> = <code>VK_WHOLE_SIZE</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flush memory so writes are visible to GPU. Writing <em>MUST</em> be active. </p>
+<p>Consult vulkan docs for <code>vkFlushMappedMemoryRanges</code> </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a6fd818ae06102473e78392d0eb9fe458" title="Invalidate memory so GPU writes are visible to CPU. Writing MUST be active.">invalidate()</a> <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c" title="Map a buffer so it is ready for writing.">generic_buffer::start_write()</a> <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806" title="Unmap a buffer so it is ready for reading and use.">generic_buffer::stop_write()</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset</td><td>Offset (in bytes) of the range of memory to flush (0 by default) </td></tr>
+    <tr><td class="paramname">size</td><td>Size (in bytes) of the region to flush (Uses entire allocation by default) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a5553d7a39233f981ccc5fa5a64c5ea1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5553d7a39233f981ccc5fa5a64c5ea1e">&#9670;&nbsp;</a></span>get_size()</h2>
 
@@ -261,11 +317,49 @@ Friends</h2></td></tr>
 <p>Query the capacity of the <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html" title="Offers nice wrapper around functionality of vk::Buffer (See Vulkan documentation)">generic_buffer</a> in bytes. </p>
 <dl class="section return"><dt>Returns</dt><dd>The size of the buffer in bytes. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00335">335</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                                                     {</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            <span class="keywordflow">return</span> capacity;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00395">395</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                                                     {</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            <span class="keywordflow">return</span> capacity;</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        }</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a6fd818ae06102473e78392d0eb9fe458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fd818ae06102473e78392d0eb9fe458">&#9670;&nbsp;</a></span>invalidate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::generic_buffer::invalidate </td>
+          <td>(</td>
+          <td class="paramtype">::vk::DeviceSize&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">::vk::DeviceSize&#160;</td>
+          <td class="paramname"><em>size</em> = <code>VK_WHOLE_SIZE</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Invalidate memory so GPU writes are visible to CPU. Writing <em>MUST</em> be active. </p>
+<p>Consult vulkan docs for <code>vkInvalidateMappedMemoryRanges</code> </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a6fd818ae06102473e78392d0eb9fe458" title="Invalidate memory so GPU writes are visible to CPU. Writing MUST be active.">invalidate()</a> <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c" title="Map a buffer so it is ready for writing.">generic_buffer::start_write()</a> <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806" title="Unmap a buffer so it is ready for reading and use.">generic_buffer::stop_write()</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset</td><td>Offset (in bytes) of the range of memory to invalidate (0 by default) </td></tr>
+    <tr><td class="paramname">size</td><td>Size (in bytes) of the region to invalidate (Uses entire allocation by default) </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a823f1d904512ff277eba6d177681c0f9"></a>
@@ -329,6 +423,142 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Forwards the <code>rhs</code> parameter. </dd></dl>
+
+</div>
+</div>
+<a id="a210dc48809c9b1076be6a43f8ea2189c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a210dc48809c9b1076be6a43f8ea2189c">&#9670;&nbsp;</a></span>start_write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t * hp::vk::generic_buffer::start_write </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Map a buffer so it is ready for writing. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Mapped memory <em>IS NOT</em> automatically unmapped! Any call to <code><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c" title="Map a buffer so it is ready for writing.">start_write()</a></code> <em>MUST</em> be accompanied by a call to <code><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806" title="Unmap a buffer so it is ready for reading and use.">stop_write()</a></code> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the mapped region </dd></dl>
+
+</div>
+</div>
+<a id="a14a55ab135f7d2995726f060b4a43806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14a55ab135f7d2995726f060b4a43806">&#9670;&nbsp;</a></span>stop_write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::generic_buffer::stop_write </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unmap a buffer so it is ready for reading and use. </p>
+
+</div>
+</div>
+<a id="a750e5137cf4cdd801d30fc3216a99ad6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a750e5137cf4cdd801d30fc3216a99ad6">&#9670;&nbsp;</a></span>write_buffer() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::generic_buffer::write_buffer </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write data to a buffer that is <code>eHostVisible</code>. </p>
+<p>This function maps and unmaps the buffer. See <code>void write_buffer(uint8_t *dest, <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html" title="Offers nice wrapper around functionality of vk::Buffer (See Vulkan documentation)">generic_buffer</a> *buf, const void *src, size_t offset = 0, size_t size = 0)</code>, <code><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c" title="Map a buffer so it is ready for writing.">generic_buffer::start_write()</a></code>, and <code><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806" title="Unmap a buffer so it is ready for reading and use.">generic_buffer::stop_write()</a></code> for explicit mapping/unmapping. </p><dl class="section note"><dt>Note</dt><dd>This buffer <em>MUST</em> have the memory property <code>eHostVisible</code>! Consult vulkan docs. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The data to write </td></tr>
+    <tr><td class="paramname">offset</td><td>The index (in bytes) of the buffer at which to start writing. </td></tr>
+    <tr><td class="paramname">size</td><td>The size of the data to write. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9d24a2350b8f05d91cabdaee2de410c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d24a2350b8f05d91cabdaee2de410c9">&#9670;&nbsp;</a></span>write_buffer() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::generic_buffer::write_buffer </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Write data to a buffer with <code>eHostCoherent</code> and <code>eHostVisible</code>. </p>
+<p>This function <em>DOES NOT</em> map and unmap memory! Memory must be explicitly mapped/unmapped using <code><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c" title="Map a buffer so it is ready for writing.">start_write()</a></code> and <code><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806" title="Unmap a buffer so it is ready for reading and use.">stop_write()</a></code>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dest</td><td>The data to write to. Should be the value returned from <code><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a210dc48809c9b1076be6a43f8ea2189c" title="Map a buffer so it is ready for writing.">hp::vk::generic_buffer::start_write()</a></code> </td></tr>
+    <tr><td class="paramname">src</td><td>The data to write. </td></tr>
+    <tr><td class="paramname">offset</td><td>The index (in bytes) at which to start writing. </td></tr>
+    <tr><td class="paramname">size</td><td>Size of the data to write. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -411,7 +641,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2019 19:33:25 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 2 2019 17:49:39 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

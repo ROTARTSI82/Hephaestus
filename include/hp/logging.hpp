@@ -155,7 +155,7 @@ namespace hp {
  */
 #define HP_CRITICAL SPDLOG_CRITICAL
 
-#elif
+#else
 
 /**
  * @def HP_TRACE(...)

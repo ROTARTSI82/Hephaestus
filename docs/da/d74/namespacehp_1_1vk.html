@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hephaestus
-   &#160;<span id="projectnumber">0.0.3</span>
+   &#160;<span id="projectnumber">0.0.4</span>
    </div>
   </td>
  </tr>
@@ -128,7 +128,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a2591df577a95fc4edfd3fea625063b94"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a2591df577a95fc4edfd3fea625063b94">max_frames_in_flight</a> = 2</td></tr>
 <tr class="memdesc:a2591df577a95fc4edfd3fea625063b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of frames the Vulkan renderer would attempt to process concurrently.  <a href="../../da/d74/namespacehp_1_1vk.html#a2591df577a95fc4edfd3fea625063b94">More...</a><br /></td></tr>
 <tr class="separator:a2591df577a95fc4edfd3fea625063b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ee355743ea0bfc12d435b2dc788a86d"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a8ee355743ea0bfc12d435b2dc788a86d">validation_layers_enabled</a> = false</td></tr>
+<tr class="memitem:a8ee355743ea0bfc12d435b2dc788a86d"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a8ee355743ea0bfc12d435b2dc788a86d">validation_layers_enabled</a> = true</td></tr>
 <tr class="memdesc:a8ee355743ea0bfc12d435b2dc788a86d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>true</code> if <code>HP_VK_VALIDATION_LAYERS_ENABLED</code> is defined, otherwise <code>false</code>.  <a href="../../da/d74/namespacehp_1_1vk.html#a8ee355743ea0bfc12d435b2dc788a86d">More...</a><br /></td></tr>
 <tr class="separator:a8ee355743ea0bfc12d435b2dc788a86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ed92317b324570e8260cc42c93ddc80"><td class="memItemLeft" align="right" valign="top">const ::vk::MemoryPropertyFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a0ed92317b324570e8260cc42c93ddc80">memory_local</a></td></tr>
@@ -196,7 +196,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Forwards the <code>res</code> parameter that was passed in. Success code is <code>vk::Result::eSuccess</code> </dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00920">hp::vk::window::new_fence()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00934">hp::vk::window::new_fence()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -301,7 +301,7 @@ Here is the caller graph for this function:</div>
 <p>Maximum number of frames the Vulkan renderer would attempt to process concurrently. </p>
 <dl class="section note"><dt>Note</dt><dd>Do not set too low or too high; Too low and the renderer would waste time sitting idly, Too high and it gets bottle-necked. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dfd/config_8hpp_source.html#l00132">132</a> of file <a class="el" href="../../d8/dfd/config_8hpp_source.html">config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dfd/config_8hpp_source.html#l00133">133</a> of file <a class="el" href="../../d8/dfd/config_8hpp_source.html">config.hpp</a>.</p>
 
 </div>
 </div>
@@ -319,7 +319,7 @@ Here is the caller graph for this function:</div>
 
 <p>Vulkan memory property flag specifying that memory should be allocated in a place that is synchronized and writable by CPU. </p>
 <dl class="section note"><dt>Note</dt><dd>This memory type could be written to directly from the CPU, but the GPU has a harder time reading it.</dd></dl>
-<p>Has value of <code>vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent</code>. Consult vulkan documentation for more details. Use this memory property flag with <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a7b9df2ea7ba3f4126d10e6765a9399a5" title="Vulkan buffer usage flag specifying the buffer for usage as a vertex buffer (VBO) written to directly...">hp::vk::vertex_direct_usage</a></code>, <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a9dd9a9aaefd82e332db8df758a1ab67c" title="Vulkan buffer usage flag specifying the buffer for usage as a index buffer (IBO) written to directly ...">hp::vk::index_direct_usage</a></code>, <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#ac9d065427600600b1cb21496b05ccaa0" title="Vulkan buffer usage flag specifying the buffer for usage as a staging buffer written to directly from...">hp::vk::staging_usage</a></code>, and <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a6f0011c07ac1c9d95ab6c02ad6afacd5" title="Vulkan buffer usage flag specifying the buffer for usage as a vertex buffer (VBO) OR index buffer (IB...">hp::vk::vertex_and_index_direct_usage</a></code> </p>
+<p>Has value of <code>vk::MemoryPropertyFlagBits::eHostVisible</code>. Consult vulkan documentation for more details. Use this memory property flag with <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a7b9df2ea7ba3f4126d10e6765a9399a5" title="Vulkan buffer usage flag specifying the buffer for usage as a vertex buffer (VBO) written to directly...">hp::vk::vertex_direct_usage</a></code>, <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a9dd9a9aaefd82e332db8df758a1ab67c" title="Vulkan buffer usage flag specifying the buffer for usage as a index buffer (IBO) written to directly ...">hp::vk::index_direct_usage</a></code>, <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#ac9d065427600600b1cb21496b05ccaa0" title="Vulkan buffer usage flag specifying the buffer for usage as a staging buffer written to directly from...">hp::vk::staging_usage</a></code>, and <code><a class="el" href="../../da/d74/namespacehp_1_1vk.html#a6f0011c07ac1c9d95ab6c02ad6afacd5" title="Vulkan buffer usage flag specifying the buffer for usage as a vertex buffer (VBO) OR index buffer (IB...">hp::vk::vertex_and_index_direct_usage</a></code> </p>
 
 </div>
 </div>
@@ -366,14 +366,14 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const bool hp::vk::validation_layers_enabled = false</td>
+          <td class="memname">const bool hp::vk::validation_layers_enabled = true</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p><code>true</code> if <code>HP_VK_VALIDATION_LAYERS_ENABLED</code> is defined, otherwise <code>false</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/dfd/config_8hpp_source.html#l00145">145</a> of file <a class="el" href="../../d8/dfd/config_8hpp_source.html">config.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/dfd/config_8hpp_source.html#l00140">140</a> of file <a class="el" href="../../d8/dfd/config_8hpp_source.html">config.hpp</a>.</p>
 
 </div>
 </div>
@@ -452,7 +452,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2019 19:33:25 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 2 2019 17:49:39 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

@@ -15,18 +15,18 @@
 
 #undef NDEBUG
 
-#ifndef NDEBUG
-/**
- * @def HP_DEBUG_MODE_ACTIVE
- * @brief Convenience flag for enabling/disabling debug mode, or toggling tons of settings at once.
- */
-#define HP_DEBUG_MODE_ACTIVE
-#elif
+#ifdef NDEBUG
 /**
  * @def HP_DEBUG_MODE_ACTIVE
  * @brief Convenience flag for enabling/disabling debug mode, or toggling tons of settings at once.
  */
 #undef HP_DEBUG_MODE_ACTIVE
+#else
+/**
+ * @def HP_DEBUG_MODE_ACTIVE
+ * @brief Convenience flag for enabling/disabling debug mode, or toggling tons of settings at once.
+ */
+#define HP_DEBUG_MODE_ACTIVE
 #endif
 
 
@@ -56,11 +56,12 @@
 
 /**
  * @def HP_ASYNC_LOGGING_ENABLED
- * @breif Global flag to enable/disable asynchronous logging. See `logging.hpp`.
+ * @brief Global flag to enable/disable asynchronous logging. See `logging.hpp`.
  * @details Disabled by default. (Rebuild required).
  * @warning Does yield faster logging, but if the program terminates unexpectedly, then not all messages may be logged.
  *          Then you would spend hours debugging when your program seemingly terminates at random points.
  */
+#define HP_ASYNC_LOGGING_ENABLED  // Here so documentation is generated.
 #undef HP_ASYNC_LOGGING_ENABLED
 
 /**
@@ -73,7 +74,7 @@
  */
 #define HP_VK_VALIDATION_LAYERS_ENABLED
 
-#elif
+#else
 // Insert custom values here for release
 
 /**

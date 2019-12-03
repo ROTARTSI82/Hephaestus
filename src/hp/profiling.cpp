@@ -6,7 +6,7 @@
 
 namespace hp {
 
-    profiler_session::profiler_session(const char *name, const char *output_file) : name(name), file(output_file),
+    profiler_session::profiler_session(const char *name, const char *output_file) : file(output_file), name(name),
                                                                                     closed(false),
                                                                                     first_event_written(false) {
         out.open(output_file);
@@ -79,7 +79,7 @@ namespace hp {
         }
     }
 
-    profiler_session::profiler_session() : closed(true), name("Dummy Session"), file("dummy_file.json"),
+    profiler_session::profiler_session() : file("dummy_file.json"), name("Dummy Session"), closed(true),
                                            first_event_written(true) {}
 
     void profiler_session::flush_single() {

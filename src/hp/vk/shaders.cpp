@@ -123,7 +123,7 @@ namespace hp::vk {
                 continue;
             }
 
-            int pos = line.find(':');
+            std::string::size_type pos = line.find(':');
 
             if (pos == std::string::npos) {
                 HP_WARN("[** SYNTAX ERROR **] [{}:{}]: Line doesn't contain a colon! Skipping!", fp + metapath,
@@ -135,7 +135,7 @@ namespace hp::vk {
             std::string shader_file = line.substr(pos + 1, line.length());
             std::string shader_type_and_entry = line.substr(0, pos);
 
-            int entry_pos = shader_type_and_entry.find(';');
+            std::string::size_type entry_pos = shader_type_and_entry.find(';');
 
             if (entry_pos == std::string::npos) {
                 HP_WARN("[** SYNTAX ERROR **] [{}:{}]: Line doesn't contain semi-colon! Skipping!", fp + metapath,

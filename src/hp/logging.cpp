@@ -56,16 +56,13 @@ namespace hp {
 
             std::shared_ptr<spdlog::logger> logger;
             if (async_logging_enabled) {
-                std::cout << "ASYNC logger enabled" << std::endl;
                 logger = std::make_shared<spdlog::async_logger>("root",
                                                                 sink_list.begin(), sink_list.end(),
                                                                 spdlog::thread_pool(),
                                                                 spdlog::async_overflow_policy::block);
             } else {
-                std::cout << "non-async logger enabled" << std::endl;
                 logger = std::make_shared<spdlog::logger>("root", sink_list.begin(), sink_list.end());
             }
-//            logger->set_level(spdlog::level::trace);
 
             spdlog::register_logger(logger);
             spdlog::set_default_logger(logger);
@@ -87,8 +84,8 @@ namespace hp {
         }
     }
 
-#elif
-    void init_logging(bool x) {};
+#else
+    void init_logging(bool use_single_file, bool use_unique_file) {};
 #endif
 
 }

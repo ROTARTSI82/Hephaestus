@@ -348,7 +348,7 @@ namespace hp::vk {
         void invalidate(::vk::DeviceSize offset = 0, ::vk::DeviceSize size = VK_WHOLE_SIZE);
 
         /**
-         * @fn void write_buffer(generic_buffer *buf, const void *data, size_t offset = 0, size_t size = 0)
+         * @fn void write_buffer(const void *data, size_t offset = 0, size_t size = 0)
          * @brief Write data to a buffer that is `eHostVisible`.
          * @details This function maps and unmaps the buffer. See `void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)`,
          *          `generic_buffer::start_write()`, and `generic_buffer::stop_write()` for explicit mapping/unmapping.
@@ -364,13 +364,12 @@ namespace hp::vk {
          * @brief Map a buffer so it is ready for writing.
          * @warning Mapped memory *IS NOT* automatically unmapped! Any call to `start_write()` *MUST* be accompanied
          *          by a call to `stop_write()`
-         * @param buf Buffer to map
          * @return Pointer to the mapped region
          */
         uint8_t *start_write();
 
         /**
-         * @fn void write_buffer(uint8_t *dest, generic_buffer *buf, const void *src, size_t offset = 0, size_t size = 0)
+         * @fn void write_buffer(uint8_t *dest, const void *src, size_t offset = 0, size_t size = 0)
          * @brief Write data to a buffer with `eHostCoherent` and `eHostVisible`.
          * @details This function *DOES NOT* map and unmap memory! Memory must be explicitly mapped/unmapped using
          *          `start_write()` and `stop_write()`.
@@ -384,7 +383,6 @@ namespace hp::vk {
         /**
          * @fn void stop_write()
          * @brief Unmap a buffer so it is ready for reading and use.
-         * @param buf Buffer to unmap
          */
         void stop_write();
 
@@ -590,7 +588,7 @@ namespace hp::vk {
 
         ::vk::SwapchainKHR swap_chain; ///< @private
         ::vk::Extent2D swap_extent; ///< @private
-        ::vk::Format swap_fmt{}; ///< @private
+        ::vk::SurfaceFormatKHR swap_fmt{}; ///< @private
         std::vector<::vk::Image> swap_imgs; ///< @private
         std::vector<::vk::ImageView> swap_views; ///< @private
         std::vector<::vk::Framebuffer> framebuffers; ///< @private
@@ -626,8 +624,7 @@ namespace hp::vk {
                                                                 void *pUserData); ///< @private
 
         void record_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
-                             ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
-                             ::vk::CommandPool *use_cmd_pool); ///< @private
+                             ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent); ///< @private
 
         ::vk::Result createDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                                   const VkAllocationCallbacks *pAllocator,
@@ -645,9 +642,7 @@ namespace hp::vk {
 
         friend class generic_buffer;
 
-        friend class vertex_buffer;
-
-        friend class staging_buffer;
+        friend struct vertex_buffer;
 
         friend void on_resize_event(GLFWwindow *win, int width, int height); ///< @private
 

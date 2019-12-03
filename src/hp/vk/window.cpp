@@ -158,9 +158,11 @@ namespace hp::vk {
             auto dev_qfam_indx = build_queue_fam_indices(&device, surf);
 
             phys_dev_ext = device.enumerateDeviceExtensionProperties();
+#if (defined(HP_LOGGING_ENABLED) && defined(HP_DEBUG_MODE_ACTIVE))
             for (auto ext : phys_dev_ext) {
                 HP_DEBUG("Device {} supports extension '{}'!", props.deviceName, ext.extensionName);
             }
+#endif
 
             HP_DEBUG("Checking support of physical device '{}' with api {} and driver {}...", props.deviceName,
                      props.apiVersion, props.driverVersion);
@@ -379,7 +381,7 @@ namespace hp::vk {
         std::vector<::vk::Image> new_imgs;
         std::vector<::vk::ImageView> new_views = std::vector<::vk::ImageView>();
         ::vk::SurfaceFormatKHR new_fmt;
-        ::vk::RenderPass new_pass;
+        ::vk::RenderPass new_pass = ::vk::RenderPass();
         std::vector<::vk::Framebuffer> new_bufs = std::vector<::vk::Framebuffer>();
 
         if (swap_deets.capabilities.currentExtent.width != UINT32_MAX) {
@@ -480,39 +482,45 @@ namespace hp::vk {
         HP_DEBUG("Image views constructed successfully!");
 
 
-        // Render pass stuff
-        ::vk::AttachmentDescription color_attach(::vk::AttachmentDescriptionFlags(), new_fmt.format,
-                                                 ::vk::SampleCountFlagBits::e1,
-                                                 ::vk::AttachmentLoadOp::eClear, ::vk::AttachmentStoreOp::eStore,
-                                                 ::vk::AttachmentLoadOp::eDontCare,
-                                                 ::vk::AttachmentStoreOp::eDontCare, ::vk::ImageLayout::eUndefined,
-                                                 ::vk::ImageLayout::ePresentSrcKHR);
+        if (!do_destroy || new_fmt != swap_fmt) {
+            // Render pass stuff
+            ::vk::AttachmentDescription color_attach(::vk::AttachmentDescriptionFlags(), new_fmt.format,
+                                                     ::vk::SampleCountFlagBits::e1,
+                                                     ::vk::AttachmentLoadOp::eClear, ::vk::AttachmentStoreOp::eStore,
+                                                     ::vk::AttachmentLoadOp::eDontCare,
+                                                     ::vk::AttachmentStoreOp::eDontCare, ::vk::ImageLayout::eUndefined,
+                                                     ::vk::ImageLayout::ePresentSrcKHR);
 
-        ::vk::AttachmentReference color_attach_ref(0, ::vk::ImageLayout::eColorAttachmentOptimal);
+            ::vk::AttachmentReference color_attach_ref(0, ::vk::ImageLayout::eColorAttachmentOptimal);
 
-        ::vk::SubpassDescription subpass(::vk::SubpassDescriptionFlags(), ::vk::PipelineBindPoint::eGraphics, 0,
-                                         nullptr,
-                                         1, &color_attach_ref, nullptr, nullptr, 0, nullptr);
+            ::vk::SubpassDescription subpass(::vk::SubpassDescriptionFlags(), ::vk::PipelineBindPoint::eGraphics, 0,
+                                             nullptr,
+                                             1, &color_attach_ref, nullptr, nullptr, 0, nullptr);
 
-        ::vk::SubpassDependency subpass_dep(VK_SUBPASS_EXTERNAL, 0, ::vk::PipelineStageFlagBits::eColorAttachmentOutput,
-                                            ::vk::PipelineStageFlagBits::eColorAttachmentOutput, ::vk::AccessFlags(),
-                                            ::vk::AccessFlagBits::eColorAttachmentRead |
-                                            ::vk::AccessFlagBits::eColorAttachmentWrite, ::vk::DependencyFlags());
+            ::vk::SubpassDependency subpass_dep(VK_SUBPASS_EXTERNAL, 0,
+                                                ::vk::PipelineStageFlagBits::eColorAttachmentOutput,
+                                                ::vk::PipelineStageFlagBits::eColorAttachmentOutput,
+                                                ::vk::AccessFlags(),
+                                                ::vk::AccessFlagBits::eColorAttachmentRead |
+                                                ::vk::AccessFlagBits::eColorAttachmentWrite, ::vk::DependencyFlags());
 
-        ::vk::RenderPassCreateInfo rend_pass_ci(::vk::RenderPassCreateFlags(), 1, &color_attach, 1, &subpass, 1,
-                                                &subpass_dep);
+            ::vk::RenderPassCreateInfo rend_pass_ci(::vk::RenderPassCreateFlags(), 1, &color_attach, 1, &subpass, 1,
+                                                    &subpass_dep);
 
-        if (handle_res(log_dev.createRenderPass(&rend_pass_ci, nullptr, &new_pass), HP_GET_CODE_LOC) !=
-            ::vk::Result::eSuccess) {
-            HP_FATAL("Failed to create render pass! Aborting!");
-            std::terminate();
+            if (handle_res(log_dev.createRenderPass(&rend_pass_ci, nullptr, &new_pass), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to create render pass! Aborting!");
+                std::terminate();
+            }
+            HP_DEBUG("Render pass constructed successfully!");
         }
-        HP_DEBUG("Render pass constructed successfully!");
 
         // Framebuffers
         new_bufs.resize(new_views.size());
         for (size_t i = 0; i < new_views.size(); i++) {
-            ::vk::FramebufferCreateInfo framebuf_ci(::vk::FramebufferCreateFlags(), new_pass, 1, &new_views[i],
+            ::vk::FramebufferCreateInfo framebuf_ci(::vk::FramebufferCreateFlags(),
+                                                    new_pass != ::vk::RenderPass() ? new_pass : render_pass, 1,
+                                                    &new_views[i],
                                                     new_extent.width, new_extent.height, 1);
 
             if (handle_res(log_dev.createFramebuffer(&framebuf_ci, nullptr, &new_bufs[i]), HP_GET_CODE_LOC) !=
@@ -523,6 +531,7 @@ namespace hp::vk {
         }
         HP_DEBUG("Framebuffers constructed successfully!");
 
+        std::vector<::vk::CommandBuffer> new_cmd_bufs = std::vector<::vk::CommandBuffer>();
         if (!do_destroy) {
             // Command pools and buffers
             ::vk::CommandPoolCreateInfo pool_ci(
@@ -534,6 +543,21 @@ namespace hp::vk {
                 std::terminate();
             }
             HP_DEBUG("Command pool constructed successfully!");
+        }
+
+
+        if (!do_destroy || new_imgs.size() != swap_imgs.size()) {
+            img_fences.resize(new_imgs.size(), ::vk::Fence());
+            new_cmd_bufs.resize(new_bufs.size());
+
+            ::vk::CommandBufferAllocateInfo cmd_buf_ai(cmd_pool, ::vk::CommandBufferLevel::ePrimary,
+                                                       new_cmd_bufs.size());
+
+            if (handle_res(log_dev.allocateCommandBuffers(&cmd_buf_ai, new_cmd_bufs.data()), HP_GET_CODE_LOC) !=
+                ::vk::Result::eSuccess) {
+                HP_FATAL("Failed to allocated command buffers!");
+                std::terminate();
+            }
         }
 
         if (do_destroy) {
@@ -548,31 +572,25 @@ namespace hp::vk {
         log_dev.waitIdle();
 
         if (!do_destroy || new_imgs.size() != swap_imgs.size()) {
-            img_fences.resize(new_imgs.size(), ::vk::Fence());
-
             if (!cmd_bufs.empty()) {
                 log_dev.freeCommandBuffers(cmd_pool, cmd_bufs.size(), cmd_bufs.data());
             }
 
-            cmd_bufs.resize(new_bufs.size());
-            ::vk::CommandBufferAllocateInfo cmd_buf_ai(cmd_pool, ::vk::CommandBufferLevel::ePrimary,
-                                                       cmd_bufs.size());
-
-            if (handle_res(log_dev.allocateCommandBuffers(&cmd_buf_ai, cmd_bufs.data()), HP_GET_CODE_LOC) !=
-                ::vk::Result::eSuccess) {
-                HP_FATAL("Failed to allocated command buffers!");
-                std::terminate();
-            }
+            cmd_bufs = std::move(new_cmd_bufs);
         }
 
-        if (do_destroy) {
-            record_cmd_bufs(&new_bufs, &new_pass, &new_extent, &cmd_pool);
+        if (!do_destroy || swap_fmt != new_fmt) {
+            log_dev.destroyRenderPass(render_pass, nullptr);
+            render_pass = new_pass;
+            swap_fmt = new_fmt;
+        }
 
+        record_cmd_bufs(&new_bufs, &render_pass, &new_extent);
+
+        if (do_destroy) {
             for (auto fb : framebuffers) {
                 log_dev.destroyFramebuffer(fb, nullptr);
             }
-
-            log_dev.destroyRenderPass(render_pass, nullptr);
 
             for (auto img : swap_views) {
                 log_dev.destroyImageView(img, nullptr);
@@ -585,10 +603,7 @@ namespace hp::vk {
         swap_chain = new_swap;
         swap_imgs = std::move(new_imgs);
         swap_views = std::move(new_views);
-        render_pass = new_pass;
         framebuffers = std::move(new_bufs);
-        swap_fmt = new_fmt.format;
-        render_pass = new_pass;
     }
 
     void window::draw_frame() {
@@ -642,8 +657,7 @@ namespace hp::vk {
 
 
     void window::record_cmd_bufs(std::vector<::vk::Framebuffer> *frame_bufs,
-                                 ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent,
-                                 ::vk::CommandPool *use_cmd_pool) {
+                                 ::vk::RenderPass *rend_pass, ::vk::Extent2D *extent) {
         for (size_t i = 0; i < cmd_bufs.size(); i++) {
             ::vk::CommandBufferBeginInfo cmd_buf_bi(::vk::CommandBufferUsageFlags(), nullptr);
 
@@ -692,7 +706,7 @@ namespace hp::vk {
         std::lock_guard<std::recursive_mutex> lg(render_mtx);
         log_dev.waitIdle();
 
-        record_cmd_bufs(&framebuffers, &render_pass, &swap_extent, &cmd_pool);
+        record_cmd_bufs(&framebuffers, &render_pass, &swap_extent);
     }
 
     std::pair<::vk::Fence, ::vk::CommandBuffer> window::copy_buffer(generic_buffer *source, generic_buffer *dest,

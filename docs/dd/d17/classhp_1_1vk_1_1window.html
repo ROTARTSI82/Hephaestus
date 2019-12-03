@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Hephaestus
-   &#160;<span id="projectnumber">0.0.3</span>
+   &#160;<span id="projectnumber">0.0.4</span>
    </div>
   </td>
  </tr>
@@ -120,18 +120,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa72a176c0c12f8a19a912e22872bcd0b"><td class="memItemLeft" align="right" valign="top">std::pair&lt;::vk::Fence, ::vk::CommandBuffer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#aa72a176c0c12f8a19a912e22872bcd0b">copy_buffer</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *source, <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *dest, bool wait=true, size_t src_offset=0, size_t dest_offset=0, size_t size=0)</td></tr>
 <tr class="memdesc:aa72a176c0c12f8a19a912e22872bcd0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy data from one buffer to another.  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#aa72a176c0c12f8a19a912e22872bcd0b">More...</a><br /></td></tr>
 <tr class="separator:aa72a176c0c12f8a19a912e22872bcd0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17536da75810d265a3f480d2ad37a2b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a17536da75810d265a3f480d2ad37a2b1">write_buffer</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf, const void *data, size_t offset=0, size_t size=0)</td></tr>
-<tr class="memdesc:a17536da75810d265a3f480d2ad37a2b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to a buffer with <code>eHostCoherent</code> and <code>eHostVisible</code>.  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#a17536da75810d265a3f480d2ad37a2b1">More...</a><br /></td></tr>
-<tr class="separator:a17536da75810d265a3f480d2ad37a2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a2ec279762d0dc85f2382dd4337ee1e"><td class="memItemLeft" align="right" valign="top">uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a4a2ec279762d0dc85f2382dd4337ee1e">start_write</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf)</td></tr>
-<tr class="memdesc:a4a2ec279762d0dc85f2382dd4337ee1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a buffer so it is ready for writing.  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#a4a2ec279762d0dc85f2382dd4337ee1e">More...</a><br /></td></tr>
-<tr class="separator:a4a2ec279762d0dc85f2382dd4337ee1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f4a25b2c0e0d68389d8d286404fbebc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a3f4a25b2c0e0d68389d8d286404fbebc">write_buffer</a> (uint8_t *dest, <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf, const void *src, size_t offset=0, size_t size=0)</td></tr>
-<tr class="memdesc:a3f4a25b2c0e0d68389d8d286404fbebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write data to a buffer with <code>eHostCoherent</code> and <code>eHostVisible</code>.  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#a3f4a25b2c0e0d68389d8d286404fbebc">More...</a><br /></td></tr>
-<tr class="separator:a3f4a25b2c0e0d68389d8d286404fbebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a650ae8a55d1b43a4e948217c38abd388"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a650ae8a55d1b43a4e948217c38abd388">stop_write</a> (<a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *buf)</td></tr>
-<tr class="memdesc:a650ae8a55d1b43a4e948217c38abd388"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unmap a buffer so it is ready for reading and use.  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#a650ae8a55d1b43a4e948217c38abd388">More...</a><br /></td></tr>
-<tr class="separator:a650ae8a55d1b43a4e948217c38abd388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a887c3c901c8e64840d36b65ceb989de4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a887c3c901c8e64840d36b65ceb989de4">set_swap_recreate_callback</a> (void(*new_callback)(::vk::Extent2D))</td></tr>
 <tr class="memdesc:a887c3c901c8e64840d36b65ceb989de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the callback that is called whenever the swapchain needs to be recreated.  <a href="../../dd/d17/classhp_1_1vk_1_1window.html#a887c3c901c8e64840d36b65ceb989de4">More...</a><br /></td></tr>
 <tr class="separator:a887c3c901c8e64840d36b65ceb989de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,10 +190,8 @@ Friends</h2></td></tr>
 <tr class="separator:a305cb8478e7b7488a0d45898e8cdb0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83fc33f12135a37af6a6a5bd964bf294"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a83fc33f12135a37af6a6a5bd964bf294">generic_buffer</a></td></tr>
 <tr class="separator:a83fc33f12135a37af6a6a5bd964bf294"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80c036901d113d3fa4314fcc7317646c"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a80c036901d113d3fa4314fcc7317646c">vertex_buffer</a></td></tr>
-<tr class="separator:a80c036901d113d3fa4314fcc7317646c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51d18ecba703a792316f06cf9e9b3983"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a51d18ecba703a792316f06cf9e9b3983">staging_buffer</a></td></tr>
-<tr class="separator:a51d18ecba703a792316f06cf9e9b3983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95f971bea30ad80b5c68e9720cb589ba"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a95f971bea30ad80b5c68e9720cb589ba">vertex_buffer</a></td></tr>
+<tr class="separator:a95f971bea30ad80b5c68e9720cb589ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af385227800848bafc2f3d59f06ea9027"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#af385227800848bafc2f3d59f06ea9027">on_resize_event</a> (GLFWwindow *win, int width, int height)</td></tr>
 <tr class="separator:af385227800848bafc2f3d59f06ea9027"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14074204cdf74522a5485742a7473318"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a14074204cdf74522a5485742a7473318">on_iconify_event</a> (GLFWwindow *win, int state)</td></tr>
@@ -214,7 +200,7 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Describes a vulkan window. Is used as a base for all operations. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00508">508</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00568">568</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2644434374ae6f8b89831c7580e84485"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2644434374ae6f8b89831c7580e84485">&#9670;&nbsp;</a></span>window() <span class="overload">[1/4]</span></h2>
@@ -505,11 +491,11 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00966">966</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00966"></a><span class="lineno">  966</span>&#160;                                                       {</div>
-<div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;            boost::remove_erase(child_bufs, buf);</div>
-<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;            <span class="keyword">delete</span> buf;</div>
-<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00980">980</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00980"></a><span class="lineno">  980</span>&#160;                                                       {</div>
+<div class="line"><a name="l00981"></a><span class="lineno">  981</span>&#160;            boost::remove_erase(child_bufs, buf);</div>
+<div class="line"><a name="l00982"></a><span class="lineno">  982</span>&#160;            <span class="keyword">delete</span> buf;</div>
+<div class="line"><a name="l00983"></a><span class="lineno">  983</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -557,10 +543,10 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00892">892</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;                                                                                {</div>
-<div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;            log_dev.freeCommandBuffers(cmd_pool, num, bufs);</div>
-<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00906">906</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;                                                                                {</div>
+<div class="line"><a name="l00907"></a><span class="lineno">  907</span>&#160;            log_dev.freeCommandBuffers(cmd_pool, num, bufs);</div>
+<div class="line"><a name="l00908"></a><span class="lineno">  908</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -597,11 +583,11 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00937">937</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;                                                {</div>
-<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;            log_dev.destroyFence(fence, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;            boost::remove_erase(child_fences, fence);</div>
-<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00951">951</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;                                                {</div>
+<div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;            log_dev.destroyFence(fence, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;            boost::remove_erase(child_fences, fence);</div>
+<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -638,11 +624,11 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00879">879</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00879"></a><span class="lineno">  879</span>&#160;                                                              {</div>
-<div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;            boost::remove_erase(child_shaders, sh);</div>
-<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;            <span class="keyword">delete</span> sh;</div>
-<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00893">893</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;                                                              {</div>
+<div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;            boost::remove_erase(child_shaders, sh);</div>
+<div class="line"><a name="l00895"></a><span class="lineno">  895</span>&#160;            <span class="keyword">delete</span> sh;</div>
+<div class="line"><a name="l00896"></a><span class="lineno">  896</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -679,10 +665,10 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the extension is supported, otherwise false. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00664">664</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160;                                                       {</div>
-<div class="line"><a name="l00665"></a><span class="lineno">  665</span>&#160;            <span class="keywordflow">return</span> std::any_of(phys_dev_ext.begin(), phys_dev_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00721">721</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;                                                       {</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;            <span class="keywordflow">return</span> std::any_of(phys_dev_ext.begin(), phys_dev_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;        };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -739,10 +725,10 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if extension is supported, otherwise false. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00654">654</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;                                                   {</div>
-<div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
-<div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00711">711</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;                                                   {</div>
+<div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_ext.begin(), supported_ext.end(), __hp_vk_is_in_extension_prop_list(ext));</div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;        };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -772,10 +758,10 @@ Friends</h2></td></tr>
 <p>Get the current size of the window (in pixels). </p>
 <dl class="section return"><dt>Returns</dt><dd>The vulkan <code>Extent2D</code> assiciated with this window. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00693">693</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;                                     {</div>
-<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;            <span class="keywordflow">return</span> swap_extent;</div>
-<div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00750">750</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;                                     {</div>
+<div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;            <span class="keywordflow">return</span> swap_extent;</div>
+<div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -813,10 +799,10 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the validation layer is supported, otherwise false. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00675">675</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;                                                     {</div>
-<div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_lay.begin(), supported_lay.end(), __hp_vk_is_in_layer_prop_list(lay));</div>
-<div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00732">732</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;                                                     {</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;            <span class="keywordflow">return</span> std::any_of(supported_lay.begin(), supported_lay.end(), __hp_vk_is_in_layer_prop_list(lay));</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        };</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -872,14 +858,14 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the newly constructed buffer. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00953">953</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;                                                                                                     {</div>
-<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;            <span class="keyword">auto</span> buf = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a83fc33f12135a37af6a6a5bd964bf294">generic_buffer</a>(size, usage, flags, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;            child_bufs.emplace_back(buf);</div>
-<div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;            <span class="keywordflow">return</span> buf;</div>
-<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00967">967</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00967"></a><span class="lineno">  967</span>&#160;                                                                                                     {</div>
+<div class="line"><a name="l00968"></a><span class="lineno">  968</span>&#160;            <span class="keyword">auto</span> buf = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a83fc33f12135a37af6a6a5bd964bf294">generic_buffer</a>(size, usage, flags, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00969"></a><span class="lineno">  969</span>&#160;            child_bufs.emplace_back(buf);</div>
+<div class="line"><a name="l00970"></a><span class="lineno">  970</span>&#160;            <span class="keywordflow">return</span> buf;</div>
+<div class="line"><a name="l00971"></a><span class="lineno">  971</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00584">generic_buffer</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00643">generic_buffer</a>.</p>
 
 </div>
 </div>
@@ -910,18 +896,18 @@ Friends</h2></td></tr>
 <dl class="section warning"><dt>Warning</dt><dd>DO NOT attempt to call <code>delete</code> on pointer returned by this function! Use <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a249fbf64d20a1b873899d967149a10dc" title="Destroy a fence associated with this window.">window::delete_fence()</a></code> instead! It is also <em>NOT</em> necessary to call <code>delete_fence</code>; the fences are automatically cleaned up when window is destroyed! </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The newly constructed vk::Fence </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00920">920</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;                                   {</div>
-<div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;            ::vk::Fence ret = ::vk::Fence();</div>
-<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;            ::vk::FenceCreateInfo fence_ci((::vk::FenceCreateFlags()));</div>
-<div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../da/d74/namespacehp_1_1vk.html#aa7195ccef9de54ede16edbd813342934">handle_res</a>(log_dev.createFence(&amp;fence_ci, <span class="keyword">nullptr</span>, &amp;ret), <a class="code" href="../../d0/da9/logging_8hpp.html#a7f4242cf6cd929a580518c160aebc8fb">HP_GET_CODE_LOC</a>) != ::vk::Result::eSuccess) {</div>
-<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;                HP_FATAL(<span class="stringliteral">&quot;Failed to create fences!&quot;</span>);</div>
-<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;            }</div>
-<div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;            child_fences.emplace_back(ret);</div>
-<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;            <span class="keywordflow">return</span> ret;</div>
-<div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00934">934</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00934"></a><span class="lineno">  934</span>&#160;                                   {</div>
+<div class="line"><a name="l00935"></a><span class="lineno">  935</span>&#160;            ::vk::Fence ret = ::vk::Fence();</div>
+<div class="line"><a name="l00936"></a><span class="lineno">  936</span>&#160;            ::vk::FenceCreateInfo fence_ci((::vk::FenceCreateFlags()));</div>
+<div class="line"><a name="l00937"></a><span class="lineno">  937</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../da/d74/namespacehp_1_1vk.html#aa7195ccef9de54ede16edbd813342934">handle_res</a>(log_dev.createFence(&amp;fence_ci, <span class="keyword">nullptr</span>, &amp;ret), <a class="code" href="../../d0/da9/logging_8hpp.html#a7f4242cf6cd929a580518c160aebc8fb">HP_GET_CODE_LOC</a>) != ::vk::Result::eSuccess) {</div>
+<div class="line"><a name="l00938"></a><span class="lineno">  938</span>&#160;                <a class="code" href="../../d0/da9/logging_8hpp.html#af813d5a9d48932cd6249530a74dff9ee">HP_FATAL</a>(<span class="stringliteral">&quot;Failed to create fences!&quot;</span>);</div>
+<div class="line"><a name="l00939"></a><span class="lineno">  939</span>&#160;            }</div>
+<div class="line"><a name="l00940"></a><span class="lineno">  940</span>&#160;            child_fences.emplace_back(ret);</div>
+<div class="line"><a name="l00941"></a><span class="lineno">  941</span>&#160;            <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;        }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d74/namespacehp_1_1vk.html#aa7195ccef9de54ede16edbd813342934">hp::vk::handle_res()</a>, and <a class="el" href="../../d0/da9/logging_8hpp_source.html#l00106">HP_GET_CODE_LOC</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d74/namespacehp_1_1vk.html#aa7195ccef9de54ede16edbd813342934">hp::vk::handle_res()</a>, <a class="el" href="../../d0/da9/logging_8hpp_source.html#l00148">HP_FATAL</a>, and <a class="el" href="../../d0/da9/logging_8hpp_source.html#l00106">HP_GET_CODE_LOC</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -980,14 +966,14 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the newly constructed <code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a></code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00866">866</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;                                                                                                                     {</div>
-<div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;            <span class="keyword">auto</span> new_prog = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">shader_program</a>(fp, metapath, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;            child_shaders.emplace_back(new_prog);</div>
-<div class="line"><a name="l00869"></a><span class="lineno">  869</span>&#160;            <span class="keywordflow">return</span> new_prog;</div>
-<div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00880">880</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00880"></a><span class="lineno">  880</span>&#160;                                                                                                                     {</div>
+<div class="line"><a name="l00881"></a><span class="lineno">  881</span>&#160;            <span class="keyword">auto</span> new_prog = <span class="keyword">new</span> <a class="code" href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">shader_program</a>(fp, metapath, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00882"></a><span class="lineno">  882</span>&#160;            child_shaders.emplace_back(new_prog);</div>
+<div class="line"><a name="l00883"></a><span class="lineno">  883</span>&#160;            <span class="keywordflow">return</span> new_prog;</div>
+<div class="line"><a name="l00884"></a><span class="lineno">  884</span>&#160;        };</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00582">shader_program</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00641">shader_program</a>.</p>
 
 </div>
 </div>
@@ -1327,10 +1313,10 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>DO NOT CALL <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#accf9acdf9dca93ec205add02b07debbe" title="Create new command buffers according to the contents of the recording buffer.">save_recording()</a></code> IN THE CALLBACK! SWAP CHAIN RECREATION ALREADY IMPLICITLY CALLS IT! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00771">771</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;                                                                                {</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;            swap_recreate_callback = new_callback;</div>
-<div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00785">785</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160;                                                                                {</div>
+<div class="line"><a name="l00786"></a><span class="lineno">  786</span>&#160;            swap_recreate_callback = new_callback;</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1360,65 +1346,11 @@ Here is the call graph for this function:</div>
 <p>Poll if this window should be closed (ie. The user closed it) </p>
 <dl class="section return"><dt>Returns</dt><dd>True if the window should close (ie. You should terminate the program, or other appropriate behavior) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00684">684</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;                                   {</div>
-<div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;            <span class="keywordflow">return</span> glfwWindowShouldClose(win);</div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;        };</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00741">741</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;                                   {</div>
+<div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;            <span class="keywordflow">return</span> glfwWindowShouldClose(win);</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;        };</div>
 </div><!-- fragment -->
-</div>
-</div>
-<a id="a4a2ec279762d0dc85f2382dd4337ee1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a2ec279762d0dc85f2382dd4337ee1e">&#9670;&nbsp;</a></span>start_write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t * hp::vk::window::start_write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
-          <td class="paramname"><em>buf</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Map a buffer so it is ready for writing. </p>
-<dl class="section warning"><dt>Warning</dt><dd>Mapped memory <em>IS NOT</em> automatically unmapped! Any call to <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a4a2ec279762d0dc85f2382dd4337ee1e" title="Map a buffer so it is ready for writing.">start_write()</a></code> <em>MUST</em> be accompanied by a call to <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a650ae8a55d1b43a4e948217c38abd388" title="Unmap a buffer so it is ready for reading and use.">stop_write()</a></code> </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">buf</td><td>Buffer to map </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the mapped region </dd></dl>
-
-</div>
-</div>
-<a id="a650ae8a55d1b43a4e948217c38abd388"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a650ae8a55d1b43a4e948217c38abd388">&#9670;&nbsp;</a></span>stop_write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hp::vk::window::stop_write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
-          <td class="paramname"><em>buf</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Unmap a buffer so it is ready for reading and use. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">buf</td><td>Buffer to unmap </td></tr>
-  </table>
-  </dd>
-</dl>
-
 </div>
 </div>
 <a id="abd6dabdc499807c314ea44a40727c6f2"></a>
@@ -1473,121 +1405,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>If no timeout is set, this function would block forever if the fence is never signaled, which <em>CAN</em> happen! Therefore, it is recommended to define a timeout. Do not set it too low, or the operation wouldn't have a change to complete. Don't set it too high, or the application would be forced to wait that number of nanoseconds if the fence is never signaled. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00909">909</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;                                                                                                  {</div>
-<div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;            log_dev.waitForFences(num, fences, ::vk::Bool32(VK_TRUE), timeout);</div>
-<div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00923">923</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;                                                                                                  {</div>
+<div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;            log_dev.waitForFences(num, fences, ::vk::Bool32(VK_TRUE), timeout);</div>
+<div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;        }</div>
 </div><!-- fragment -->
-</div>
-</div>
-<a id="a17536da75810d265a3f480d2ad37a2b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17536da75810d265a3f480d2ad37a2b1">&#9670;&nbsp;</a></span>write_buffer() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hp::vk::window::write_buffer </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Write data to a buffer with <code>eHostCoherent</code> and <code>eHostVisible</code>. </p>
-<p>This function maps and unmaps the buffer. See <code>void write_buffer(uint8_t *dest, <a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html" title="Offers nice wrapper around functionality of vk::Buffer (See Vulkan documentation)">generic_buffer</a> *buf, const void *src, size_t offset = 0, size_t size = 0)</code>, <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a4a2ec279762d0dc85f2382dd4337ee1e" title="Map a buffer so it is ready for writing.">window::start_write()</a></code>, and <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a650ae8a55d1b43a4e948217c38abd388" title="Unmap a buffer so it is ready for reading and use.">window::stop_write()</a></code> for explicit mapping/unmapping. </p><dl class="section note"><dt>Note</dt><dd>The supplied buffer <em>MUST</em> have the memory property <code>eHostVisible</code> and <code>eHostCoherent</code>! Consult vulkan docs. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">buf</td><td>The buffer to write to. </td></tr>
-    <tr><td class="paramname">data</td><td>The data to write </td></tr>
-    <tr><td class="paramname">offset</td><td>The index (in bytes) of the buffer at which to start writing. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the data to write. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a3f4a25b2c0e0d68389d8d286404fbebc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f4a25b2c0e0d68389d8d286404fbebc">&#9670;&nbsp;</a></span>write_buffer() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hp::vk::window::write_buffer </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>dest</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d6/d0a/classhp_1_1vk_1_1generic__buffer.html">generic_buffer</a> *&#160;</td>
-          <td class="paramname"><em>buf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>offset</em> = <code>0</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em> = <code>0</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Write data to a buffer with <code>eHostCoherent</code> and <code>eHostVisible</code>. </p>
-<p>This function <em>DOES NOT</em> map and unmap memory! Memory must be explicitly mapped/unmapped using <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a4a2ec279762d0dc85f2382dd4337ee1e" title="Map a buffer so it is ready for writing.">start_write()</a></code> and <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a650ae8a55d1b43a4e948217c38abd388" title="Unmap a buffer so it is ready for reading and use.">stop_write()</a></code>. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dest</td><td>The data to write to. Should be the value returned from <code><a class="el" href="../../dd/d17/classhp_1_1vk_1_1window.html#a4a2ec279762d0dc85f2382dd4337ee1e" title="Map a buffer so it is ready for writing.">hp::vk::window::start_write()</a></code> </td></tr>
-    <tr><td class="paramname">buf</td><td>The buffer to write to. </td></tr>
-    <tr><td class="paramname">src</td><td>The data to write. </td></tr>
-    <tr><td class="paramname">offset</td><td>The index (in bytes) at which to start writing. </td></tr>
-    <tr><td class="paramname">size</td><td>Size of the data to write. </td></tr>
-  </table>
-  </dd>
-</dl>
-
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -1611,9 +1433,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00584">584</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00643">643</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00953">new_buffer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00967">new_buffer()</a>.</p>
 
 </div>
 </div>
@@ -1715,14 +1537,14 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00582">582</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00641">641</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00866">new_shader_program()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00880">new_shader_program()</a>.</p>
 
 </div>
 </div>
-<a id="a51d18ecba703a792316f06cf9e9b3983"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51d18ecba703a792316f06cf9e9b3983">&#9670;&nbsp;</a></span>staging_buffer</h2>
+<a id="a95f971bea30ad80b5c68e9720cb589ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95f971bea30ad80b5c68e9720cb589ba">&#9670;&nbsp;</a></span>vertex_buffer</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1731,7 +1553,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">friend class staging_buffer</td>
+          <td class="memname">friend struct <a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a></td>
         </tr>
       </table>
   </td>
@@ -1741,31 +1563,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00588">588</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a80c036901d113d3fa4314fcc7317646c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80c036901d113d3fa4314fcc7317646c">&#9670;&nbsp;</a></span>vertex_buffer</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">friend class <a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html">vertex_buffer</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00586">586</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00645">645</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -1774,12 +1572,13 @@ Here is the call graph for this function:</div>
 </ul>
 </div><!-- contents -->
 <div class="ttc" id="anamespacehp_1_1vk_html_aa7195ccef9de54ede16edbd813342934"><div class="ttname"><a href="../../da/d74/namespacehp_1_1vk.html#aa7195ccef9de54ede16edbd813342934">hp::vk::handle_res</a></div><div class="ttdeci">::vk::Result handle_res(::vk::Result res, hp::code_location loc)</div><div class="ttdoc">Handle the results returned by vulkan functions, and log it if an error had occurred.</div></div>
+<div class="ttc" id="alogging_8hpp_html_af813d5a9d48932cd6249530a74dff9ee"><div class="ttname"><a href="../../d0/da9/logging_8hpp.html#af813d5a9d48932cd6249530a74dff9ee">HP_FATAL</a></div><div class="ttdeci">#define HP_FATAL</div><div class="ttdoc">Logging macro aliases to SPDLOG_CRITICAL. See the spdlog documentation.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da9/logging_8hpp_source.html#l00148">logging.hpp:148</a></div></div>
 <div class="ttc" id="alogging_8hpp_html_a7f4242cf6cd929a580518c160aebc8fb"><div class="ttname"><a href="../../d0/da9/logging_8hpp.html#a7f4242cf6cd929a580518c160aebc8fb">HP_GET_CODE_LOC</a></div><div class="ttdeci">#define HP_GET_CODE_LOC</div><div class="ttdoc">Builds the appropriate hp::code_location struct for where it is invoked.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da9/logging_8hpp_source.html#l00106">logging.hpp:106</a></div></div>
-<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a305cb8478e7b7488a0d45898e8cdb0a2"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">hp::vk::window::shader_program</a></div><div class="ttdeci">friend class shader_program</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00582">window.hpp:582</a></div></div>
-<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a83fc33f12135a37af6a6a5bd964bf294"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a83fc33f12135a37af6a6a5bd964bf294">hp::vk::window::generic_buffer</a></div><div class="ttdeci">friend class generic_buffer</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00584">window.hpp:584</a></div></div>
+<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a305cb8478e7b7488a0d45898e8cdb0a2"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a305cb8478e7b7488a0d45898e8cdb0a2">hp::vk::window::shader_program</a></div><div class="ttdeci">friend class shader_program</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00641">window.hpp:641</a></div></div>
+<div class="ttc" id="aclasshp_1_1vk_1_1window_html_a83fc33f12135a37af6a6a5bd964bf294"><div class="ttname"><a href="../../dd/d17/classhp_1_1vk_1_1window.html#a83fc33f12135a37af6a6a5bd964bf294">hp::vk::window::generic_buffer</a></div><div class="ttdeci">friend class generic_buffer</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/window_8hpp_source.html#l00643">window.hpp:643</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Nov 30 2019 19:33:25 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 2 2019 17:49:40 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

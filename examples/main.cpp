@@ -11,7 +11,7 @@ hp::vk::vertex_buffer vbo;
 hp::vk::window *inst;
 hp::vk::shader_program *shaders;
 
-static void recreate_callback(::vk::Extent2D next) {
+static void recreate_callback(::vk::Extent2D new_extent) {
     inst->clear_recording();
     inst->rec_bind_shader(shaders);
     inst->rec_set_default_viewport();
