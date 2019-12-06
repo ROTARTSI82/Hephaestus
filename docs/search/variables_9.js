@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['name_261',['name',['../d4/d10/structhp_1_1profile__result.html#a493b50c44d3a502642cc96ee89a38ac7',1,'hp::profile_result']]]
+  ['offset_269',['offset',['../df/d19/structhp_1_1vk_1_1vertex__buffer.html#a5515abb9d2d4ca58f068d7b0603bda37',1,'hp::vk::vertex_buffer::offset()'],['../d2/d99/structhp_1_1vk_1_1index__buffer.html#abab40263216c6ca40dd87608567ece8d',1,'hp::vk::index_buffer::offset()']]]
 ];

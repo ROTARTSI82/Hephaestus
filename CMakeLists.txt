@@ -6,7 +6,7 @@ enable_language(CXX)
 set(CMAKE_BUILD_TYPE Release)
 #endif()
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wdeprecated")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -35,7 +35,7 @@ add_subdirectory(vendor/spdlog)
 
 # ====== SHARED LIBRARY BUILDING ========
 project(HephaestusShared VERSION 0.0.4 LANGUAGES CXX)
-add_library(HephaestusShared SHARED include/hp/hp.hpp src/hp/profiling.cpp include/hp/profiling.hpp include/hp/config.hpp src/hp/logging.cpp include/hp/logging.hpp src/hp/vk/window.cpp include/hp/vk/window.hpp src/hp/vk/vk.cpp include/hp/vk/vk.hpp src/hp/vk/shaders.cpp src/hp/vk/window.cpp include/hp/vk/window.hpp src/hp/multithreading.cpp include/hp/multithreading.hpp src/hp/vk/vertex_buffers.cpp)
+add_library(HephaestusShared SHARED include/hp/hp.hpp src/hp/profiling.cpp include/hp/profiling.hpp include/hp/config.hpp src/hp/logging.cpp include/hp/logging.hpp src/hp/vk/window.cpp include/hp/vk/window.hpp src/hp/vk/vk.cpp include/hp/vk/vk.hpp src/hp/vk/shaders.cpp src/hp/vk/window.cpp include/hp/vk/window.hpp src/hp/multithreading.cpp include/hp/multithreading.hpp src/hp/vk/buffers.cpp)
 target_link_libraries(HephaestusShared PUBLIC ${PROJECT_SOURCE_DIR}/vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib spdlog glm ${Boost_LIBRARIES})
 target_include_directories(HephaestusShared PUBLIC src include vendor/glfw/include vendor/glm vendor/spdlog/include vendor vendor/lunarg-vulkan-sdk/macOS/include ${Boost_INCLUDE_DIR} vendor/vma/src)
 target_link_libraries(HephaestusShared PUBLIC glfw)

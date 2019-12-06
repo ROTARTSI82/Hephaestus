@@ -51,9 +51,10 @@ namespace hp::vk {
         }
     }
 
-    static void bind_vbo_helper(::vk::Buffer *vbo, unsigned lyo_indx, ::vk::DeviceSize offset, ::vk::CommandBuffer cmd,
+    static void bind_vbo_helper(::vk::Buffer *vbos, uint32_t start, ::vk::DeviceSize *offsets, uint32_t num_vbos,
+                                ::vk::CommandBuffer cmd,
                                 window *win) {
-        cmd.bindVertexBuffers(lyo_indx, 1, vbo, &offset);
+        cmd.bindVertexBuffers(start, num_vbos, vbos, offsets);
     }
 
     static void bind_shader_helper(::vk::Pipeline pipeline, ::vk::CommandBuffer cmd, window *win) {
@@ -190,8 +191,8 @@ namespace hp::vk {
         return *this;
     }
 
-    void window::rec_bind_vbo(vertex_buffer vbo) {
-        record_buffer.emplace_back(boost::bind(bind_vbo_helper, &vbo.buf->buf, vbo.layout_indx, vbo.offset, _1, _2));
+    void window::rec_bind_vbos(vertex_buffer *vbo) {
+        record_buffer.emplace_back(boost::bind(bind_vbo_helper, &vbo->buf->buf, 0, &vbo->offset, 1, _1, _2));
     }
 
     void window::rec_draw(unsigned num_verts) {
@@ -234,5 +235,42 @@ namespace hp::vk {
 
     void window::rec_draw_indexed(uint32_t num_indices) {
         record_buffer.emplace_back(boost::bind(draw_indexed_helper, num_indices, _1, _2));
+    }
+
+    void window::rec_bind_vbos(vertex_bind_info *bi, uint32_t start) {
+        record_buffer.emplace_back(boost::bind(bind_vbo_helper, bi->vbos, start, bi->offsets, bi->n_vbos, _1, _2));
+    }
+
+    vertex_bind_info::vertex_bind_info(vertex_buffer *vbolist, uint32_t num_vbos) : n_vbos(num_vbos) {
+        offsets = new ::vk::DeviceSize[num_vbos];
+        vbos = new ::vk::Buffer[num_vbos];
+
+        for (uint32_t i = 0; i < num_vbos; i++) {
+            (*(vbos + i)) = (vbolist + i)->buf->buf;
+            (*(offsets + i)) = (vbolist + i)->offset;
+        }
+    }
+
+    vertex_bind_info::~vertex_bind_info() {
+        delete[] offsets;
+        delete[] vbos;
+    }
+
+    vertex_bind_info &vertex_bind_info::operator=(vertex_bind_info &&rhs) noexcept {
+        if (&rhs == this) {
+            return *this;
+        }
+
+        this->~vertex_bind_info();
+
+        offsets = rhs.offsets;
+        vbos = rhs.vbos;
+        n_vbos = rhs.n_vbos;
+
+        return *this;
+    }
+
+    vertex_bind_info::vertex_bind_info(vertex_bind_info &&rhs) noexcept {
+        *this = std::move(rhs);
     }
 }

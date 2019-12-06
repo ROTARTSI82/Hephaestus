@@ -67,28 +67,6 @@ namespace hp::vk {
     };
 
     /**
-     * @struct vertex
-     * @brief Contains vertex data in default `buffer_layout` format.
-     * @details This struct contains vertex data in the format specified in the default `buffer_layout`.
-     *          Therefore, simply writing an array of this struct to a `vertex_buffer` would be valid if the default `buffer_layout` was bound
-     *          at the creation of the active `shader_program`. The format of `vertex` is the following:
-     *          `location=0` is a `vec2` representing position, and `location=1` is a `vec3` representing color.
-     */
-    struct vertex {
-        /**
-         * @var glm::vec2 pos
-         * @brief Position of the vertex in `glm::vec2` format, can be assigned to `{flaot x, float y}`
-         */
-        glm::vec2 pos;
-
-        /**
-         * @var glm::vec3 color
-         * @brief Color data of the vertex in `glm::vec3` format, can be assigned to `{float r, float g, float b}`
-         */
-        glm::vec3 color;
-    };
-
-    /**
      * @class buffer_layout
      * @brief Describes the expected layout of the data of a `hp::vk::vertex_buffer`.
      * @details `shader_program`s use the `buffer_layout`s that are bound at the time of construction. If no buffer_layout is bound,
@@ -104,6 +82,7 @@ namespace hp::vk {
         std::vector<::vk::VertexInputAttributeDescription> attribs; ///< @private
         ::vk::VertexInputBindingDescription binding; ///< @private
         size_t stride = 0; ///< @private
+        size_t seek_val = 0; ///< @private
         bool complete = false; ///< @private
 
         friend class shader_program;
@@ -218,6 +197,45 @@ namespace hp::vk {
         static inline buffer_layout *get_default() {
             return &default_lyo;  // Return ptr bc otherwise it gets unbound due to it going out of scope.
         }
+
+        /**
+         * @fn inline void seek(size_t n_seek)
+         * @brief Seek the next location to output to `n_seek`.
+         * @details Makes it so the next attribute in `push_float` has location of `n_seek`. Each next `push_float` would be
+         *          the previous one plus one, unless seek is called again.
+         * @param n_seek Location for next attrib.
+         */
+        inline void seek(size_t n_seek) {
+            seek_val = n_seek;
+        }
+    };
+
+    class ubo_layout {
+    private:
+        ::vk::DescriptorSetLayout desc_lyo;
+        std::vector<::vk::DescriptorSetLayoutBinding> bindings;
+
+        static std::vector<::vk::DescriptorSetLayout> lyos;
+
+    public:
+        static std::vector<ubo_layout *> bound_lyos;
+
+        static void rebuild_bound_info();
+
+        ubo_layout();
+
+        virtual ~ubo_layout();
+
+        void push_binding();
+
+        ubo_layout(const ubo_layout &) = delete;
+
+        ubo_layout &operator=(const ubo_layout &) = delete;
+
+        ubo_layout(ubo_layout &&) noexcept;
+
+        ubo_layout &operator=(ubo_layout &&) noexcept;
+
     };
 
     /**
@@ -282,6 +300,8 @@ namespace hp::vk {
         friend class shader_program;
 
         friend struct index_buffer;
+
+        friend class vertex_bind_info;
 
     public:
         /**
@@ -409,13 +429,6 @@ namespace hp::vk {
         generic_buffer *buf{};
 
         /**
-         * @var unsigned layout_indx
-         * @brief The index of the buffer_layout that describes this VBO. See `buffer_layout::bound_lyos`
-         * @see hp::vk::buffer_layout
-         */
-        unsigned layout_indx = 0;
-
-        /**
          * @var unsigned vertex_count
          * @brief The number of vertices to draw
          */
@@ -462,6 +475,31 @@ namespace hp::vk {
                 return (buf->capacity - offset) / sizeof(uint16_t);
             }
         }
+    };
+
+    class vertex_bind_info {
+    private:
+        uint32_t n_vbos;
+        ::vk::Buffer *vbos = nullptr;
+        ::vk::DeviceSize *offsets = nullptr;
+
+        friend class window;
+
+    public:
+        vertex_bind_info() = default;
+
+        vertex_bind_info(vertex_buffer *vbos, uint32_t num_vbos);
+
+        virtual ~vertex_bind_info();
+
+        vertex_bind_info &operator=(const vertex_bind_info &) = delete;
+
+        vertex_bind_info(const vertex_bind_info &) = delete;
+
+        vertex_bind_info &operator=(vertex_bind_info &&rhs) noexcept;
+
+        vertex_bind_info(vertex_bind_info &&rhs) noexcept;
+
     };
 
     /**
@@ -834,11 +872,20 @@ namespace hp::vk {
         void rec_set_default_scissor();
 
         /**
-         * @fn void rec_bind_vbo(vertex_buffer vbo)
-         * @brief Record binding a vertex buffer.
-         * @param vbo VBO to bind.
+         * @fn void rec_bind_vbos(vertex_buffer *vbo)
+         * @brief Record binding a *single* vertex buffer object.
+         * @param vbo The vertex buffer to bind
          */
-        void rec_bind_vbo(vertex_buffer vbo);
+        void rec_bind_vbos(vertex_buffer *vbo);
+
+        /**
+         * @fn void rec_bind_vbos(vertex_bind_info *bi, uint32_t start = 0)
+         * @brief Record binding a list of vertex buffer objects.
+         * @details See documentation for `vertex_bind_info` and vulkan docs for `vkCmdBindVertexBuffers`
+         * @param bi Pointer to `vertex_bind_info`. See do
+         * @param start Index of the first VBO to bind in the list
+         */
+        void rec_bind_vbos(vertex_bind_info *bi, uint32_t start = 0);
 
         /**
          * @fn void rec_bind_index_buffer(index_buffer ibo)

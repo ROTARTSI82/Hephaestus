@@ -11,12 +11,17 @@ hp::vk::vertex_buffer vbo;
 hp::vk::window *inst;
 hp::vk::shader_program *shaders;
 
+struct vertex {
+    glm::vec2 pos;
+    glm::vec3 col;
+};
+
 static void recreate_callback(::vk::Extent2D new_extent) {
     inst->clear_recording();
     inst->rec_bind_shader(shaders);
     inst->rec_set_default_viewport();
     inst->rec_set_default_scissor();
-    inst->rec_bind_vbo(vbo);
+    inst->rec_bind_vbos(&vbo);
     inst->rec_bind_index_buffer(ibo);
     inst->rec_draw_indexed(ibo.get_num_indices());
 
@@ -33,6 +38,14 @@ int main() {
     {
         inst = new hp::vk::window(640, 480, "Testing", 2);
         inst->set_swap_recreate_callback(&recreate_callback);
+
+        auto buf_lyo = hp::vk::buffer_layout();
+        buf_lyo.push_floats(2);
+        buf_lyo.push_floats(3);
+        buf_lyo.finalize();
+        hp::vk::buffer_layout::bound_lyos.emplace_back(&buf_lyo);
+        hp::vk::buffer_layout::rebuild_bound_info();
+
         shaders = inst->new_shader_program("shader_pack");
 
         const size_t vbo_size = (sizeof(float) * 3 + sizeof(float) * 2) * 4;
@@ -41,11 +54,11 @@ int main() {
         auto ibo_vbo_buf = inst->new_buffer(vbo_size + ibo_size,
                                             hp::vk::vertex_and_index_usage, hp::vk::memory_local);
         ibo = {ibo_vbo_buf, false, vbo_size};
-        vbo = {ibo_vbo_buf, 0, 4, 0};
+        vbo = {ibo_vbo_buf, 4, 0};
 
         sbo = inst->new_buffer(vbo_size + ibo_size, hp::vk::staging_usage, hp::vk::memory_host);
 
-        const std::vector<hp::vk::vertex> vertices = {
+        const std::vector<vertex> vertices = {
                 {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
                 {{0.5f,  -0.5f}, {0.0f, 1.0f, 0.0f}},
                 {{0.5f,  0.5f},  {0.0f, 0.0f, 1.0f}},
@@ -81,7 +94,7 @@ int main() {
         inst->rec_bind_shader(shaders);
         inst->rec_set_default_viewport();
         inst->rec_set_default_scissor();
-        inst->rec_bind_vbo(vbo);
+        inst->rec_bind_vbos(&vbo);
         inst->rec_bind_index_buffer(ibo);
         inst->rec_draw_indexed(ibo.get_num_indices());
         inst->save_recording();

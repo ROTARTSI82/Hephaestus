@@ -1,9 +1,4 @@
 var searchData=
 [
-  ['_7ebuffer_5flayout_236',['~buffer_layout',['../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae4ed7720d4b8286045710b5d5f4cb3a4',1,'hp::vk::buffer_layout']]],
-  ['_7egeneric_5fbuffer_237',['~generic_buffer',['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a167a3b2f991b81cd09e1906337d6fb27',1,'hp::vk::generic_buffer']]],
-  ['_7eprofiler_238',['~profiler',['../d0/d1b/classhp_1_1profiler.html#aacee8cd5f68ecf60363c5cf4aa34186e',1,'hp::profiler']]],
-  ['_7eprofiler_5fsession_239',['~profiler_session',['../d8/d84/classhp_1_1profiler__session.html#a6ac428a03994e1bedc49277cf95a72c6',1,'hp::profiler_session']]],
-  ['_7eshader_5fprogram_240',['~shader_program',['../d0/d92/classhp_1_1vk_1_1shader__program.html#a60097a39980107f7f8e4f643b6152a7d',1,'hp::vk::shader_program']]],
-  ['_7ewindow_241',['~window',['../dd/d17/classhp_1_1vk_1_1window.html#ae6cf6c258a30ce482fc6d5867b53cca4',1,'hp::vk::window']]]
+  ['vertex_5fbind_5finfo_239',['vertex_bind_info',['../d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#ae43a3e7a9ad9a9a1e2c42523a95c37cd',1,'hp::vk::vertex_bind_info::vertex_bind_info()=default'],['../d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#a735259173cb0c04eb6450a23dedd2375',1,'hp::vk::vertex_bind_info::vertex_bind_info(vertex_buffer *vbos, uint32_t num_vbos)'],['../d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#ad93dd361e458837ca58404b36303dd4e',1,'hp::vk::vertex_bind_info::vertex_bind_info(const vertex_bind_info &amp;)=delete'],['../d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#a9263741e8338e7bff9e839a08f8c349f',1,'hp::vk::vertex_bind_info::vertex_bind_info(vertex_bind_info &amp;&amp;rhs) noexcept']]]
 ];

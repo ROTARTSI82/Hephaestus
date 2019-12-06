@@ -35,8 +35,8 @@ do
 done
 
 if [ "$DO_BUILD" == "1" ] ; then
-  cmake ..
-  make  # cannot use async make bc examples target depends on HP target being built.
+   cmake --loglevel=TRACE --verbose --check-system-vars -Wdeprecated -Wdev -Wall -j 8 ..
+   make
 fi 
 
 cp examples/HephaestusSandbox ../run-env/HephaestusSandbox

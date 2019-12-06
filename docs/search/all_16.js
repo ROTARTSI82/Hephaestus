@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['_7ebuffer_5flayout_141',['~buffer_layout',['../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae4ed7720d4b8286045710b5d5f4cb3a4',1,'hp::vk::buffer_layout']]],
-  ['_7egeneric_5fbuffer_142',['~generic_buffer',['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a167a3b2f991b81cd09e1906337d6fb27',1,'hp::vk::generic_buffer']]],
-  ['_7eprofiler_143',['~profiler',['../d0/d1b/classhp_1_1profiler.html#aacee8cd5f68ecf60363c5cf4aa34186e',1,'hp::profiler']]],
-  ['_7eprofiler_5fsession_144',['~profiler_session',['../d8/d84/classhp_1_1profiler__session.html#a6ac428a03994e1bedc49277cf95a72c6',1,'hp::profiler_session']]],
-  ['_7eshader_5fprogram_145',['~shader_program',['../d0/d92/classhp_1_1vk_1_1shader__program.html#a60097a39980107f7f8e4f643b6152a7d',1,'hp::vk::shader_program']]],
-  ['_7ewindow_146',['~window',['../dd/d17/classhp_1_1vk_1_1window.html#ae6cf6c258a30ce482fc6d5867b53cca4',1,'hp::vk::window']]]
+  ['wait_5ffences_137',['wait_fences',['../dd/d17/classhp_1_1vk_1_1window.html#abd6dabdc499807c314ea44a40727c6f2',1,'hp::vk::window']]],
+  ['window_138',['window',['../dd/d17/classhp_1_1vk_1_1window.html',1,'hp::vk::window'],['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a4b01d44f6fa9d0aac31c5905d42c0404',1,'hp::vk::generic_buffer::window()'],['../d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#a4b01d44f6fa9d0aac31c5905d42c0404',1,'hp::vk::vertex_bind_info::window()'],['../dd/d17/classhp_1_1vk_1_1window.html#a2644434374ae6f8b89831c7580e84485',1,'hp::vk::window::window()=default'],['../dd/d17/classhp_1_1vk_1_1window.html#a66f843075e00dd94c871a7123e8832ec',1,'hp::vk::window::window(int width, int height, const char *app_name, uint32_t version)'],['../dd/d17/classhp_1_1vk_1_1window.html#a662c8ef349c9a583355590e2d217238a',1,'hp::vk::window::window(const window &amp;other)=delete'],['../dd/d17/classhp_1_1vk_1_1window.html#ae33053d857eb24d1752ba5d53c4e7d79',1,'hp::vk::window::window(window &amp;&amp;other) noexcept']]],
+  ['window_2ehpp_139',['window.hpp',['../d2/d5a/window_8hpp.html',1,'']]],
+  ['write_5fbuffer_140',['write_buffer',['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a750e5137cf4cdd801d30fc3216a99ad6',1,'hp::vk::generic_buffer::write_buffer(const void *data, size_t offset=0, size_t size=0)'],['../d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a9d24a2350b8f05d91cabdaee2de410c9',1,'hp::vk::generic_buffer::write_buffer(uint8_t *dest, const void *src, size_t offset=0, size_t size=0)']]]
 ];

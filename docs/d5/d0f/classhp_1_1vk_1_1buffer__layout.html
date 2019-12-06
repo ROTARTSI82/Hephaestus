@@ -119,6 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac61a4fe0489cee4db522454164b90974"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ac61a4fe0489cee4db522454164b90974">is_complete</a> () const</td></tr>
 <tr class="memdesc:ac61a4fe0489cee4db522454164b90974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ad3782bc9ebc752b8b6f5e86906d91414" title="Build the binding descriptions and prevent further changes.">finalize()</a></code> has been called on this <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a>.  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ac61a4fe0489cee4db522454164b90974">More...</a><br /></td></tr>
 <tr class="separator:ac61a4fe0489cee4db522454164b90974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a665262d8d9c534fbdc4e8c197e49cc37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a665262d8d9c534fbdc4e8c197e49cc37">seek</a> (size_t n_seek)</td></tr>
+<tr class="memdesc:a665262d8d9c534fbdc4e8c197e49cc37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Seek the next location to output to <code>n_seek</code>.  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a665262d8d9c534fbdc4e8c197e49cc37">More...</a><br /></td></tr>
+<tr class="separator:a665262d8d9c534fbdc4e8c197e49cc37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -126,7 +129,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae99a0d0827511abf0b0c372304adeaaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">"Compiles" <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#aaaea5b0ed3e3b5f54912fc3fe9237f0a" title="List of buffer_layoutss shader_programs should support.">buffer_layout::bound_lyos</a></code> into a format usable by the graphics pipeline.  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae99a0d0827511abf0b0c372304adeaaf">More...</a><br /></td></tr>
 <tr class="separator:ae99a0d0827511abf0b0c372304adeaaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af980c0ebeb98cbf23760187367ebc66b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b">build_default_layout</a> ()</td></tr>
-<tr class="memdesc:af980c0ebeb98cbf23760187367ebc66b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build the default layout, accessible via <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a0e4df7fe7928f3880a7b0faeb8ccc1c1">get_default()</a></code>. See <code><a class="el" href="../../d5/dee/structhp_1_1vk_1_1vertex.html" title="Contains vertex data in default buffer_layout format.">hp::vk::vertex</a></code>  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b">More...</a><br /></td></tr>
+<tr class="memdesc:af980c0ebeb98cbf23760187367ebc66b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build the default layout, accessible via <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a0e4df7fe7928f3880a7b0faeb8ccc1c1">get_default()</a></code>. See <code>hp::vk::vertex</code>  <a href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b">More...</a><br /></td></tr>
 <tr class="separator:af980c0ebeb98cbf23760187367ebc66b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e4df7fe7928f3880a7b0faeb8ccc1c1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html">buffer_layout</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a0e4df7fe7928f3880a7b0faeb8ccc1c1">get_default</a> ()</td></tr>
 <tr class="separator:a0e4df7fe7928f3880a7b0faeb8ccc1c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,7 +149,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p>Describes the expected layout of the data of a <code><a class="el" href="../../df/d19/structhp_1_1vk_1_1vertex__buffer.html" title="Provide metadata necessary to bind and draw a VBO.">hp::vk::vertex_buffer</a></code>. </p>
 <p><code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a></code>s use the <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a></code>s that are bound at the time of construction. If no <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> is bound, the default layout is used. (If the default layout has not yet been constructed, it would automatically be built with <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b" title="Build the default layout, accessible via get_default(). See hp::vk::vertex">build_default_layout()</a></code>). The <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a> used by a <a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a> can be changed, but requires the pipeline to be rebuilt (There is no dynamic state for vertex input states present in Vulkan). To change the layout used by a shader program, simply the modify <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#aaaea5b0ed3e3b5f54912fc3fe9237f0a" title="List of buffer_layoutss shader_programs should support.">buffer_layout::bound_lyos</a></code>, call <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae99a0d0827511abf0b0c372304adeaaf" title="&quot;Compiles&quot; buffer_layout::bound_lyos into a format usable by the graphics pipeline.">buffer_layout::rebuild_bound_info()</a></code>, and call <code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a801d5d749762b5309eb620bc8692d07b" title="Rebuild the graphics pipeline, does NOT re-read the file. See reload_from_file().">hp::vk::shader_program::rebuild_pipeline()</a></code>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">hp::vk::shader_program</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00101">101</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00079">79</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af3b306d813a2b679227bc7f411bd419f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af3b306d813a2b679227bc7f411bd419f">&#9670;&nbsp;</a></span>buffer_layout() <span class="overload">[1/3]</span></h2>
@@ -289,8 +292,8 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Build the default layout, accessible via <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a0e4df7fe7928f3880a7b0faeb8ccc1c1">get_default()</a></code>. See <code><a class="el" href="../../d5/dee/structhp_1_1vk_1_1vertex.html" title="Contains vertex data in default buffer_layout format.">hp::vk::vertex</a></code> </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d5/dee/structhp_1_1vk_1_1vertex.html" title="Contains vertex data in default buffer_layout format.">hp::vk::vertex</a> </dd>
+<p>Build the default layout, accessible via <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a0e4df7fe7928f3880a7b0faeb8ccc1c1">get_default()</a></code>. See <code>hp::vk::vertex</code> </p>
+<dl class="section see"><dt>See also</dt><dd>hp::vk::vertex </dd>
 <dd>
 <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a0e4df7fe7928f3880a7b0faeb8ccc1c1">get_default()</a></dd></dl>
 <p>If this function is called when the default layout is already built, then the invocation would be quietly ignored. </p>
@@ -341,14 +344,14 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b" title="Build the default layout, accessible via get_default(). See hp::vk::vertex">build_default_layout()</a> </dd>
 <dd>
-<a class="el" href="../../d5/dee/structhp_1_1vk_1_1vertex.html" title="Contains vertex data in default buffer_layout format.">hp::vk::vertex</a></dd></dl>
-<p>Returns the default <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a>. See <code><a class="el" href="../../d5/dee/structhp_1_1vk_1_1vertex.html" title="Contains vertex data in default buffer_layout format.">hp::vk::vertex</a></code> for details. </p><dl class="section return"><dt>Returns</dt><dd>Returns pointer to the default layout. </dd></dl>
+hp::vk::vertex</dd></dl>
+<p>Returns the default <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a>. See <code>hp::vk::vertex</code> for details. </p><dl class="section return"><dt>Returns</dt><dd>Returns pointer to the default layout. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This function could return and undefined value if <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#af980c0ebeb98cbf23760187367ebc66b" title="Build the default layout, accessible via get_default(). See hp::vk::vertex">build_default_layout()</a></code> has not yet been called! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00218">218</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                                                   {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            <span class="keywordflow">return</span> &amp;default_lyo;  <span class="comment">// Return ptr bc otherwise it gets unbound due to it going out of scope.</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00197">197</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                                                   {</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            <span class="keywordflow">return</span> &amp;default_lyo;  <span class="comment">// Return ptr bc otherwise it gets unbound due to it going out of scope.</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -378,10 +381,10 @@ Friends</h2></td></tr>
 <p>Check if <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ad3782bc9ebc752b8b6f5e86906d91414" title="Build the binding descriptions and prevent further changes.">finalize()</a></code> has been called on this <a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html" title="Describes the expected layout of the data of a hp::vk::vertex_buffer.">buffer_layout</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>Boolean value. True if <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ad3782bc9ebc752b8b6f5e86906d91414" title="Build the binding descriptions and prevent further changes.">finalize()</a></code> has been called, otherwise false. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00206">206</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                                                      {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            <span class="keywordflow">return</span> complete;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00185">185</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                                                      {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">return</span> complete;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -503,6 +506,45 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a665262d8d9c534fbdc4e8c197e49cc37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a665262d8d9c534fbdc4e8c197e49cc37">&#9670;&nbsp;</a></span>seek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hp::vk::buffer_layout::seek </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n_seek</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Seek the next location to output to <code>n_seek</code>. </p>
+<p>Makes it so the next attribute in <code>push_float</code> has location of <code>n_seek</code>. Each next <code>push_float</code> would be the previous one plus one, unless seek is called again. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n_seek</td><td>Location for next attrib. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00208">208</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                                        {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            seek_val = n_seek;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
 <a id="a305cb8478e7b7488a0d45898e8cdb0a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a305cb8478e7b7488a0d45898e8cdb0a2">&#9670;&nbsp;</a></span>shader_program</h2>
@@ -524,7 +566,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00109">109</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00088">88</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -552,7 +594,7 @@ Friends</h2></td></tr>
 <p>List of <code>buffer_layouts</code>s <code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html" title="An abstraction of graphics pipelines (aka vk::Pipeline objects). See hp::vk::window::new_shader_progr...">shader_program</a></code>s should support. </p>
 <dl class="section warning"><dt>Warning</dt><dd>If you modify this list, <code><a class="el" href="../../d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae99a0d0827511abf0b0c372304adeaaf" title="&quot;Compiles&quot; buffer_layout::bound_lyos into a format usable by the graphics pipeline.">buffer_layout::rebuild_bound_info()</a></code> <em>MUST</em> be called, and the graphics pipeline <em>MUST</em> be rebuilt with <code><a class="el" href="../../d0/d92/classhp_1_1vk_1_1shader__program.html#a801d5d749762b5309eb620bc8692d07b" title="Rebuild the graphics pipeline, does NOT re-read the file. See reload_from_file().">shader_program::rebuild_pipeline()</a></code>! </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00122">122</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5a/window_8hpp_source.html#l00101">101</a> of file <a class="el" href="../../d2/d5a/window_8hpp_source.html">window.hpp</a>.</p>
 
 </div>
 </div>
@@ -562,7 +604,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 2 2019 17:49:39 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 6 2019 15:23:06 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="../../doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

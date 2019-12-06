@@ -195,9 +195,11 @@ $(function() {
 : <a class="el" href="d0/d1b/classhp_1_1profiler.html#a1ec3fcec3acd43972adcfc04e0a45174">hp::profiler</a>
 , <a class="el" href="d8/d84/classhp_1_1profiler__session.html#ab35b469b1261e7226bc126b461f0f60a">hp::profiler_session</a>
 , <a class="el" href="d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a8baeb59c6bde42f2580e11bb883d81e6">hp::vk::buffer_layout</a>
-, <a class="el" href="d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a993443bb0b04a46ea8183d3bbe6f665f">hp::vk::generic_buffer</a>
-, <a class="el" href="d0/d92/classhp_1_1vk_1_1shader__program.html#aa05839aa5448df36992fd97823d78ae0">hp::vk::shader_program</a>
-, <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#a10920ba0b45232900147bff04455df23">hp::vk::window</a>
+, <a class="el" href="d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a823f1d904512ff277eba6d177681c0f9">hp::vk::generic_buffer</a>
+, <a class="el" href="d0/d92/classhp_1_1vk_1_1shader__program.html#a4e21a08cc8ef40e2979421103a8f0336">hp::vk::shader_program</a>
+, <a class="el" href="d7/d3d/classhp_1_1vk_1_1ubo__layout.html#a74141d73559ec6b69b8cd0d06a053b1d">hp::vk::ubo_layout</a>
+, <a class="el" href="d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#a39ed64198c3b47db4d1b1378a58aa798">hp::vk::vertex_bind_info</a>
+, <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#ae4d21756ed28640247697cde8714e022">hp::vk::window</a>
 </li>
 </ul>
 
@@ -207,7 +209,10 @@ $(function() {
 : <a class="el" href="d0/d1b/classhp_1_1profiler.html#a667b3443a42beb3b889da20947c28def">hp::profiler</a>
 </li>
 <li>profiler_session()
-: <a class="el" href="d8/d84/classhp_1_1profiler__session.html#a6beb630086ad55d6fa6a44826d0a0424">hp::profiler_session</a>
+: <a class="el" href="d8/d84/classhp_1_1profiler__session.html#a48c3bc03f9aa3f75eed9458f2edae193">hp::profiler_session</a>
+</li>
+<li>push_binding()
+: <a class="el" href="d7/d3d/classhp_1_1vk_1_1ubo__layout.html#afb29022782258e56fb9d44f0824914c4">hp::vk::ubo_layout</a>
 </li>
 <li>push_floats()
 : <a class="el" href="d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a20eed447ebb138246163b4a540f55639">hp::vk::buffer_layout</a>
@@ -218,6 +223,7 @@ $(function() {
 <h3><a id="index_r"></a>- r -</h3><ul>
 <li>rebuild_bound_info()
 : <a class="el" href="d5/d0f/classhp_1_1vk_1_1buffer__layout.html#ae99a0d0827511abf0b0c372304adeaaf">hp::vk::buffer_layout</a>
+, <a class="el" href="d7/d3d/classhp_1_1vk_1_1ubo__layout.html#ad3b9353be90be5aeec9edd41278bdf5c">hp::vk::ubo_layout</a>
 </li>
 <li>rebuild_pipeline()
 : <a class="el" href="d0/d92/classhp_1_1vk_1_1shader__program.html#a801d5d749762b5309eb620bc8692d07b">hp::vk::shader_program</a>
@@ -228,8 +234,8 @@ $(function() {
 <li>rec_bind_shader()
 : <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#a7bd0d8d5fa09d80bf61f1309bbbbe144">hp::vk::window</a>
 </li>
-<li>rec_bind_vbo()
-: <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#a1673d156a395348eb49f8ffb3af56bfe">hp::vk::window</a>
+<li>rec_bind_vbos()
+: <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#a6d5de4d6e83ac8a4b9eb622512f5313f">hp::vk::window</a>
 </li>
 <li>rec_draw()
 : <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#a6f7cf0a4354f54666976981b179b4294">hp::vk::window</a>
@@ -259,6 +265,9 @@ $(function() {
 <li>save_recording()
 : <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#accf9acdf9dca93ec205add02b07debbe">hp::vk::window</a>
 </li>
+<li>seek()
+: <a class="el" href="d5/d0f/classhp_1_1vk_1_1buffer__layout.html#a665262d8d9c534fbdc4e8c197e49cc37">hp::vk::buffer_layout</a>
+</li>
 <li>set_swap_recreate_callback()
 : <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#a887c3c901c8e64840d36b65ceb989de4">hp::vk::window</a>
 </li>
@@ -279,6 +288,20 @@ $(function() {
 </li>
 <li>stop_write()
 : <a class="el" href="d6/d0a/classhp_1_1vk_1_1generic__buffer.html#a14a55ab135f7d2995726f060b4a43806">hp::vk::generic_buffer</a>
+</li>
+</ul>
+
+
+<h3><a id="index_u"></a>- u -</h3><ul>
+<li>ubo_layout()
+: <a class="el" href="d7/d3d/classhp_1_1vk_1_1ubo__layout.html#a665b1538890c7a2b441bacb6e1463cbc">hp::vk::ubo_layout</a>
+</li>
+</ul>
+
+
+<h3><a id="index_v"></a>- v -</h3><ul>
+<li>vertex_bind_info()
+: <a class="el" href="d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#ae43a3e7a9ad9a9a1e2c42523a95c37cd">hp::vk::vertex_bind_info</a>
 </li>
 </ul>
 
@@ -312,6 +335,12 @@ $(function() {
 <li>~shader_program()
 : <a class="el" href="d0/d92/classhp_1_1vk_1_1shader__program.html#a60097a39980107f7f8e4f643b6152a7d">hp::vk::shader_program</a>
 </li>
+<li>~ubo_layout()
+: <a class="el" href="d7/d3d/classhp_1_1vk_1_1ubo__layout.html#a57a359df6016486066be73c8f303c3c0">hp::vk::ubo_layout</a>
+</li>
+<li>~vertex_bind_info()
+: <a class="el" href="d9/d23/classhp_1_1vk_1_1vertex__bind__info.html#ac9590574e5891ccdb46a49f8f504d2ab">hp::vk::vertex_bind_info</a>
+</li>
 <li>~window()
 : <a class="el" href="dd/d17/classhp_1_1vk_1_1window.html#ae6cf6c258a30ce482fc6d5867b53cca4">hp::vk::window</a>
 </li>
@@ -319,7 +348,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 2 2019 17:49:40 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 6 2019 15:23:06 for Hephaestus by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

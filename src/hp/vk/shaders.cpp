@@ -215,6 +215,7 @@ namespace hp::vk {
     void shader_program::rebuild_pipeline() {
         parent->log_dev.destroyPipeline(pipeline, nullptr);
 
+#ifdef HP_DEBUG_MODE_ACTIVE
         if (buffer_layout::bound_lyos.empty()) {
             HP_WARN("There are no active buffer layouts! Adding the default one!");
             buffer_layout::build_default_layout();
@@ -229,6 +230,7 @@ namespace hp::vk {
             HP_WARN("Built layout info doesn't match bound buffer! Did you forget to call `hp::vk::buffer_layout::rebuild_bound_info()`?");
             buffer_layout::rebuild_bound_info();
         }
+#endif
 
         ::vk::PipelineVertexInputStateCreateInfo vert_in_ci(::vk::PipelineVertexInputStateCreateFlags(),
                                                             buffer_layout::global_bindings.size(),

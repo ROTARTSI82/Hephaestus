@@ -5,9 +5,7 @@
 
 @author Grant Yang
 
-
-Hephaestus is an *OPEN SOURCE* game engine written on top of Vulkan. This is my first time writing Vulkan code,
- so the code is terrible and should not be used (YET... The code could improve...).
+Hephaestus is the free and open source Vulkan-based game engine written by a 12-year-old that *NOBODY* asked for.
 
 You can browse the source at https://www.github.com/RotartsiORG/Hephaestus
  */

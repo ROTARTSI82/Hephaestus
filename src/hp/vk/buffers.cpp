@@ -37,7 +37,8 @@ namespace hp::vk {
             }
         }
 
-        attribs.emplace_back(::vk::VertexInputAttributeDescription(attribs.size(), 0, fmt, stride));
+        attribs.emplace_back(::vk::VertexInputAttributeDescription(seek_val, 0, fmt, stride));
+        seek_val++;
         stride += sizeof(float) * num_floats;
     }
 

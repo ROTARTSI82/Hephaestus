@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['vertex_159',['vertex',['../d5/dee/structhp_1_1vk_1_1vertex.html',1,'hp::vk']]],
-  ['vertex_5fbuffer_160',['vertex_buffer',['../df/d19/structhp_1_1vk_1_1vertex__buffer.html',1,'hp::vk']]]
+  ['ubo_5flayout_161',['ubo_layout',['../d7/d3d/classhp_1_1vk_1_1ubo__layout.html',1,'hp::vk']]]
 ];

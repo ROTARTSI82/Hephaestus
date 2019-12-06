@@ -2,6 +2,8 @@
 // Created by 25granty on 11/18/19.
 //
 
+#include <hp/vk/window.hpp>
+
 #include "window_accessories.cpp"
 #include "boost/bind.hpp"
 #include "vk_mem_alloc.h"
