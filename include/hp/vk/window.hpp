@@ -22,6 +22,7 @@
 #include <map>
 #include <set>
 #include <queue>
+#include <optional>
 #include "vk_mem_alloc.h"
 
 #include "boost/range/algorithm_ext/erase.hpp"
@@ -465,10 +466,10 @@ namespace hp::vk {
         ::vk::DeviceSize offset = 0;
 
         /**
-         * @fn [[nodiscard]] inline unsigned get_num_indices()
+         * @fn [[nodiscard]] inline ::vk::DeviceSize get_num_indices()
          * @brief Get the number of indices this IBO is supposed to hold.
          */
-        [[nodiscard]] inline unsigned get_num_indices() {
+        [[nodiscard]] inline ::vk::DeviceSize get_num_indices() {
             if (is32bit) {
                 return (buf->capacity - offset) / sizeof(uint32_t);
             } else {
@@ -895,11 +896,11 @@ namespace hp::vk {
         void rec_bind_index_buffer(index_buffer ibo);
 
         /**
-         * @fn void rec_draw_indexed(uint32_t num_indices)
+         * @fn void rec_draw_indexed(::vk::DeviceSize num_indices)
          * @brief Record issuing a draw command using the index buffer.
          * @param num_indices Number of indices from the index buffer to draw.
          */
-        void rec_draw_indexed(uint32_t num_indices);
+        void rec_draw_indexed(::vk::DeviceSize num_indices);
 
         /**
          * @fn void rec_draw(unsigned num_verts)

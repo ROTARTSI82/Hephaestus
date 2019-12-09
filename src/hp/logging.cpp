@@ -7,9 +7,11 @@
 namespace hp {
     std::string current_datetime() {
         std::ostringstream oss;
-        auto t = std::time(nullptr);
-        auto tm = *std::localtime(&t);
-        oss << std::put_time(&tm, "%Y.%m.%d %H:%M:%S");
+        time_t rawtime;
+        tm timeinfo{};
+        localtime_s(&timeinfo, &rawtime);
+
+        oss << std::put_time(&timeinfo, "%Y.%m.%d %H:%M:%S");
         return oss.str();
     }
 
@@ -27,7 +29,10 @@ namespace hp {
             // Sink for outputting to the console
             auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 //            auto systemd_sink = std::make_shared<spdlog::sinks::systemd_sink_st>();
+#ifdef __APPLE__
             auto syslog_sink = std::make_shared<spdlog::sinks::syslog_sink_mt>("ident", LOG_PID, LOG_USER, true);
+#endif
+
 #if defined(_WIN32)
             auto msvc_sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 #endif
@@ -35,7 +40,7 @@ namespace hp {
             auto now = current_datetime();
 
             // Create a logger using both sinks, set it as the default logger, and register it.
-            std::vector<spdlog::sink_ptr> sink_list{console_sink, syslog_sink};
+            std::vector<spdlog::sink_ptr> sink_list{console_sink};
 
             // Sink for outputting to file
             std::shared_ptr<spdlog::sinks::basic_file_sink_mt> latest_file_sink;
@@ -52,6 +57,10 @@ namespace hp {
 
 #if defined(_WIN32)
             sink_list.emplace_back(msvc_sink);
+#endif
+
+#ifdef __APPLE__
+            sink_list.emplace_back(syslog_sink);
 #endif
 
             std::shared_ptr<spdlog::logger> logger;

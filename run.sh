@@ -1,7 +1,8 @@
 echo "[run.sh@Hephaestus]: Building and running Hephaestus with run.sh (Version d2019.11.30)"
 
-export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/icd.d/MoltenVK_icd.json"
-export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/explicit_layer.d"
+#For mac. Simply comment out for Windows
+#export VK_ICD_FILENAMES="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/icd.d/MoltenVK_icd.json"
+#export VK_LAYER_PATH="/Users/25granty/Desktop/CLion/Hephaestus/vendor/lunarg-vulkan-sdk/macOS/etc/vulkan/explicit_layer.d"
 
 for ARG in "$@"
 do

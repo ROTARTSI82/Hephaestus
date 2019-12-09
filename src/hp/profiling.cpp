@@ -182,7 +182,7 @@ namespace hp {
             res.start = std::chrono::time_point_cast<std::chrono::microseconds>(start_time).time_since_epoch().count();
             res.end = std::chrono::time_point_cast<std::chrono::microseconds>(end).time_since_epoch().count();
             res.thread = std::hash<std::thread::id>{}(std::this_thread::get_id());
-            res.pid = ::getpid();
+            res.pid = ::_getpid();
 
             parent->queue.push(res);
         }

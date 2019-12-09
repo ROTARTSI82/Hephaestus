@@ -26,7 +26,10 @@
 #include "spdlog/fmt/fmt.h"
 
 #include "spdlog/sinks/msvc_sink.h"
+
+#ifdef __APPLE__
 #include "spdlog/sinks/syslog_sink.h"
+#endif
 
 #include <iostream>
 #include <iomanip>

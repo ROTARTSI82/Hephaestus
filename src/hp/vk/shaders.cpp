@@ -175,7 +175,7 @@ namespace hp::vk {
 
 
             char *entry_cstr = new char[entry_point.length()];
-            std::strcpy(entry_cstr, entry_point.c_str());
+            strcpy_s(entry_cstr, entry_point.length(), entry_point.c_str());
             entrypoint_keepalives.push(entry_cstr);
 
             bool succ = false;

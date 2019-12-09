@@ -17,7 +17,8 @@
 #include <fstream>
 #include <thread>
 #include <iostream>
-#include <zconf.h>
+
+//#include <zconf.h>
 
 #include "boost/current_function.hpp"
 

@@ -118,7 +118,9 @@ namespace hp::vk {
                                                               VkDebugUtilsMessengerEXT *pDebugMessenger) {
         auto func = (PFN_vkCreateDebugUtilsMessengerEXT) inst.getProcAddr("vkCreateDebugUtilsMessengerEXT");
         if (func != nullptr) {
-            return handle_res(::vk::Result(func(inst, pCreateInfo, pAllocator, pDebugMessenger)), HP_GET_CODE_LOC);
+            return handle_res(
+                    ::vk::Result(func(static_cast<VkInstance>(inst), pCreateInfo, pAllocator, pDebugMessenger)),
+                    HP_GET_CODE_LOC);
         } else {
             return ::vk::Result::eErrorExtensionNotPresent;
         }
@@ -136,7 +138,7 @@ namespace hp::vk {
                                                        const VkAllocationCallbacks *pAllocator) {
         auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) inst.getProcAddr("vkDestroyDebugUtilsMessengerEXT");
         if (func != nullptr) {
-            func(inst, debugMessenger, pAllocator);
+            func(static_cast<VkInstance>(inst), debugMessenger, pAllocator);
         }
     }
 
@@ -233,7 +235,7 @@ namespace hp::vk {
                                                _2));
     }
 
-    void window::rec_draw_indexed(uint32_t num_indices) {
+    void window::rec_draw_indexed(::vk::DeviceSize num_indices) {
         record_buffer.emplace_back(boost::bind(draw_indexed_helper, num_indices, _1, _2));
     }
 

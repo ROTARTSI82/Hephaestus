@@ -169,7 +169,7 @@ namespace hp::vk {
             HP_DEBUG("Checking support of physical device '{}' with api {} and driver {}...", props.deviceName,
                      props.apiVersion, props.driverVersion);
 
-            float n = req_dev_ext.size() + 4;
+            float n = req_dev_ext.size() + 4;  // Should we use floats? Data COULD (but most likely WONT) be lost.
 
             float score = -1000.0f;
             if (features.geometryShader) { // Required features.
@@ -292,9 +292,9 @@ namespace hp::vk {
         VmaAllocatorCreateInfo allocator_ci = {};
         allocator_ci.pVulkanFunctions = &vk_func_ptrs;
         allocator_ci.frameInUseCount = max_frames_in_flight - 1;
-        allocator_ci.physicalDevice = *phys_dev;
-        allocator_ci.device = log_dev;
-        allocator_ci.instance = inst;
+        allocator_ci.physicalDevice = static_cast<VkPhysicalDevice>(*phys_dev);
+        allocator_ci.device = static_cast<VkDevice>(log_dev);
+        allocator_ci.instance = static_cast<VkInstance>(inst);
         allocator_ci.vulkanApiVersion = VK_API_VERSION_1_1;
         vmaCreateAllocator(&allocator_ci, &allocator);
 
