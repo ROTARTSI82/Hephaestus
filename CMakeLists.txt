@@ -6,14 +6,14 @@ enable_language(CXX)
 set(CMAKE_BUILD_TYPE Release)
 #endif()
 
-#set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wdeprecated")  # For macOS
-set(CMAKE_CXX_FLAGS "-W4 -std:c++17 -EHsc")  # For windows
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wdeprecated")  # For macOS
+#set(CMAKE_CXX_FLAGS "-W4 -std:c++17 -EHsc")  # For windows
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-#set(CMAKE_CXX_FLAGS_RELEASE "-O3") # for mac. Comment out for windows
+set(CMAKE_CXX_FLAGS_RELEASE "-O3") # for mac. Comment out for windows
 
 # ======= DEPENDENCY: GLFW =========
-#set(GLFW_VULKAN_STATIC ON CACHE BOOL "" FORCE)  # mac
-set(GLFW_VULKAN_STATIC OFF CACHE BOOL "" FORCE)  # Windows
+set(GLFW_VULKAN_STATIC ON CACHE BOOL "" FORCE)  # mac
+#set(GLFW_VULKAN_STATIC OFF CACHE BOOL "" FORCE)  # Windows
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 add_subdirectory(vendor/glfw)
 
@@ -43,18 +43,18 @@ target_include_directories(HephaestusShared PUBLIC src include vendor/glfw/inclu
 target_link_libraries(HephaestusShared PUBLIC glfw)
 
 # Mac Specific code. Comment out if on windows.
-#target_link_libraries(HephaestusShared PUBLIC ${Boost_LIBRARIES})
-#target_link_libraries(HephaestusShared PUBLIC ${PROJECT_SOURCE_DIR}/vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib)
-#target_include_directories(HephaestusShared PUBLIC vendor/lunarg-vulkan-sdk/macOS/include)
+target_link_libraries(HephaestusShared PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(HephaestusShared PUBLIC ${PROJECT_SOURCE_DIR}/vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib)
+target_include_directories(HephaestusShared PUBLIC vendor/lunarg-vulkan-sdk/macOS/include)
 
 # Windows specific code. Comment out if on mac
-target_link_libraries(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib\\vulkan-1.lib)
-target_link_directories(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib)
-target_link_libraries(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib32\\vulkan-1.lib)
-target_link_directories(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib32)
-target_link_directories(HephaestusShared PUBLIC C:/Users/grant/Downloads/boost_1_71_0/boost_1_71_0/stage/lib)  # CHange this to whatever you have boost.
-target_include_directories(HephaestusShared PUBLIC $ENV{VULKAN_SDK}/Include)
-message("-- Found vulkan SDK: $ENV{VULKAN_SDK}")
+#target_link_libraries(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib\\vulkan-1.lib)
+#target_link_directories(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib)
+#target_link_libraries(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib32\\vulkan-1.lib)
+#target_link_directories(HephaestusShared PUBLIC $ENV{VULKAN_SDK}\\Lib32)
+#target_link_directories(HephaestusShared PUBLIC C:/Users/grant/Downloads/boost_1_71_0/boost_1_71_0/stage/lib)  # CHange this to whatever you have boost.
+#target_include_directories(HephaestusShared PUBLIC $ENV{VULKAN_SDK}/Include)
+#message("-- Found vulkan SDK: $ENV{VULKAN_SDK}")
 
 
 # ====== SANDBOX BUILDING ========

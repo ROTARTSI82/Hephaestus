@@ -9,20 +9,21 @@ project(HephaestusSandbox VERSION 1.0.0 LANGUAGES CXX)
 add_executable(HephaestusSandbox main.cpp)
 
 # exp code
-target_link_libraries(HephaestusSandbox glfw spdlog glm ${Boost_LIBRARIES})
-target_include_directories(HephaestusSandbox PRIVATE ../src ../include ../vendor/glfw/include ../vendor/glm ../vendor/spdlog/include ../vendor ${Boost_INCLUDE_DIR} ../vendor/vma/src)
-target_link_directories(HephaestusSandbox PRIVATE C:/Users/grant/Desktop/VisualStudio/Hephaestus/cmake-build-debug)
 
 # mac specific code. Comment out if on windows.
-#target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../cmake-build-debug/libHephaestusShared.dylib)
-#target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib)
-#target_include_directories(HephaestusSandbox PUBLIC ../vendor/lunarg-vulkan-sdk/macOS/include)
+target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../cmake-build-debug/libHephaestusShared.dylib)
+target_link_libraries(HephaestusSandbox ${PROJECT_SOURCE_DIR}/../vendor/lunarg-vulkan-sdk/macOS/lib/libvulkan.1.1.126.dylib)
+target_include_directories(HephaestusSandbox PUBLIC ../vendor/lunarg-vulkan-sdk/macOS/include)
 
 # windows specific code. comment out if on mac.
-target_link_libraries(HephaestusSandbox C:/Users/grant/Desktop/VisualStudio/Hephaestus/cmake-build-debug/HephaestusShared.dll)  # Modify to point to dll
-target_link_libraries(HephaestusSandbox $ENV{VULKAN_SDK}\\Lib\\vulkan-1.lib)
-target_link_directories(HephaestusSandbox PRIVATE $ENV{VULKAN_SDK}\\Lib)
-target_link_libraries(HephaestusSandbox $ENV{VULKAN_SDK}\\Lib32\\vulkan-1.lib)
-target_link_directories(HephaestusSandbox PRIVATE $ENV{VULKAN_SDK}\\Lib32)
-target_link_directories(HephaestusSandbox PRIVATE C:/Users/grant/Downloads/boost_1_71_0/boost_1_71_0/stage/lib)  # CHange this to whatever you have boost.
-target_include_directories(HephaestusSandbox PRIVATE $ENV{VULKAN_SDK}/Include)
+#target_link_libraries(HephaestusSandbox C:/Users/grant/Desktop/VisualStudio/Hephaestus/cmake-build-debug/HephaestusShared.dll)  # Modify to point to dll
+#target_link_libraries(HephaestusSandbox $ENV{VULKAN_SDK}\\Lib\\vulkan-1.lib)
+#target_link_directories(HephaestusSandbox PRIVATE $ENV{VULKAN_SDK}\\Lib)
+#target_link_libraries(HephaestusSandbox $ENV{VULKAN_SDK}\\Lib32\\vulkan-1.lib)
+#target_link_directories(HephaestusSandbox PRIVATE $ENV{VULKAN_SDK}\\Lib32)
+#target_link_directories(HephaestusSandbox PRIVATE C:/Users/grant/Downloads/boost_1_71_0/boost_1_71_0/stage/lib)  # CHange this to whatever you have boost.
+#target_include_directories(HephaestusSandbox PRIVATE $ENV{VULKAN_SDK}/Include)
+
+# Platform agnostic code.
+target_link_libraries(HephaestusSandbox spdlog glfw glm ${Boost_LIBRARIES})
+target_include_directories(HephaestusSandbox PRIVATE ../src ../include ../vendor/glfw/include ../vendor/glm ../vendor/spdlog/include ../vendor ${Boost_INCLUDE_DIR} ../vendor/vma/src)

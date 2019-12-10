@@ -18,8 +18,6 @@
 #include <thread>
 #include <iostream>
 
-//#include <zconf.h>
-
 #include "boost/current_function.hpp"
 
 #include "config.hpp"

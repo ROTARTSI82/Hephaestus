@@ -175,7 +175,12 @@ namespace hp::vk {
 
 
             char *entry_cstr = new char[entry_point.length()];
+#ifdef WIN32
             strcpy_s(entry_cstr, entry_point.length(), entry_point.c_str());
+#endif
+#ifdef __APPLE__
+            strlcpy(entry_cstr, entry_point.c_str(), entry_point.length() + 1);
+#endif
             entrypoint_keepalives.push(entry_cstr);
 
             bool succ = false;

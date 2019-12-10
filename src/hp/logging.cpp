@@ -9,7 +9,12 @@ namespace hp {
         std::ostringstream oss;
         time_t rawtime;
         tm timeinfo{};
+#ifdef WIN32
         localtime_s(&timeinfo, &rawtime);
+#endif
+#ifdef __APPLE__
+        localtime_r(&rawtime, &timeinfo);
+#endif
 
         oss << std::put_time(&timeinfo, "%Y.%m.%d %H:%M:%S");
         return oss.str();
