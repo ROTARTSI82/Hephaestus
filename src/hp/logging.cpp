@@ -9,7 +9,7 @@ namespace hp {
         std::ostringstream oss;
         time_t rawtime;
         tm timeinfo{};
-#ifdef WIN32
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
         localtime_s(&timeinfo, &rawtime);
 #endif
 #ifdef __APPLE__
@@ -38,7 +38,7 @@ namespace hp {
             auto syslog_sink = std::make_shared<spdlog::sinks::syslog_sink_mt>("ident", LOG_PID, LOG_USER, true);
 #endif
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
             auto msvc_sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 #endif
 
@@ -60,7 +60,7 @@ namespace hp {
                 sink_list.emplace_back(unique_file_sink);
             }
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
             sink_list.emplace_back(msvc_sink);
 #endif
 

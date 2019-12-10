@@ -188,7 +188,7 @@ namespace hp {
             res.start = std::chrono::time_point_cast<std::chrono::microseconds>(start_time).time_since_epoch().count();
             res.end = std::chrono::time_point_cast<std::chrono::microseconds>(end).time_since_epoch().count();
             res.thread = std::hash<std::thread::id>{}(std::this_thread::get_id());
-#if defined(WIN32)
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
             res.pid = ::_getpid();
 #endif
 
