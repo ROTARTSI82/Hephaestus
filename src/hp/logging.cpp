@@ -11,8 +11,7 @@ namespace hp {
         tm timeinfo{};
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
         localtime_s(&timeinfo, &rawtime);
-#endif
-#ifdef __APPLE__
+#else
         localtime_r(&rawtime, &timeinfo);
 #endif
 

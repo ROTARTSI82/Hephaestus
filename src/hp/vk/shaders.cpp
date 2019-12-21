@@ -181,6 +181,9 @@ namespace hp::vk {
 #ifdef __APPLE__
             strlcpy(entry_cstr, entry_point.c_str(), entry_point.length() + 1);
 #endif
+#ifdef __linux__
+            strcpy(entry_cstr, entry_point.c_str());
+#endif
             entrypoint_keepalives.push(entry_cstr);
 
             bool succ = false;
@@ -296,11 +299,12 @@ namespace hp::vk {
                                                      &multisample_ci, nullptr, &blend_ci, &dynamic_state_ci,
                                                      pipeline_layout, parent->render_pass, 0, ::vk::Pipeline(), -1);
 
+        HP_FATAL("About to create pipeline!");
         if (handle_res(
                 parent->log_dev.createGraphicsPipelines(::vk::PipelineCache(), 1, &pipeline_ci, nullptr, &pipeline),
                 HP_GET_CODE_LOC) != ::vk::Result::eSuccess) {
             HP_FATAL("Failed to create pipeline!");
         }
-        HP_DEBUG("Fully constructed graphics pipeline from '{}'", fp);
+        HP_FATAL("Fully constructed graphics pipeline from '{}'", fp);
     }
 }

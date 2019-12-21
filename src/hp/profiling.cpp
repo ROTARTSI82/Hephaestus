@@ -190,9 +190,7 @@ namespace hp {
             res.thread = std::hash<std::thread::id>{}(std::this_thread::get_id());
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
             res.pid = ::_getpid();
-#endif
-
-#ifdef __APPLE__
+#else
             res.pid = ::getpid();
 #endif
             parent->queue.push(res);
